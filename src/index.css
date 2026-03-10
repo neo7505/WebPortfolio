@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg-color: #FDF8F1;
+  --accent-color: #0000FF;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --nav-line-color: #E0E0E0;
+  --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --transition-speed: 0.8s;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  overflow: hidden; /* Prevent native scrolling */
+}
+
+h1, h2, h3, h4 {
+  font-weight: 700;
+}
+
+.premium-title {
+  font-size: 4rem;
+  line-height: 1.1;
+}
+
+.accent-text {
+  color: var(--accent-color);
+  font-style: italic;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+/* Scroll handling */
+.page-container {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.section-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 10%;
+}
