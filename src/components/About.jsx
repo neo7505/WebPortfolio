@@ -7,6 +7,8 @@ import {
     Globe, Zap, GitBranch, Github, Component, Type, Eye, Play, Shield, Search
 } from 'lucide-react';
 import { InteractiveGrid, NoiseOverlay, FloatingAssets } from './Home';
+import ReadMore from './ReadMore';
+
 
 const About = ({ activeSectionIndex, onViewArtwork }) => {
     const prevIndexRef = useRef(activeSectionIndex);
@@ -45,6 +47,47 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
         `;
         document.head.appendChild(style);
     }, []);
+
+    const SkillGroup = ({ title, skills, isMobile }) => {
+        const [isExpanded, setIsExpanded] = useState(false);
+        const limit = 6;
+        const showToggle = isMobile && skills.length > limit;
+        const visibleSkills = showToggle && !isExpanded ? skills.slice(0, limit) : skills;
+
+        return (
+            <div style={styles.skillGroup}>
+                <h3 style={styles.groupTitle}>{title}</h3>
+                <div style={styles.skillsGrid}>
+                    {visibleSkills.map(skill => (
+                        <div key={skill.name} style={styles.skillItem} className="about-skill-item">
+                            {skill.icon}
+                            <span>{skill.name}</span>
+                        </div>
+                    ))}
+                </div>
+                {showToggle && (
+                    <button
+                        onClick={() => setIsExpanded(!isExpanded)}
+                        style={{
+                            background: 'none',
+                            border: 'none',
+                            color: 'var(--accent-color, #3344DD)',
+                            cursor: 'pointer',
+                            fontWeight: '700',
+                            padding: '8px 0',
+                            fontSize: '0.8rem',
+                            textAlign: 'left',
+                            width: 'fit-content',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.05em'
+                        }}
+                    >
+                        {isExpanded ? 'Show Less' : `+ Show ${skills.length - limit} More`}
+                    </button>
+                )}
+            </div>
+        );
+    };
 
     const sections = [
         {
@@ -88,10 +131,14 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                                 </div>
                                 <p style={styles.degreeText}>B.Tech In Metallurgical And Materials Engineering</p>
                                 <p style={styles.descriptionText}>
-                                    During My Time At IIT Ropar, I Actively Took On Leadership Roles Across Creative And Student Communities. From Serving As A <strong>Representative</strong> And <strong>Mentor</strong> In Vibgyor (Fine Arts Club) To Leading Design And Decoration Teams For <strong>Zeitgeist</strong> And <strong>Aarohan</strong>.
+                                    <ReadMore limit={150}>
+                                        During My Time At IIT Ropar, I Actively Took On Leadership Roles Across Creative And Student Communities. From Serving As A <strong>Representative</strong> And <strong>Mentor</strong> In Vibgyor (Fine Arts Club) To Leading Design And Decoration Teams For <strong>Zeitgeist</strong> And <strong>Aarohan</strong>.
+                                    </ReadMore>
                                 </p>
                                 <p style={styles.descriptionText}>
-                                    I Learned How To Manage Teams, Coordinate Events, And Bring Creative Ideas To Life Through Collaboration And Design.
+                                    <ReadMore limit={100}>
+                                        I Learned How To Manage Teams, Coordinate Events, And Bring Creative Ideas To Life Through Collaboration And Design.
+                                    </ReadMore>
                                 </p>
                             </div>
                         </div>
@@ -186,55 +233,44 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
 
                     <div style={styles.skillsContainer}>
                         {/* Group 1: Design & UX */}
-                        <div style={styles.skillGroup}>
-                            <h3 style={styles.groupTitle}>Design & UX</h3>
-                            <div style={styles.skillsGrid}>
-                                {[
-                                    { name: 'Figma', icon: <Figma size={16} /> },
-                                    { name: 'Design Systems', icon: <Component size={16} /> },
-                                    { name: 'Prototyping', icon: <Workflow size={16} /> },
-                                    { name: 'UX Strategy', icon: <Layout size={16} /> },
-                                    { name: 'User Research', icon: <Search size={16} /> },
-                                    { name: 'Information Arch', icon: <Layers size={16} /> },
-                                    { name: 'Typography', icon: <Type size={16} /> },
-                                    { name: 'Accessibility', icon: <Eye size={16} /> },
-                                    { name: 'Motion Design', icon: <Play size={16} /> },
-                                    { name: 'Adobe Photoshop', icon: <Image size={16} /> },
-                                    { name: 'Illustrator', icon: <Palette size={16} /> },
-                                    { name: 'Blender 3D', icon: <Box size={16} /> }
-                                ].map(skill => (
-                                    <div key={skill.name} style={styles.skillItem} className="about-skill-item">
-                                        {skill.icon}
-                                        <span>{skill.name}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                        <SkillGroup
+                            title="Design & UX"
+                            isMobile={isMobile}
+                            skills={[
+                                { name: 'Figma', icon: <Figma size={16} /> },
+                                { name: 'Design Systems', icon: <Component size={16} /> },
+                                { name: 'Prototyping', icon: <Workflow size={16} /> },
+                                { name: 'UX Strategy', icon: <Layout size={16} /> },
+                                { name: 'User Research', icon: <Search size={16} /> },
+                                { name: 'Information Arch', icon: <Layers size={16} /> },
+                                { name: 'Typography', icon: <Type size={16} /> },
+                                { name: 'Accessibility', icon: <Eye size={16} /> },
+                                { name: 'Motion Design', icon: <Play size={16} /> },
+                                { name: 'Adobe Photoshop', icon: <Image size={16} /> },
+                                { name: 'Illustrator', icon: <Palette size={16} /> },
+                                { name: 'Blender 3D', icon: <Box size={16} /> }
+                            ]}
+                        />
 
                         {/* Group 2: Frontend & Data UI */}
-                        <div style={styles.skillGroup}>
-                            <h3 style={styles.groupTitle}>Frontend & Data UI</h3>
-                            <div style={styles.skillsGrid}>
-                                {[
-                                    { name: 'React.js', icon: <Atom size={16} /> },
-                                    { name: 'JavaScript (ES6+)', icon: <Cpu size={16} /> },
-                                    { name: 'API Handling', icon: <Globe size={16} /> },
-                                    { name: 'State (Redux/Zustand)', icon: <Database size={16} /> },
-                                    { name: 'Data Visualization', icon: <BarChart2 size={16} /> },
-                                    { name: 'TanStack Table', icon: <Table size={16} /> },
-                                    { name: 'Tailwind CSS', icon: <Wind size={16} /> },
-                                    { name: 'Performance Opt.', icon: <Zap size={16} /> },
-                                    { name: 'Version Control', icon: <Github size={16} /> },
-                                    { name: 'CI/CD & Testing', icon: <Shield size={16} /> },
-                                    { name: 'Responsive UI', icon: <BoxSelect size={16} /> }
-                                ].map(skill => (
-                                    <div key={skill.name} style={styles.skillItem} className="about-skill-item">
-                                        {skill.icon}
-                                        <span>{skill.name}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                        <SkillGroup
+                            title="Frontend & Data UI"
+                            isMobile={isMobile}
+                            skills={[
+                                { name: 'React.js', icon: <Atom size={16} /> },
+                                { name: 'JavaScript (ES6+)', icon: <Cpu size={16} /> },
+                                { name: 'API Handling', icon: <Globe size={16} /> },
+                                { name: 'State (Redux/Zustand)', icon: <Database size={16} /> },
+                                { name: 'Data Visualization', icon: <BarChart2 size={16} /> },
+                                { name: 'TanStack Table', icon: <Table size={16} /> },
+                                { name: 'Tailwind CSS', icon: <Wind size={16} /> },
+                                { name: 'Performance Opt.', icon: <Zap size={16} /> },
+                                { name: 'Version Control', icon: <Github size={16} /> },
+                                { name: 'CI/CD & Testing', icon: <Shield size={16} /> },
+                                { name: 'Responsive UI', icon: <BoxSelect size={16} /> }
+                            ]}
+                        />
+       </div>
 
                         {/* Creative Artwork Card - De-emphasized & Refined */}
                         <motion.div
@@ -263,7 +299,6 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                             </div>
                         </motion.div>
                     </div>
-                </div>
             )
         }
     ];

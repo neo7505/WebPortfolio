@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { ArrowLeft, CheckCircle2, Layout, Database, Users, Shield, BarChart3, Settings, ClipboardList, Info, X, Maximize2, PieChart, Activity, Zap, FileText } from 'lucide-react';
+import ReadMore from './ReadMore';
+
 
 const fadeUp = {
     hidden: { opacity: 0, y: 40 },
@@ -221,8 +223,11 @@ const IntelliQCaseStudy = ({ onBack }) => {
                             Enterprise Data Aggregation & Analytics Platform
                         </h1>
                         <p style={{ ...styles.body, maxWidth: '800px', fontSize: '1.2rem', marginTop: '24px', color: '#666' }}>
-                            Replacing fragmented spreadsheet workflows with a structured system for distributed data collection, role-based access, and real-time analytics.
+                            <ReadMore limit={150}>
+                                Replacing fragmented spreadsheet workflows with a structured system for distributed data collection, role-based access, and real-time analytics.
+                            </ReadMore>
                         </p>
+
                     </Reveal>
 
                     <div style={styles.heroInfoGrid} className="iq-hero-info">
@@ -528,8 +533,11 @@ const IntelliQCaseStudy = ({ onBack }) => {
                         <Label>Visualization</Label>
                         <h2 style={styles.h2}>Dynamic Dashboard Builder</h2>
                         <p style={{ ...styles.body, maxWidth: '700px', margin: '20px auto 64px auto' }}>
-                            A drag-and-drop layout system fed by real-time sheet data sources.
+                            <ReadMore limit={100}>
+                                A drag-and-drop layout system fed by real-time sheet data sources.
+                            </ReadMore>
                         </p>
+
                     </Reveal>
 
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '32px' }} className="iq-grid-dashboard">

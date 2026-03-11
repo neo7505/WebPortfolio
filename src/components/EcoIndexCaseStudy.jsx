@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { ArrowLeft, CheckCircle2, Target, Layers, Zap, Globe, X, Maximize2 } from 'lucide-react';
+import { ArrowLeft, CheckCircle22, Target, Layers, Zap, Globe, X, Maximize2 } from 'lucide-react';
+import ReadMore from './ReadMore';
+
 
 const fadeUp = {
     hidden: { opacity: 0, y: 40 },
@@ -368,7 +370,12 @@ const EcoIndexCaseStudy = ({ onBack }) => {
                         <div style={{ flex: 1 }}>
                             <Label>Experience</Label>
                             <h3 style={{ fontSize: '1.4rem', fontWeight: '800', marginBottom: '12px' }}>Intuitive Onboarding</h3>
-                            <p style={styles.body}>Seamlessly guiding users through their sustainability journey from day one.</p>
+                            <p style={styles.body}>
+                                <ReadMore limit={100}>
+                                    Seamlessly guiding users through their sustainability journey from day one.
+                                </ReadMore>
+                            </p>
+
                         </div>
                         <div style={{ display: 'flex', gap: '16px' }} className="eco-mockup-row">
                             <PhoneFrame src="/assets/app/Page2.png" alt="Onboarding 1" style={{ width: '140px' }} onExpand={() => openLightbox("/assets/app/Page2.png", "Onboarding 1")} />
@@ -550,7 +557,12 @@ const EcoIndexCaseStudy = ({ onBack }) => {
                             <div style={{ flex: 1 }}>
                                 <Label>Phase 1</Label>
                                 <h3 style={styles.h3}>Onboarding</h3>
-                                <p style={styles.body}>Communicates the value of sustainability tracking and challenges, easing users into the platform with clarity and purpose.</p>
+                                <p style={styles.body}>
+                                    <ReadMore limit={100}>
+                                        Communicates the value of sustainability tracking and challenges, easing users into the platform with clarity and purpose.
+                                    </ReadMore>
+                                </p>
+
                             </div>
                             <div style={{ display: 'flex', gap: '16px', position: 'relative', height: '320px', alignItems: 'flex-end' }} className="eco-onboarding-mockups">
                                 <PhoneFrame src="/assets/app/Page2.png" alt="Onboarding 1" style={{ width: '160px', position: 'absolute', right: '40px', bottom: '-40px' }} onExpand={() => openLightbox("/assets/app/Page2.png", "Onboarding 1")} />
@@ -577,7 +589,12 @@ const EcoIndexCaseStudy = ({ onBack }) => {
                             <div style={{ marginBottom: '32px' }}>
                                 <Label>Phase 3</Label>
                                 <h3 style={{ ...styles.h3, color: '#fff' }}>Footprint Result</h3>
-                                <p style={{ ...styles.body, color: '#aaa' }}>Calculated carbon footprint with relatable real-world comparisons.</p>
+                                <p style={{ ...styles.body, color: '#aaa' }}>
+                                    <ReadMore limit={80}>
+                                        Calculated carbon footprint with relatable real-world comparisons.
+                                    </ReadMore>
+                                </p>
+
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'center' }}>
                                 <PhoneFrame src="/assets/app/Page13.png" alt="Result" style={{ width: '180px' }} onExpand={() => openLightbox("/assets/app/Page13.png", "Result")} />

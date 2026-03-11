@@ -68,7 +68,7 @@ const ProgressIndicator = ({ activePageIndex, onPageClick, onToggleMenu }) => {
                 <a 
                     href={resumePDF} 
                     download="Chitrankar_Resume.pdf" 
-                    className="desktop-only"
+                    className="resume-button-global"
                     style={{ ...currentStyles.resumeButton, textDecoration: 'none' }}
                 >
                     <Download size={14} style={{ marginRight: '6px' }} />
@@ -102,6 +102,12 @@ const ProgressIndicator = ({ activePageIndex, onPageClick, onToggleMenu }) => {
                 .desktop-only { display: none !important; }
                 .mobile-only { display: block !important; }
                 .mobile-labels-row { justify-content: flex-end; padding: 10px 20px; }
+                .resume-button-global { 
+                    transform: scale(0.85); 
+                    left: 10px !important;
+                    font-size: 14px !important;
+                    padding: 6px 12px !important;
+                }
               }
             `}</style>
         </div>

@@ -40,14 +40,21 @@ const Contact = () => {
         style.id = 'contact-responsive-styles';
         style.innerHTML = `
             @media (max-width: 768px) {
-                .contact-container { padding: 80px 20px 60px 20px !important; }
-                .contact-title { font-size: 2.2rem !important; }
-                .contact-subtitle { font-size: 1rem !important; }
-                .contact-content-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+                .contact-container { padding: 80px 15px 60px 15px !important; }
+                .contact-title { font-size: 2rem !important; }
+                .contact-subtitle { font-size: 0.95rem !important; }
+                .contact-content-grid { grid-template-columns: 1fr !important; gap: 30px !important; }
                 .contact-card { padding: 16px !important; }
                 .contact-form-col { padding: 25px !important; }
                 .contact-input-group { gap: 10px !important; }
+                .social-link span { display: none; }
+                .social-link { padding: 12px !important; gap: 0 !important; }
             }
+            @media (max-width: 480px) {
+                .contact-title { font-size: 1.8rem !important; }
+                .contact-cardValue { font-size: 0.9rem !important; }
+            }
+
         `;
         document.head.appendChild(style);
     }, []);
@@ -169,6 +176,7 @@ const Contact = () => {
                     <div style={styles.socialsGrid}>
                         <motion.a
                             href="https://github.com/neo7505" target="_blank" rel="noopener noreferrer" style={styles.socialLink}
+                            className="social-link"
                             whileHover={{ scale: 1.02, backgroundColor: '#FFF', borderColor: 'var(--accent-color)' }}
                         >
                             <Github size={20} />
@@ -176,6 +184,7 @@ const Contact = () => {
                         </motion.a>
                         <motion.a
                             href="https://www.linkedin.com/in/chitrankar-r-ba7aa920a/" target="_blank" rel="noopener noreferrer" style={styles.socialLink}
+                            className="social-link"
                             whileHover={{ scale: 1.02, backgroundColor: '#FFF', borderColor: 'var(--accent-color)' }}
                         >
                             <Linkedin size={20} />
@@ -183,11 +192,13 @@ const Contact = () => {
                         </motion.a>
                         <motion.a
                             href="https://www.instagram.com/chitrankar.r_70/" target="_blank" rel="noopener noreferrer" style={styles.socialLink}
+                            className="social-link"
                             whileHover={{ scale: 1.02, backgroundColor: '#FFF', borderColor: 'var(--accent-color)' }}
                         >
                             <Instagram size={20} />
                             <span>Instagram</span>
                         </motion.a>
+
                     </div>
                 </motion.div>
 
@@ -325,8 +336,9 @@ const styles = {
     },
     contentGrid: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
         gap: '60px',
+
         width: '100%',
         maxWidth: '1200px',
         zIndex: 2,
@@ -409,11 +421,14 @@ const styles = {
         boxShadow: '0 0 10px #4CAF50',
     },
     socialsGrid: {
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: '16px',
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'nowrap',
+        gap: '12px',
         marginTop: '8px',
+        width: '100%',
     },
+
     socialLink: {
         display: 'flex',
         alignItems: 'center',

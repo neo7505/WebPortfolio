@@ -1,64 +1,145 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ArrowLeft, ExternalLink } from 'lucide-react';
-import sketch1 from '../assets/sketch1.png';
-import sketch2 from '../assets/sketch2.png';
-import sketch3 from '../assets/sketch3.png';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, X, ZoomIn } from 'lucide-react';
 
 const ArtGallery = ({ onBack }) => {
-    const artworks = [
-        { id: 1, title: 'Mountain Serenity', image: sketch1, category: 'Landscape Sketch' },
-        { id: 2, title: 'European Heritage', image: sketch2, category: 'Architectural Study' },
-        { id: 3, title: 'Human Expression', image: sketch3, category: 'Portrait Study' },
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [isHovered, setIsHovered] = useState([false, false, false, false]);
+
+    const artworkImages = [
+        'Aujla.webp', 'Billie.webp', 'Charch.webp', 'Colors.jpg', 'Eye.jpg',
+        'GLow.jpg', 'Glow2.jpg', 'Hang.jpg', 'Joker.jpg', 'kirti.jpg',
+        'Kiss1.webp', 'Kiss2.webp', 'Kiss3.webp', 'Kiss4.webp', 'Kiss5.webp',
+        'Kiss6.webp', 'Kiss7.webp', 'Korea.webp', 'Krishna.jpg', 'Krishna.webp',
+        'Krishna2.webp', 'Krishna3.webp', 'Messi.webp', 'pider.jpg', 'Siddhu.jpg',
+        'Skull.jpg', 'Stan.webp', 'Stencil.jpg', 'Stencil2.jpg', 'Trimurti.webp',
+        'Virat.webp', 'Witch.jpg', 'Yin.webp', 'Zayn.jpg'
     ];
+
+    // Divide images into 4 columns
+    const columns = [
+        artworkImages.slice(0, 9),
+        artworkImages.slice(9, 18),
+        artworkImages.slice(18, 27),
+        artworkImages.slice(27, 34)
+    ];
+
+    const toggleHover = (index, value) => {
+        const newHovered = [...isHovered];
+        newHovered[index] = value;
+        setIsHovered(newHovered);
+    };
 
     return (
         <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             style={styles.fullPage}
         >
-            {/* Header */}
             <header style={styles.header}>
                 <button onClick={onBack} style={styles.backButton}>
                     <ArrowLeft size={24} />
-                    <span>Back to Portfolio</span>
+                    <span>Back</span>
                 </button>
-                <h1 style={styles.mainTitle}>Art Gallery</h1>
+                <div style={styles.titleGroup}>
+                    <h1 style={styles.mainTitle}>Art Gallery</h1>
+                    <p style={styles.subtitle}>Traditional Sketches & Digital Art</p>
+                </div>
             </header>
 
-            <div style={styles.container}>
-                <div style={styles.intro}>
-                    <p style={styles.description}>
-                        Beyond the technical world of frontend and UX, I find peace in traditional pencil sketching.
-                        Each piece is a journey into detail, light, and shadow.
-                    </p>
-                </div>
-
-                <div style={styles.grid}>
-                    {artworks.map((art) => (
+            <div style={styles.galleryContainer}>
+                {columns.map((col, colIndex) => (
+                    <div 
+                        key={colIndex} 
+                        style={styles.columnWrapper}
+                        onMouseEnter={() => toggleHover(colIndex, true)}
+                        onMouseLeave={() => toggleHover(colIndex, false)}
+                    >
                         <motion.div
-                            key={art.id}
-                            whileHover={{ y: -10 }}
-                            style={styles.card}
+                            style={styles.column}
+                            animate={{
+                                y: isHovered[colIndex] ? 0 : (colIndex % 2 === 0 ? [0, -1200] : [-1200, 0]),
+                            }}
+                            transition={{
+                                y: {
+                                    repeat: Infinity,
+                                    repeatType: "loop",
+                                    duration: colIndex % 2 === 0 ? 20 : 25,
+                                    ease: "linear",
+                                },
+                            }}
                         >
-                            <div style={styles.imageWrapper}>
-                                <img src={art.image} alt={art.title} style={styles.image} />
-                            </div>
-                            <div style={styles.cardInfo}>
-                                <span style={styles.category}>{art.category}</span>
-                                <h3 style={styles.artTitle}>{art.title}</h3>
-                            </div>
+                            {[...col, ...col].map((img, imgIndex) => (
+                                <motion.div
+                                    key={`${colIndex}-${imgIndex}`}
+                                    style={styles.imageCard}
+                                    whileHover={{ scale: 1.02 }}
+                                    onClick={() => setSelectedImage(`/assets/Art/${img}`)}
+                                >
+                                    <div style={styles.imageInner}>
+                                        <img 
+                                            src={`/assets/Art/${img}`} 
+                                            alt={`Artwork ${imgIndex}`} 
+                                            style={styles.image} 
+                                            loading="lazy"
+                                        />
+                                        <div style={styles.overlay}>
+                                            <ZoomIn size={24} color="white" />
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
                         </motion.div>
-                    ))}
-                </div>
-
-                <footer style={styles.footer}>
-                    <p>Interested in my traditional art? Let's talk more on <a href="#" style={styles.link}>Instagram</a>.</p>
-                </footer>
+                    </div>
+                ))}
             </div>
+
+            <AnimatePresence>
+                {selectedImage && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        style={styles.modalOverlay}
+                        onClick={() => setSelectedImage(null)}
+                    >
+                        <motion.button
+                            style={styles.closeButton}
+                            onClick={() => setSelectedImage(null)}
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                        >
+                            <X size={32} />
+                        </motion.button>
+                        
+                        <motion.div
+                            initial={{ scale: 0.5, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.5, opacity: 0 }}
+                            style={styles.modalContent}
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <img src={selectedImage} alt="Selected Art" style={styles.modalImage} />
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <style>
+                {`
+                @media (max-width: 1024px) {
+                    .gallery-container {
+                        grid-template-columns: repeat(2, 1fr) !important;
+                    }
+                }
+                @media (max-width: 600px) {
+                    .gallery-container {
+                        grid-template-columns: 1fr !important;
+                    }
+                }
+                `}
+            </style>
         </motion.div>
     );
 };
@@ -70,103 +151,152 @@ const styles = {
         left: 0,
         width: '100vw',
         height: '100vh',
-        backgroundColor: '#FDF8F1',
+        backgroundColor: '#0A0A0A',
         zIndex: 2000,
         overflowY: 'auto',
-        color: '#1A1A1A',
-        fontFamily: 'var(--font-family)',
+        overflowX: 'hidden',
+        color: '#FFFFFF',
+        fontFamily: "'Outfit', sans-serif",
     },
     header: {
-        padding: '30px 5%',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        padding: '20px 5%',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        borderBottom: '1px solid #EEE',
-        position: 'sticky',
-        top: 0,
-        backgroundColor: 'rgba(253, 248, 241, 0.9)',
-        backdropFilter: 'blur(10px)',
-        zIndex: 10,
+        gap: '40px',
+        backgroundColor: 'rgba(10, 10, 10, 0.85)',
+        backdropFilter: 'blur(15px)',
+        zIndex: 2100,
+        borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
     },
     backButton: {
-        background: 'none',
-        border: 'none',
+        background: 'rgba(255, 255, 255, 0.05)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        padding: '8px 16px',
+        borderRadius: '30px',
         display: 'flex',
         alignItems: 'center',
-        gap: '10px',
+        gap: '8px',
         cursor: 'pointer',
-        fontSize: '1rem',
-        fontWeight: '600',
-        color: '#1A1A1A',
+        fontSize: '0.85rem',
+        fontWeight: '500',
+        color: '#FFFFFF',
+        transition: 'all 0.3s ease',
+    },
+    titleGroup: {
+        display: 'flex',
+        flexDirection: 'column',
     },
     mainTitle: {
-        fontSize: '1.8rem',
+        fontSize: '1.2rem',
         fontWeight: '800',
         margin: 0,
         textTransform: 'uppercase',
-        letterSpacing: '2px',
+        letterSpacing: '3px',
     },
-    container: {
-        maxWidth: '1200px',
-        margin: '0 auto',
-        padding: '60px 5%',
+    subtitle: {
+        fontSize: '0.7rem',
+        opacity: 0.5,
+        letterSpacing: '1px',
     },
-    intro: {
-        marginBottom: '60px',
-        maxWidth: '700px',
-    },
-    description: {
-        fontSize: '1.2rem',
-        lineHeight: '1.7',
-        color: '#555',
-        fontStyle: 'italic',
-    },
-    grid: {
+    galleryContainer: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-        gap: '40px',
-    },
-    card: {
-        backgroundColor: 'white',
-        borderRadius: '16px',
-        overflow: 'hidden',
-        boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
-        border: '1px solid #F0F0F0',
-    },
-    imageWrapper: {
+        gridTemplateColumns: 'repeat(4, 1fr)',
         width: '100%',
-        aspectRatio: '4/5',
+        minHeight: '200vh',
+        gap: '15px',
+        padding: '120px 15px 120px 15px',
+        boxSizing: 'border-box',
+        maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+        WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+    },
+    columnWrapper: {
+        height: '100%',
         overflow: 'hidden',
+        position: 'relative',
+        borderRadius: '15px',
+        backgroundColor: 'rgba(255, 255, 255, 0.02)',
+    },
+    column: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '15px',
+    },
+    imageCard: {
+        width: '100%',
+        cursor: 'zoom-in',
+        borderRadius: '10px',
+        overflow: 'hidden',
+        backgroundColor: '#111',
+    },
+    imageInner: {
+        position: 'relative',
+        width: '100%',
+        height: '100%',
     },
     image: {
         width: '100%',
-        height: '100%',
-        objectFit: 'cover',
+        height: 'auto',
+        display: 'block',
+        transition: 'transform 0.4s ease',
     },
-    cardInfo: {
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        opacity: 0,
+        transition: 'opacity 0.3s ease',
+    },
+    modalOverlay: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: 'rgba(0, 0, 0, 0.98)',
+        zIndex: 3000,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         padding: '20px',
     },
-    category: {
-        fontSize: '0.8rem',
-        textTransform: 'uppercase',
-        letterSpacing: '1px',
-        color: '#3344DD',
-        fontWeight: '700',
+    closeButton: {
+        position: 'absolute',
+        top: '20px',
+        right: '20px',
+        background: 'rgba(255, 255, 255, 0.1)',
+        border: 'none',
+        color: 'white',
+        cursor: 'pointer',
+        padding: '12px',
+        borderRadius: '50%',
+        zIndex: 3001,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
-    artTitle: {
-        margin: '5px 0 0 0',
-        fontSize: '1.2rem',
-        fontWeight: '600',
+    modalContent: {
+        maxWidth: '95%',
+        maxHeight: '95%',
+        position: 'relative',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
-    footer: {
-        marginTop: '80px',
-        textAlign: 'center',
-        paddingBottom: '60px',
-    },
-    link: {
-        color: '#3344DD',
-        textDecoration: 'none',
-        fontWeight: '700',
+    modalImage: {
+        maxWidth: '100%',
+        maxHeight: '90vh',
+        objectFit: 'contain',
+        borderRadius: '10px',
     }
 };
 
