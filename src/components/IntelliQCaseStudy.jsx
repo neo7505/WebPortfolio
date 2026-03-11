@@ -158,6 +158,31 @@ const IntelliQCaseStudy = ({ onBack }) => {
             .iq-content-scroll { scrollbar-width: thin; scrollbar-color: #ccc transparent; }
             .iq-content-scroll::-webkit-scrollbar { width: 6px; }
             .iq-content-scroll::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+
+            @media (max-width: 768px) {
+                #iq-case-root { padding-top: 0 !important; }
+                .iq-nav { padding: 0 16px !important; }
+                .iq-hero-title { font-size: 2.2rem !important; line-height: 1.1 !important; }
+                .iq-hero-info { grid-template-columns: 1fr 1fr !important; gap: 20px !important; }
+                .iq-bento-wrapper { 
+                    grid-template-columns: 1fr !important; 
+                    gap: 16px !important;
+                    margin-top: 40px !important;
+                }
+                .iq-bento-card { 
+                    grid-column: span 1 !important; 
+                    grid-row: auto !important;
+                    padding: 24px !important;
+                }
+                .iq-section { padding: 60px 0 !important; }
+                .iq-section-inner { padding: 0 20px !important; }
+                .iq-h2 { font-size: 1.8rem !important; }
+                .iq-grid-2col { grid-template-columns: 1fr !important; gap: 40px !important; }
+                .iq-grid-3col { grid-template-columns: 1fr !important; gap: 20px !important; }
+                .iq-grid-dashboard { grid-template-columns: 1fr !important; gap: 16px !important; }
+                .iq-dashboard-card { grid-column: span 1 !important; }
+                .iq-footer { padding: 60px 20px !important; }
+            }
         `;
         document.head.appendChild(s);
     }, []);
@@ -172,12 +197,13 @@ const IntelliQCaseStudy = ({ onBack }) => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
             style={styles.container}
+            id="iq-case-root"
         >
             <ScrollProgress containerRef={containerRef} />
             <Particles />
 
             {/* ── Sticky Nav ───────────────────── */}
-            <nav style={styles.nav}>
+            <nav style={styles.nav} className="iq-nav">
                 <button onClick={onBack} style={styles.backBtn} className="iq-back-btn">
                     <ArrowLeft size={16} strokeWidth={2.5} />
                     <span>Projects</span>
@@ -191,7 +217,7 @@ const IntelliQCaseStudy = ({ onBack }) => {
                 <div style={styles.heroInner}>
                     <Reveal>
                         <Label>Case Study · 2024</Label>
-                        <h1 style={styles.heroTitle}>
+                        <h1 style={styles.heroTitle} className="iq-hero-title">
                             Enterprise Data Aggregation & Analytics Platform
                         </h1>
                         <p style={{ ...styles.body, maxWidth: '800px', fontSize: '1.2rem', marginTop: '24px', color: '#666' }}>
@@ -199,7 +225,7 @@ const IntelliQCaseStudy = ({ onBack }) => {
                         </p>
                     </Reveal>
 
-                    <div style={styles.heroInfoGrid}>
+                    <div style={styles.heroInfoGrid} className="iq-hero-info">
                         {[
                             { label: 'Role', value: 'Product Engineer / Frontend' },
                             { label: 'Platform', value: 'Web Dashboard' },
@@ -217,17 +243,17 @@ const IntelliQCaseStudy = ({ onBack }) => {
                 </div>
 
                 {/* Hero Bento Grid */}
-                <div style={styles.bentoWrapper}>
-                    <Reveal delay={0.3} style={{ gridColumn: 'span 8', gridRow: 'span 4' }}>
+                <div style={styles.bentoWrapper} className="iq-bento-wrapper">
+                    <Reveal delay={0.3} style={{ gridColumn: 'span 8', gridRow: 'span 4' }} className="iq-bento-card">
                         <div style={{ ...styles.bentoCard, background: '#fff' }}>
                             <BrowserFrame
-                                src="/src/assets/IntelliQ/DataEntry1.png"
+                                src="/assets/IntelliQ/DataEntry1.png"
                                 alt="Data Entry"
-                                onExpand={() => openLightbox("/src/assets/IntelliQ/DataEntry1.png", "Data Entry")}
+                                onExpand={() => openLightbox("/assets/IntelliQ/DataEntry1.png", "Data Entry")}
                             />
                         </div>
                     </Reveal>
-                    <Reveal delay={0.4} style={{ gridColumn: 'span 4', gridRow: 'span 2' }}>
+                    <Reveal delay={0.4} style={{ gridColumn: 'span 4', gridRow: 'span 2' }} className="iq-bento-card">
                         <div style={{ ...styles.bentoCard, background: '#111', color: '#fff', padding: '32px' }}>
                             <Label color="#FF3366">Tech Stack</Label>
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '16px' }}>
@@ -237,7 +263,7 @@ const IntelliQCaseStudy = ({ onBack }) => {
                             </div>
                         </div>
                     </Reveal>
-                    <Reveal delay={0.5} style={{ gridColumn: 'span 4', gridRow: 'span 2' }}>
+                    <Reveal delay={0.5} style={{ gridColumn: 'span 4', gridRow: 'span 2' }} className="iq-bento-card">
                         <div style={{ ...styles.bentoCard, background: '#F8F9FF', padding: '32px' }}>
                             <Label color="#3344DD">Real World Impact</Label>
                             <h3 style={{ fontSize: '1.2rem', fontWeight: '800', marginTop: '8px' }}>Active Production Use</h3>
@@ -250,9 +276,9 @@ const IntelliQCaseStudy = ({ onBack }) => {
             <Divider />
 
             {/* ── Problem ──────────────────────── */}
-            <section style={styles.section}>
-                <div style={styles.sectionInner}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '80px', alignItems: 'start' }}>
+            <section style={styles.section} className="iq-section">
+                <div style={styles.sectionInner} className="iq-section-inner">
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '80px', alignItems: 'start' }} className="iq-grid-2col">
                         <Reveal>
                             <Label>The Problem</Label>
                             <h2 style={styles.h2}>Fragmented Spreadsheet Workflows</h2>
@@ -280,8 +306,8 @@ const IntelliQCaseStudy = ({ onBack }) => {
             </section>
 
             {/* ── Architecture Flow ───────────────── */}
-            <section style={{ ...styles.section, background: '#f9f9f9' }}>
-                <div style={styles.sectionInner}>
+            <section style={{ ...styles.section, background: '#f9f9f9' }} className="iq-section">
+                <div style={styles.sectionInner} className="iq-section-inner">
                     <Reveal style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
                         <Label color="#3344DD">System Flow</Label>
                         <h2 style={styles.h2}>Understanding the Architecture</h2>
@@ -297,7 +323,7 @@ const IntelliQCaseStudy = ({ onBack }) => {
                         </button>
                     </Reveal>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '40px', marginTop: '80px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '40px', marginTop: '80px' }} className="iq-grid-3col">
                         {[
                             { step: '1', title: 'Auth & Roles', desc: 'Secure login and granular permission assignment.' },
                             { step: '2', title: 'Sheet Creation', desc: 'Define schema or import Excel templates.' },
@@ -321,8 +347,8 @@ const IntelliQCaseStudy = ({ onBack }) => {
             </section>
 
             {/* ── Organization & Roles ────────────── */}
-            <section style={styles.section}>
-                <div style={styles.sectionInner}>
+            <section style={styles.section} className="iq-section">
+                <div style={styles.sectionInner} className="iq-section-inner">
                     <Reveal>
                         <Label>Governance</Label>
                         <h2 style={styles.h2}>Organization & Role Management</h2>
@@ -331,12 +357,12 @@ const IntelliQCaseStudy = ({ onBack }) => {
                         </p>
                     </Reveal>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '32px', marginTop: '64px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '32px', marginTop: '64px' }} className="iq-grid-2col">
                         {[
-                            { src: "/src/assets/IntelliQ/Organization.png", alt: "Organization Management", caption: "Hierarchy definition" },
-                            { src: "/src/assets/IntelliQ/Users.png", alt: "User Management", caption: "Distributed user access" },
-                            { src: "/src/assets/IntelliQ/EditRole.png", alt: "Role Permissions", caption: "Granular permission control" },
-                            { src: "/src/assets/IntelliQ/EditUser.png", alt: "Edit User", caption: "User profile management" },
+                            { src: "/assets/IntelliQ/Organization.png", alt: "Organization Management", caption: "Hierarchy definition" },
+                            { src: "/assets/IntelliQ/Users.png", alt: "User Management", caption: "Distributed user access" },
+                            { src: "/assets/IntelliQ/EditRole.png", alt: "Role Permissions", caption: "Granular permission control" },
+                            { src: "/assets/IntelliQ/EditUser.png", alt: "Edit User", caption: "User profile management" },
                         ].map((item, i) => (
                             <Reveal key={item.src} delay={i * 0.1}>
                                 <BrowserFrame
@@ -352,8 +378,8 @@ const IntelliQCaseStudy = ({ onBack }) => {
             </section>
 
             {/* ── Smart Sheets ────────────────────── */}
-            <section style={{ ...styles.section, background: '#0d0d0d', color: '#fff' }}>
-                <div style={styles.sectionInner}>
+            <section style={{ ...styles.section, background: '#0d0d0d', color: '#fff' }} className="iq-section">
+                <div style={styles.sectionInner} className="iq-section-inner">
                     <Reveal>
                         <Label color="#FF3366">The Core Engine</Label>
                         <h2 style={{ ...styles.h2, color: '#fff' }}>Smart Sheets Engine</h2>
@@ -362,12 +388,12 @@ const IntelliQCaseStudy = ({ onBack }) => {
                         </p>
                     </Reveal>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '60px', marginTop: '64px', alignItems: 'center' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '60px', marginTop: '64px', alignItems: 'center' }} className="iq-grid-2col">
                         <Reveal>
                             <BrowserFrame
-                                src="/src/assets/IntelliQ/ManageSheets.png"
+                                src="/assets/IntelliQ/ManageSheets.png"
                                 alt="Manage Sheets"
-                                onExpand={() => openLightbox("/src/assets/IntelliQ/ManageSheets.png", "Manage Sheets")}
+                                onExpand={() => openLightbox("/assets/IntelliQ/ManageSheets.png", "Manage Sheets")}
                             />
                         </Reveal>
                         <div style={{ display: 'grid', gap: '24px' }}>
@@ -391,11 +417,11 @@ const IntelliQCaseStudy = ({ onBack }) => {
                         </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginTop: '20px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginTop: '20px' }} className="iq-grid-3col">
                         {[
-                            { src: "/src/assets/IntelliQ/SheetType.png", alt: "Sheet Types" },
-                            { src: "/src/assets/IntelliQ/CreationMethod.png", alt: "Creation Method" },
-                            { src: "/src/assets/IntelliQ/ImportData.png", alt: "Import Data" },
+                            { src: "/assets/IntelliQ/SheetType.png", alt: "Sheet Types" },
+                            { src: "/assets/IntelliQ/CreationMethod.png", alt: "Creation Method" },
+                            { src: "/assets/IntelliQ/ImportData.png", alt: "Import Data" },
                         ].map((item, i) => (
                             <Reveal key={item.src} delay={i * 0.1}>
                                 <BrowserFrame
@@ -410,31 +436,31 @@ const IntelliQCaseStudy = ({ onBack }) => {
             </section>
 
             {/* ── Sheet Types Detail ──────────────── */}
-            <section style={styles.section}>
-                <div style={styles.sectionInner}>
+            <section style={styles.section} className="iq-section">
+                <div style={styles.sectionInner} className="iq-section-inner">
                     <Reveal>
                         <Label>Specialization</Label>
                         <h2 style={styles.h2}>Optimized Sheet Types</h2>
                     </Reveal>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px', marginTop: '64px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px', marginTop: '64px' }} className="iq-grid-3col">
                         {[
                             {
                                 type: 'Master Sheets',
                                 desc: 'Perfect for reference data like employee catalogues or product lists.',
-                                img: '/src/assets/IntelliQ/MasterSheetScreen.png',
+                                img: '/assets/IntelliQ/MasterSheetScreen.png',
                                 tags: ['View-Only', 'Static']
                             },
                             {
                                 type: 'Non-Periodic',
                                 desc: 'Collaborative collection where columns are assigned to specific users.',
-                                img: '/src/assets/IntelliQ/NonPeriodicScreen.png',
+                                img: '/assets/IntelliQ/NonPeriodicScreen.png',
                                 tags: ['Column-Level Permissions', 'One-time']
                             },
                             {
                                 type: 'Periodic Sheets',
                                 desc: 'Automated recurring reporting: Daily, Weekly, or Monthly.',
-                                img: '/src/assets/IntelliQ/PeriodicScreen.png',
+                                img: '/assets/IntelliQ/PeriodicScreen.png',
                                 tags: ['Recurring', 'Frequency']
                             }
                         ].map((item, i) => (
@@ -458,9 +484,9 @@ const IntelliQCaseStudy = ({ onBack }) => {
             </section>
 
             {/* ── Data Entry ──────────────────────── */}
-            <section style={{ ...styles.section, background: '#F8FAFF' }}>
-                <div style={styles.sectionInner}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '80px', alignItems: 'center' }}>
+            <section style={{ ...styles.section, background: '#F8FAFF' }} className="iq-section">
+                <div style={styles.sectionInner} className="iq-section-inner">
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '80px', alignItems: 'center' }} className="iq-grid-2col">
                         <Reveal>
                             <Label color="#3344DD">User Experience</Label>
                             <h2 style={styles.h2}>High-Performance Spreadsheet Interface</h2>
@@ -478,15 +504,15 @@ const IntelliQCaseStudy = ({ onBack }) => {
                         <Reveal delay={0.2}>
                             <div style={{ position: 'relative' }}>
                                 <BrowserFrame
-                                    src="/src/assets/IntelliQ/DataEntry1.png"
+                                    src="/assets/IntelliQ/DataEntry1.png"
                                     alt="Data Entry"
-                                    onExpand={() => openLightbox("/src/assets/IntelliQ/DataEntry1.png", "Data Entry")}
+                                    onExpand={() => openLightbox("/assets/IntelliQ/DataEntry1.png", "Data Entry")}
                                 />
                                 <div style={styles.floater}>
                                     <BrowserFrame
-                                        src="/src/assets/IntelliQ/MasterTable.png"
+                                        src="/assets/IntelliQ/MasterTable.png"
                                         alt="Master Table"
-                                        onExpand={() => openLightbox("/src/assets/IntelliQ/MasterTable.png", "Master Table")}
+                                        onExpand={() => openLightbox("/assets/IntelliQ/MasterTable.png", "Master Table")}
                                     />
                                 </div>
                             </div>
@@ -496,8 +522,8 @@ const IntelliQCaseStudy = ({ onBack }) => {
             </section>
 
             {/* ── Dashboard & Analytics ─────────────── */}
-            <section style={styles.section}>
-                <div style={styles.sectionInner}>
+            <section style={styles.section} className="iq-section">
+                <div style={styles.sectionInner} className="iq-section-inner">
                     <Reveal style={{ textAlign: 'center' }}>
                         <Label>Visualization</Label>
                         <h2 style={styles.h2}>Dynamic Dashboard Builder</h2>
@@ -506,33 +532,33 @@ const IntelliQCaseStudy = ({ onBack }) => {
                         </p>
                     </Reveal>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '32px' }}>
-                        <Reveal delay={0.1} style={{ gridColumn: 'span 7' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '32px' }} className="iq-grid-dashboard">
+                        <Reveal delay={0.1} style={{ gridColumn: 'span 7' }} className="iq-dashboard-card">
                             <BrowserFrame
-                                src="/src/assets/IntelliQ/Dashboard.png"
+                                src="/assets/IntelliQ/Dashboard.png"
                                 alt="Main Dashboard"
-                                onExpand={() => openLightbox("/src/assets/IntelliQ/Dashboard.png", "Main Dashboard")}
+                                onExpand={() => openLightbox("/assets/IntelliQ/Dashboard.png", "Main Dashboard")}
                             />
                         </Reveal>
-                        <Reveal delay={0.2} style={{ gridColumn: 'span 5' }}>
+                        <Reveal delay={0.2} style={{ gridColumn: 'span 5' }} className="iq-dashboard-card">
                             <BrowserFrame
-                                src="/src/assets/IntelliQ/EditPanel.png"
+                                src="/assets/IntelliQ/EditPanel.png"
                                 alt="Widget Config"
                                 caption="Deep Widget Configuration"
                                 maxHeight="450px"
-                                onExpand={() => openLightbox("/src/assets/IntelliQ/EditPanel.png", "Widget Configuration")}
+                                onExpand={() => openLightbox("/assets/IntelliQ/EditPanel.png", "Widget Configuration")}
                             />
                         </Reveal>
-                        <Reveal delay={0.3} style={{ gridColumn: 'span 4' }}>
+                        <Reveal delay={0.3} style={{ gridColumn: 'span 4' }} className="iq-dashboard-card">
                             <BrowserFrame
-                                src="/src/assets/IntelliQ/DashboardEdit.png"
+                                src="/assets/IntelliQ/DashboardEdit.png"
                                 alt="Layout Selection"
-                                onExpand={() => openLightbox("/src/assets/IntelliQ/DashboardEdit.png", "Layout Selection")}
+                                onExpand={() => openLightbox("/assets/IntelliQ/DashboardEdit.png", "Layout Selection")}
                             />
                         </Reveal>
-                        <Reveal delay={0.4} style={{ gridColumn: 'span 8', display: 'flex', flexDirection: 'column', padding: '40px', background: '#F0F4FF', borderRadius: '24px', border: '1px solid #D9E1FF' }}>
+                        <Reveal delay={0.4} style={{ gridColumn: 'span 8', display: 'flex', flexDirection: 'column', padding: '40px', background: '#F0F4FF', borderRadius: '24px', border: '1px solid #D9E1FF' }} className="iq-dashboard-card">
                             <h3 style={{ fontWeight: '800', marginBottom: '24px', fontSize: '1.4rem' }}>Supported Widgets & Features</h3>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }} className="iq-grid-2col">
                                 {[
                                     { icon: PieChart, label: 'Visualization Types', desc: 'Bar, Line, Pie, and Donut charts for trend analysis.' },
                                     { icon: Activity, label: 'KPI Monitoring', desc: 'Real-time number widgets for critical metrics.' },
@@ -558,9 +584,9 @@ const IntelliQCaseStudy = ({ onBack }) => {
             </section>
 
             {/* ── Contributions Section (EcoIndex Style) ── */}
-            <section style={{ ...styles.section, background: '#fafafa' }}>
-                <div style={styles.sectionInner}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
+            <section style={{ ...styles.section, background: '#fafafa' }} className="iq-section">
+                <div style={styles.sectionInner} className="iq-section-inner">
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }} className="iq-grid-2col">
                         <Reveal>
                             <Label>My Role</Label>
                             <h2 style={styles.h2}>Contributions & Tech</h2>
@@ -590,7 +616,7 @@ const IntelliQCaseStudy = ({ onBack }) => {
             </section>
 
             {/* ── Closing / Footer ─────────────── */}
-            <footer style={styles.footer}>
+            <footer style={styles.footer} className="iq-footer">
                 <Reveal>
                     <p style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.18em', color: '#999', fontWeight: '700', marginBottom: '20px' }}>Closing Thought</p>
                     <h2 style={{ fontSize: 'clamp(1.8rem, 6vw, 2.8rem)', fontWeight: '800', maxWidth: '1000px', margin: '0 auto 40px auto', lineHeight: '1.2' }}>
@@ -622,7 +648,7 @@ const IntelliQCaseStudy = ({ onBack }) => {
                             </div>
                             <div style={styles.modalScrollArea} className="iq-content-scroll">
                                 <img
-                                    src="/src/assets/IntelliQ/Flow Diagram.png"
+                                    src="/assets/IntelliQ/Flow Diagram.png"
                                     alt="System Flow Diagram"
                                     style={{ width: '100%', height: 'auto' }}
                                 />

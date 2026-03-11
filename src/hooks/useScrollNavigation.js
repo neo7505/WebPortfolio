@@ -38,6 +38,9 @@ export const useScrollNavigation = () => {
       // If scroll is locked on the body (e.g. modal is open), don't prevent default
       if (document.body.style.overflow === 'hidden') return;
       
+      // On mobile, allow natural scrolling
+      if (window.innerWidth < 768) return;
+
       e.preventDefault();
       navigate(e.deltaY);
     };
@@ -51,11 +54,18 @@ export const useScrollNavigation = () => {
     const onTouchMove = (e) => {
       // If scroll is locked on the body (e.g. modal is open), don't prevent default
       if (document.body.style.overflow === 'hidden') return;
+      
+      // On mobile, allow natural scrolling
+      if (window.innerWidth < 768) return;
+
       e.preventDefault();
     };
     const onTouchEnd = (e) => {
       // If scroll is locked, let the browser handle it
       if (document.body.style.overflow === 'hidden') return;
+
+      // On mobile, allow natural scrolling
+      if (window.innerWidth < 768) return;
 
       const delta = touchStartY.current - e.changedTouches[0].clientY;
       if (Math.abs(delta) > 50) navigate(delta);

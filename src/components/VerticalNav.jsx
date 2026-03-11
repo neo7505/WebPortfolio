@@ -63,3 +63,14 @@ const styles = {
 };
 
 export default VerticalNav;
+
+// Add CSS to hide on mobile
+if (typeof document !== 'undefined') {
+  const styleSheet = document.createElement("style");
+  styleSheet.innerText = `
+    @media (max-width: 768px) {
+      .vertical-nav-container { display: none !important; }
+    }
+  `;
+  document.head.appendChild(styleSheet);
+}

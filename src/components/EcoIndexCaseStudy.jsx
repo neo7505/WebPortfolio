@@ -258,6 +258,39 @@ const EcoIndexCaseStudy = ({ onBack }) => {
             .eco-zoom-container { transition: transform 0.3s ease; position: relative; }
             .eco-zoom-container:hover { transform: scale(1.02); }
             .eco-zoom-container:hover .eco-zoom-icon { opacity: 1 !important; }
+
+            @media (max-width: 768px) {
+                #case-study-root { padding-top: 0 !important; }
+                .eco-nav { padding: 0 16px !important; }
+                .eco-hero-title { font-size: 2.2rem !important; line-height: 1.1 !important; }
+                .eco-hero-info { grid-template-columns: 1fr 1fr !important; gap: 20px !important; }
+                .eco-bento-wrapper { 
+                    grid-template-columns: 1fr !important; 
+                    gap: 16px !important;
+                    margin-top: 40px !important;
+                    padding-bottom: 60px !important;
+                }
+                .eco-bento-card { 
+                    grid-column: span 1 !important; 
+                    grid-row: auto !important;
+                    padding: 24px !important;
+                }
+                .eco-bento-card.onboarding { flex-direction: column !important; }
+                .eco-section { padding: 60px 0 !important; }
+                .eco-section-inner { padding: 0 20px !important; }
+                .eco-h2 { font-size: 1.8rem !important; }
+                .eco-grid-2col { grid-template-columns: 1fr !important; gap: 40px !important; }
+                .eco-grid-3col { grid-template-columns: 1fr !important; gap: 20px !important; }
+                .eco-mobile-flex { flex-direction: column !important; gap: 24px !important; }
+                .eco-browser-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+                .eco-impact-grid { grid-template-columns: 1fr !important; }
+                .eco-impact-item { padding: 40px 20px !important; }
+                .eco-footer { padding: 60px 20px !important; }
+                .eco-onboarding-mockups { height: auto !important; margin-top: 20px !important; }
+                .eco-onboarding-mockup-1 { position: static !important; width: 100% !important; max-width: 140px !important; }
+                .eco-onboarding-mockup-2 { position: static !important; width: 100% !important; max-width: 140px !important; }
+                .eco-mockup-row { flex-direction: row !important; overflow-x: auto !important; padding-bottom: 10px !important; }
+            }
         `;
         document.head.appendChild(s);
     }, []);
@@ -285,7 +318,7 @@ const EcoIndexCaseStudy = ({ onBack }) => {
             <FloatingLeaf style={{ bottom: '200px', right: '4%' }} delay={1.5} />
 
             {/* ── Sticky Nav ───────────────────── */}
-            <nav style={styles.nav}>
+            <nav style={styles.nav} className="eco-nav">
                 <button onClick={onBack} style={styles.backBtn} className="eco-back-btn">
                     <ArrowLeft size={16} strokeWidth={2.5} />
                     <span>Projects</span>
@@ -320,31 +353,31 @@ const EcoIndexCaseStudy = ({ onBack }) => {
                 </div>
 
                 {/* Hero — Bento Dashboard Collage */}
-                <div style={heroBentoWrapper}>
+                <div style={heroBentoWrapper} className="eco-bento-wrapper">
                     {/* Main Phone (Dashboard) */}
-                    <div style={{ ...bentoCard, gridColumn: 'span 4', gridRow: 'span 4', padding: '40px', background: '#F9FFF9', border: '1px solid #D1F2D1' }}>
+                    <div style={{ ...bentoCard, gridColumn: 'span 4', gridRow: 'span 4', padding: '40px', background: '#F9FFF9', border: '1px solid #D1F2D1' }} className="eco-bento-card">
                         <Label>Real-time Tracking</Label>
                         <h3 style={{ fontSize: '1.2rem', fontWeight: '700', marginBottom: '20px' }}>Your Carbon Footprint at a Glance</h3>
                         <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
-                            <PhoneFrame src="/src/assets/app/Page22.png" alt="Dashboard" style={{ width: '100%', maxWidth: '200px' }} onExpand={() => openLightbox("/src/assets/app/Page22.png", "Dashboard")} />
+                            <PhoneFrame src="/assets/app/Page22.png" alt="Dashboard" style={{ width: '100%', maxWidth: '200px' }} onExpand={() => openLightbox("/assets/app/Page22.png", "Dashboard")} />
                         </div>
                     </div>
 
                     {/* Onboarding Trio */}
-                    <div style={{ ...bentoCard, gridColumn: 'span 8', gridRow: 'span 2', padding: '32px', background: '#fdfdfd', display: 'flex', flexDirection: 'row', gap: '24px', alignItems: 'center' }}>
+                    <div style={{ ...bentoCard, gridColumn: 'span 8', gridRow: 'span 2', padding: '32px', background: '#fdfdfd', display: 'flex', flexDirection: 'row', gap: '24px', alignItems: 'center' }} className="eco-bento-card onboarding">
                         <div style={{ flex: 1 }}>
                             <Label>Experience</Label>
                             <h3 style={{ fontSize: '1.4rem', fontWeight: '800', marginBottom: '12px' }}>Intuitive Onboarding</h3>
                             <p style={styles.body}>Seamlessly guiding users through their sustainability journey from day one.</p>
                         </div>
-                        <div style={{ display: 'flex', gap: '16px' }}>
-                            <PhoneFrame src="/src/assets/app/Page2.png" alt="Onboarding 1" style={{ width: '140px' }} onExpand={() => openLightbox("/src/assets/app/Page2.png", "Onboarding 1")} />
-                            <PhoneFrame src="/src/assets/app/Page3.png" alt="Onboarding 2" style={{ width: '140px' }} onExpand={() => openLightbox("/src/assets/app/Page3.png", "Onboarding 2")} />
+                        <div style={{ display: 'flex', gap: '16px' }} className="eco-mockup-row">
+                            <PhoneFrame src="/assets/app/Page2.png" alt="Onboarding 1" style={{ width: '140px' }} onExpand={() => openLightbox("/assets/app/Page2.png", "Onboarding 1")} />
+                            <PhoneFrame src="/assets/app/Page3.png" alt="Onboarding 2" style={{ width: '140px' }} onExpand={() => openLightbox("/assets/app/Page3.png", "Onboarding 2")} />
                         </div>
                     </div>
 
                     {/* Stats / Carbon Counter */}
-                    <div style={{ ...bentoCard, gridColumn: 'span 4', gridRow: 'span 2', padding: '32px', background: '#111', color: '#fff' }}>
+                    <div style={{ ...bentoCard, gridColumn: 'span 4', gridRow: 'span 2', padding: '32px', background: '#111', color: '#fff' }} className="eco-bento-card">
                         <div style={{ height: '40px', width: '40px', borderRadius: '50%', border: '2px solid #333', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                             <Zap size={20} color="#4ade80" strokeWidth={2.5} />
                         </div>
@@ -353,12 +386,12 @@ const EcoIndexCaseStudy = ({ onBack }) => {
                     </div>
 
                     {/* Data Collection Card */}
-                    <div style={{ ...bentoCard, gridColumn: 'span 4', gridRow: 'span 2', padding: '32px', background: '#fafafa' }}>
+                    <div style={{ ...bentoCard, gridColumn: 'span 4', gridRow: 'span 2', padding: '32px', background: '#fafafa' }} className="eco-bento-card">
                         <Label>Precision</Label>
                         <h3 style={{ fontSize: '1.2rem', fontWeight: '700', marginBottom: '16px' }}>Detailed Emission Modeling</h3>
-                        <div style={{ display: 'flex', gap: '12px', overflowX: 'hidden' }}>
-                            <PhoneFrame src="/src/assets/app/Page9.png" alt="Data 1" style={{ width: '100px', flexShrink: 0 }} onExpand={() => openLightbox("/src/assets/app/Page9.png", "Data 1")} />
-                            <PhoneFrame src="/src/assets/app/Page11.png" alt="Data 2" style={{ width: '100px', flexShrink: 0 }} onExpand={() => openLightbox("/src/assets/app/Page11.png", "Data 2")} />
+                        <div style={{ display: 'flex', gap: '12px', overflowX: 'hidden' }} className="eco-mockup-row">
+                            <PhoneFrame src="/assets/app/Page9.png" alt="Data 1" style={{ width: '100px', flexShrink: 0 }} onExpand={() => openLightbox("/assets/app/Page9.png", "Data 1")} />
+                            <PhoneFrame src="/assets/app/Page11.png" alt="Data 2" style={{ width: '100px', flexShrink: 0 }} onExpand={() => openLightbox("/assets/app/Page11.png", "Data 2")} />
                         </div>
                     </div>
                 </div>
@@ -367,12 +400,12 @@ const EcoIndexCaseStudy = ({ onBack }) => {
             <Divider />
 
             {/* ── Problem ──────────────────────── */}
-            <section style={styles.section}>
-                <div style={styles.sectionInner}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '80px', alignItems: 'start' }}>
+            <section style={styles.section} className="eco-section">
+                <div style={styles.sectionInner} className="eco-section-inner">
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '80px', alignItems: 'start' }} className="eco-grid-2col">
                         <Reveal>
                             <Label>The Problem</Label>
-                            <h2 style={styles.h2}>Three barriers to sustainability</h2>
+                            <h2 style={styles.h2} className="eco-h2">Three barriers to sustainability</h2>
                         </Reveal>
                         <div style={{ display: 'grid', gap: '24px' }}>
                             {[
@@ -382,7 +415,7 @@ const EcoIndexCaseStudy = ({ onBack }) => {
                             ].map(({ Icon, title, desc }, i) => (
                                 <Reveal key={title} delay={i * 0.1}>
                                     <div className="eco-problem-card" style={styles.problemCard}>
-                                        <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                                        <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }} className="eco-mobile-flex">
                                             <div style={styles.iconBox}>
                                                 <Icon size={18} color="var(--accent-color)" />
                                             </div>
@@ -402,14 +435,14 @@ const EcoIndexCaseStudy = ({ onBack }) => {
             <Divider />
 
             {/* ── Objective ────────────────────── */}
-            <section style={{ ...styles.section, background: '#fafafa' }}>
-                <div style={styles.sectionInner}>
+            <section style={{ ...styles.section, background: '#fafafa' }} className="eco-section">
+                <div style={styles.sectionInner} className="eco-section-inner">
                     <Reveal style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
                         <Label>Objective</Label>
-                        <h2 style={{ ...styles.h2, fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)' }}>
+                        <h2 style={{ ...styles.h2, fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)' }} className="eco-h2">
                             Transform environmental awareness into measurable sustainability outcomes
                         </h2>
-                        <div style={{ marginTop: '48px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', textAlign: 'left' }}>
+                        <div style={{ marginTop: '48px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', textAlign: 'left' }} className="eco-grid-2col">
                             {[
                                 'Calculate emissions from events and daily activities',
                                 'Track across transport, housing, food, and energy',
@@ -429,12 +462,12 @@ const EcoIndexCaseStudy = ({ onBack }) => {
             <Divider />
 
             {/* ── Carbon Model ─────────────────── */}
-            <section style={{ ...styles.section, background: '#0d0d0d', color: '#fff' }}>
-                <div style={styles.sectionInner}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '80px', alignItems: 'center' }}>
+            <section style={{ ...styles.section, background: '#0d0d0d', color: '#fff' }} className="eco-section">
+                <div style={styles.sectionInner} className="eco-section-inner">
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '80px', alignItems: 'center' }} className="eco-grid-2col">
                         <Reveal>
                             <Label>Methodology</Label>
-                            <h2 style={{ ...styles.h2, color: '#fff' }}>Carbon emission model</h2>
+                            <h2 style={{ ...styles.h2, color: '#fff' }} className="eco-h2">Carbon emission model</h2>
                             <p style={{ ...styles.body, color: '#aaa', marginTop: '16px' }}>
                                 Emissions are categorized using the globally recognized carbon accounting framework.
                             </p>
@@ -476,21 +509,21 @@ const EcoIndexCaseStudy = ({ onBack }) => {
 
                     {/* Main Dashboard — large browser frame */}
                     <Reveal delay={0.15} style={{ marginTop: '48px' }}>
-                        <BrowserFrame src="/src/assets/app/EventDashboard.png" alt="Event Dashboard" onExpand={() => openLightbox("/src/assets/app/EventDashboard.png", "Event Dashboard")} />
+                        <BrowserFrame src="/assets/app/EventDashboard.png" alt="Event Dashboard" onExpand={() => openLightbox("/assets/app/EventDashboard.png", "Event Dashboard")} />
                     </Reveal>
 
                     {/* Supporting desktop screens — 3-col grid */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginTop: '20px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginTop: '20px' }} className="eco-browser-grid">
                         {['AddEvent.png', 'EnergyConsumption.png', 'MealConsumption.png'].map((img, i) => (
                             <Reveal key={img} delay={i * 0.08}>
-                                <BrowserFrame src={`/src/assets/app/${img}`} alt={img.replace('.png', '')} onExpand={() => openLightbox(`/src/assets/app/${img}`, img.replace('.png', ''))} />
+                                <BrowserFrame src={`/assets/app/${img}`} alt={img.replace('.png', '')} onExpand={() => openLightbox(`/assets/app/${img}`, img.replace('.png', ''))} />
                             </Reveal>
                         ))}
                     </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', marginTop: '20px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', marginTop: '20px' }} className="eco-grid-2col">
                         {['Transport.png', 'WasteTracking.png'].map((img, i) => (
                             <Reveal key={img} delay={i * 0.08}>
-                                <BrowserFrame src={`/src/assets/app/${img}`} alt={img.replace('.png', '')} onExpand={() => openLightbox(`/src/assets/app/${img}`, img.replace('.png', ''))} />
+                                <BrowserFrame src={`/assets/app/${img}`} alt={img.replace('.png', '')} onExpand={() => openLightbox(`/assets/app/${img}`, img.replace('.png', ''))} />
                             </Reveal>
                         ))}
                     </div>
@@ -499,88 +532,86 @@ const EcoIndexCaseStudy = ({ onBack }) => {
 
             <Divider />
 
-            {/* ── Personal App ─────────────────── */}
-            <section style={{ ...styles.section, background: '#fafafa' }}>
-                <div style={styles.sectionInner}>
+            <section style={{ ...styles.section, background: '#fafafa' }} className="eco-section">
+                <div style={styles.sectionInner} className="eco-section-inner">
                     <Reveal>
                         <Label>Mobile App</Label>
-                        <h2 style={styles.h2}>Personal Sustainability App</h2>
+                        <h2 style={styles.h2} className="eco-h2">Personal Sustainability App</h2>
                         <p style={{ ...styles.body, maxWidth: '480px', marginTop: '12px' }}>
                             A companion app that helps individuals track their personal carbon footprint and adopt better daily habits.
                         </p>
                     </Reveal>
-
+ 
                     {/* Mobile App Bento Grid */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '32px', marginTop: '64px' }}>
-
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '32px', marginTop: '64px' }} className="eco-bento-wrapper">
+ 
                         {/* Onboarding Box */}
-                        <div style={{ gridColumn: 'span 7', background: '#fff', borderRadius: '32px', border: '1px solid #ebebeb', padding: '48px', overflow: 'hidden', display: 'flex', gap: '32px', alignItems: 'center' }}>
+                        <div style={{ gridColumn: 'span 7', background: '#fff', borderRadius: '32px', border: '1px solid #ebebeb', padding: '48px', overflow: 'hidden', display: 'flex', gap: '32px', alignItems: 'center' }} className="eco-bento-card onboarding">
                             <div style={{ flex: 1 }}>
                                 <Label>Phase 1</Label>
                                 <h3 style={styles.h3}>Onboarding</h3>
                                 <p style={styles.body}>Communicates the value of sustainability tracking and challenges, easing users into the platform with clarity and purpose.</p>
                             </div>
-                            <div style={{ display: 'flex', gap: '16px', position: 'relative', height: '320px', alignItems: 'flex-end' }}>
-                                <PhoneFrame src="/src/assets/app/Page2.png" alt="Onboarding 1" style={{ width: '160px', position: 'absolute', right: '40px', bottom: '-40px' }} onExpand={() => openLightbox("/src/assets/app/Page2.png", "Onboarding 1")} />
-                                <PhoneFrame src="/src/assets/app/Page3.png" alt="Onboarding 2" style={{ width: '160px', position: 'relative', zIndex: 2 }} onExpand={() => openLightbox("/src/assets/app/Page3.png", "Onboarding 2")} />
+                            <div style={{ display: 'flex', gap: '16px', position: 'relative', height: '320px', alignItems: 'flex-end' }} className="eco-onboarding-mockups">
+                                <PhoneFrame src="/assets/app/Page2.png" alt="Onboarding 1" style={{ width: '160px', position: 'absolute', right: '40px', bottom: '-40px' }} onExpand={() => openLightbox("/assets/app/Page2.png", "Onboarding 1")} />
+                                <PhoneFrame src="/assets/app/Page3.png" alt="Onboarding 2" style={{ width: '160px', position: 'relative', zIndex: 2 }} onExpand={() => openLightbox("/assets/app/Page3.png", "Onboarding 2")} />
                             </div>
                         </div>
-
+ 
                         {/* Data Collection Box */}
-                        <div style={{ gridColumn: 'span 5', background: '#F4FAFF', borderRadius: '32px', border: '1px solid #D9EDFF', padding: '48px', display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ gridColumn: 'span 5', background: '#F4FAFF', borderRadius: '32px', border: '1px solid #D9EDFF', padding: '48px', display: 'flex', flexDirection: 'column' }} className="eco-bento-card">
                             <div style={{ marginBottom: '32px' }}>
                                 <Label>Phase 2</Label>
                                 <h3 style={styles.h3}>Data Collection</h3>
                                 <p style={styles.body}>Lifestyle inputs that form the foundation of each user's emission model.</p>
                             </div>
-                            <div style={{ flex: 1, display: 'flex', gap: '12px', justifyContent: 'center' }}>
-                                <PhoneFrame src="/src/assets/app/Page9.png" alt="A" style={{ width: '100px', transform: 'translateY(20px)' }} onExpand={() => openLightbox("/src/assets/app/Page9.png", "A")} />
-                                <PhoneFrame src="/src/assets/app/Page11.png" alt="B" style={{ width: '100px' }} onExpand={() => openLightbox("/src/assets/app/Page11.png", "B")} />
-                                <PhoneFrame src="/src/assets/app/Page14.png" alt="C" style={{ width: '100px', transform: 'translateY(-20px)' }} onExpand={() => openLightbox("/src/assets/app/Page14.png", "C")} />
+                            <div style={{ flex: 1, display: 'flex', gap: '12px', justifyContent: 'center' }} className="eco-mockup-row">
+                                <PhoneFrame src="/assets/app/Page9.png" alt="A" style={{ width: '100px', transform: 'translateY(20px)' }} onExpand={() => openLightbox("/assets/app/Page9.png", "A")} />
+                                <PhoneFrame src="/assets/app/Page11.png" alt="B" style={{ width: '100px' }} onExpand={() => openLightbox("/assets/app/Page11.png", "B")} />
+                                <PhoneFrame src="/assets/app/Page14.png" alt="C" style={{ width: '100px', transform: 'translateY(-20px)' }} onExpand={() => openLightbox("/assets/app/Page14.png", "C")} />
                             </div>
                         </div>
-
+ 
                         {/* Result Box */}
-                        <div style={{ gridColumn: 'span 5', background: '#111', borderRadius: '32px', border: '1px solid #333', padding: '48px', color: '#fff' }}>
+                        <div style={{ gridColumn: 'span 5', background: '#111', borderRadius: '32px', border: '1px solid #333', padding: '48px', color: '#fff' }} className="eco-bento-card">
                             <div style={{ marginBottom: '32px' }}>
                                 <Label>Phase 3</Label>
                                 <h3 style={{ ...styles.h3, color: '#fff' }}>Footprint Result</h3>
                                 <p style={{ ...styles.body, color: '#aaa' }}>Calculated carbon footprint with relatable real-world comparisons.</p>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                <PhoneFrame src="/src/assets/app/Page13.png" alt="Result" style={{ width: '180px' }} onExpand={() => openLightbox("/src/assets/app/Page13.png", "Result")} />
+                                <PhoneFrame src="/assets/app/Page13.png" alt="Result" style={{ width: '180px' }} onExpand={() => openLightbox("/assets/app/Page13.png", "Result")} />
                             </div>
                         </div>
-
+ 
                         {/* Dashboard Box */}
-                        <div style={{ gridColumn: 'span 7', background: '#fff', borderRadius: '32px', border: '1px solid #ebebeb', padding: '48px', display: 'flex', gap: '48px', alignItems: 'center' }}>
+                        <div style={{ gridColumn: 'span 7', background: '#fff', borderRadius: '32px', border: '1px solid #ebebeb', padding: '48px', display: 'flex', gap: '48px', alignItems: 'center' }} className="eco-bento-card onboarding">
                             <div style={{ flex: 1 }}>
                                 <Label>Phase 4</Label>
                                 <h3 style={styles.h3}>Insights & Hub</h3>
                                 <p style={styles.body}>The central hub for sustainability progress, summaries, streaks, and national comparisons.</p>
                             </div>
-                            <div style={{ display: 'flex', gap: '20px' }}>
-                                <PhoneFrame src="/src/assets/app/Page22.png" alt="Dashboard" style={{ width: '160px' }} onExpand={() => openLightbox("/src/assets/app/Page22.png", "Dashboard")} />
-                                <PhoneFrame src="/src/assets/app/Page23.png" alt="Insights" style={{ width: '160px', transform: 'translateY(32px)' }} onExpand={() => openLightbox("/src/assets/app/Page23.png", "Insights")} />
+                            <div style={{ display: 'flex', gap: '20px' }} className="eco-mockup-row">
+                                <PhoneFrame src="/assets/app/Page22.png" alt="Dashboard" style={{ width: '160px' }} onExpand={() => openLightbox("/assets/app/Page22.png", "Dashboard")} />
+                                <PhoneFrame src="/assets/app/Page23.png" alt="Insights" style={{ width: '160px', transform: 'translateY(32px)' }} onExpand={() => openLightbox("/assets/app/Page23.png", "Insights")} />
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-
             <Divider />
 
             {/* ── Gamification ─────────────────── */}
-            <section style={styles.section}>
-                <div style={styles.sectionInner}>
+            <section style={styles.section} className="eco-section">
+                <div style={styles.sectionInner} className="eco-section-inner">
                     <Reveal>
                         <Label>Behavioral Design</Label>
-                        <h2 style={styles.h2}>Challenges · Levels · Rewards</h2>
+                        <h2 style={styles.h2} className="eco-h2">Challenges · Levels · Rewards</h2>
                         <p style={{ ...styles.body, maxWidth: '520px', marginTop: '12px' }}>
                             A progression system that converts insights into actions and actions into tangible rewards — creating a sustainable habit loop.
                         </p>
                     </Reveal>
-
+ 
                     {/* Flow diagram */}
                     <Reveal delay={0.1} style={{ marginTop: '48px', display: 'flex', gap: '12px', alignItems: 'center', justifyContent: 'center', overflowX: 'auto', padding: '0 0 8px' }}>
                         {['Measure', 'Insights', 'Challenges', 'Eco Actions', 'Earn XP', 'Reduce CO₂'].map((step, i, arr) => (
@@ -592,14 +623,14 @@ const EcoIndexCaseStudy = ({ onBack }) => {
                             </React.Fragment>
                         ))}
                     </Reveal>
-
+ 
                     {/* App screens — properly sized phone frames */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '60px', marginTop: '64px', alignItems: 'end', justifyItems: 'center' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '60px', marginTop: '64px', alignItems: 'end', justifyItems: 'center' }} className="eco-grid-2col">
                         {[
-                            { src: '/src/assets/app/Page24.png', label: 'Challenge List' },
-                            { src: '/src/assets/app/Page25.png', label: 'Challenge Detail' },
-                            { src: '/src/assets/app/Page30.png', label: 'Eco Levels' },
-                            { src: '/src/assets/app/Page33.png', label: 'Rewards Shop' },
+                            { src: '/assets/app/Page24.png', label: 'Challenge List' },
+                            { src: '/assets/app/Page25.png', label: 'Challenge Detail' },
+                            { src: '/assets/app/Page30.png', label: 'Eco Levels' },
+                            { src: '/assets/app/Page33.png', label: 'Rewards Shop' },
                         ].map(({ src, label }, i) => (
                             <Reveal key={label} delay={i * 0.08}>
                                 <div style={{ textAlign: 'center' }}>
@@ -615,20 +646,20 @@ const EcoIndexCaseStudy = ({ onBack }) => {
             <Divider />
 
             {/* ── Impact ───────────────────────── */}
-            <section style={{ ...styles.section, background: '#0d0d0d', color: '#fff' }}>
-                <div style={styles.sectionInner}>
+            <section style={{ ...styles.section, background: '#0d0d0d', color: '#fff' }} className="eco-section">
+                <div style={styles.sectionInner} className="eco-section-inner">
                     <Reveal style={{ textAlign: 'center', marginBottom: '64px' }}>
                         <Label>Impact</Label>
-                        <h2 style={{ ...styles.h2, color: '#fff' }}>Real-world results</h2>
+                        <h2 style={{ ...styles.h2, color: '#fff' }} className="eco-h2">Real-world results</h2>
                     </Reveal>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2px', background: 'rgba(255,255,255,0.07)', borderRadius: '20px', overflow: 'hidden' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2px', background: 'rgba(255,255,255,0.07)', borderRadius: '20px', overflow: 'hidden' }} className="eco-impact-grid">
                         {[
                             { value: '34,560+', label: 'Attendees Analyzed' },
                             { value: '218,599 kg', label: 'CO₂ Calculated' },
                             { value: '180,866 kg', label: 'CO₂ Neutralized' },
                         ].map(({ value, label }) => (
                             <Reveal key={label}>
-                                <div style={{ padding: '56px 40px', textAlign: 'center', background: '#111' }}>
+                                <div style={{ padding: '56px 40px', textAlign: 'center', background: '#111' }} className="eco-impact-item">
                                     <div style={{ fontSize: 'clamp(2.2rem, 4vw, 3.5rem)', fontWeight: '900', color: '#fff', marginBottom: '12px', lineHeight: 1 }}>{value}</div>
                                     <div style={{ fontSize: '0.85rem', color: '#666', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: '600' }}>{label}</div>
                                 </div>
@@ -641,12 +672,12 @@ const EcoIndexCaseStudy = ({ onBack }) => {
             <Divider />
 
             {/* ── My Role ──────────────────────── */}
-            <section style={styles.section}>
-                <div style={styles.sectionInner}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
+            <section style={styles.section} className="eco-section">
+                <div style={styles.sectionInner} className="eco-section-inner">
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }} className="eco-grid-2col">
                         <Reveal>
                             <Label>Contributions</Label>
-                            <h2 style={styles.h2}>My involvement</h2>
+                            <h2 style={styles.h2} className="eco-h2">My involvement</h2>
                             <p style={{ ...styles.body, marginTop: '12px' }}>I led the product, design, and development of EcoIndex end-to-end — from system architecture to production UI.</p>
                         </Reveal>
                         <Reveal delay={0.15}>
@@ -670,10 +701,10 @@ const EcoIndexCaseStudy = ({ onBack }) => {
             </section>
 
             {/* ── Closing / Footer ─────────────── */}
-            <footer style={styles.footer}>
+            <footer style={styles.footer} className="eco-footer">
                 <Reveal>
                     <p style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.18em', color: '#999', fontWeight: '700', marginBottom: '20px' }}>Closing Thought</p>
-                    <h2 style={{ fontSize: 'clamp(1.8rem, 6vw, 2.8rem)', fontWeight: '800', maxWidth: '1200px', margin: '0 auto 40px auto', lineHeight: '1.25' }}>
+                    <h2 style={{ fontSize: 'clamp(1.8rem, 6vw, 2.8rem)', fontWeight: '800', maxWidth: '1200px', margin: '0 auto 40px auto', lineHeight: '1.25' }} className="eco-h2">
                         EcoIndex proves that sustainability becomes achievable when it's measurable.
                     </h2>
                     <button onClick={onBack} className="eco-footer-btn" style={styles.footerBtn}>

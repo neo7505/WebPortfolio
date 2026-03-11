@@ -1,13 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { PAGES } from '../constants/navigation';
-import { Download } from 'lucide-react';
+import { Download, Menu } from 'lucide-react';
 import resumePDF from '../assets/Chitrankar_UXfocused.pdf';
 
 
 const DOT_POSITIONS = [59, 72, 84, 100];
 
-const ProgressIndicator = ({ activePageIndex, onPageClick }) => {
+const ProgressIndicator = ({ activePageIndex, onPageClick, onToggleMenu }) => {
     const isDarkPage = activePageIndex === 2; // Projects page
     const dotLeft = DOT_POSITIONS[activePageIndex];
 
@@ -51,10 +51,24 @@ const ProgressIndicator = ({ activePageIndex, onPageClick }) => {
 
             {/* Labels row — Resume/CV pinned left, tabs span full width */}
             <div style={styles.labelsRow}>
+                {/* Hamburger for mobile */}
+                <button 
+                  onClick={onToggleMenu} 
+                  className="mobile-only" 
+                  style={{ 
+                    ...styles.hamburger, 
+                    color: isDarkPage ? '#FFF' : '#000',
+                    display: 'none' // Controlled by CSS
+                  }}
+                >
+                  <Menu size={28} />
+                </button>
+
                 {/* Resume/CV sits inside the row, absolutely on the left */}
                 <a 
                     href={resumePDF} 
                     download="Chitrankar_Resume.pdf" 
+                    className="desktop-only"
                     style={{ ...currentStyles.resumeButton, textDecoration: 'none' }}
                 >
                     <Download size={14} style={{ marginRight: '6px' }} />
@@ -62,7 +76,7 @@ const ProgressIndicator = ({ activePageIndex, onPageClick }) => {
                 </a>
 
                 {/* 4 equal label cells across the full width */}
-                <div style={styles.labels}>
+                <div className="desktop-only" style={styles.labels}>
                     {PAGES.map((page, index) => (
                         <div 
                             key={page.id} 
@@ -82,6 +96,14 @@ const ProgressIndicator = ({ activePageIndex, onPageClick }) => {
                     ))}
                 </div>
             </div>
+
+            <style>{`
+              @media (max-width: 768px) {
+                .desktop-only { display: none !important; }
+                .mobile-only { display: block !important; }
+                .mobile-labels-row { justify-content: flex-end; padding: 10px 20px; }
+              }
+            `}</style>
         </div>
     );
 };
@@ -127,7 +149,11 @@ const styles = {
         display: 'flex',
         justifyContent: 'flex-end',
         alignItems: 'center',
-
+        padding: '0 24px',
+    },
+    hamburger: {
+      padding: '12px 0',
+      cursor: 'pointer',
     },
     resumeButton: {
         position: 'absolute',

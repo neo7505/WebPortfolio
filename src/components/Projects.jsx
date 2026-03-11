@@ -1,80 +1,7 @@
 import { useRef, useEffect, useState, useMemo, memo } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
-
-// Noise Overlay Component for consistency with Home
-const NoiseOverlay = () => (
-    <div style={styles.noiseOverlay}></div>
-);
-
-// Cursor Glow Component for premium feel
-const CursorGlow = () => {
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-
-    useEffect(() => {
-        const handleMouseMove = (e) => {
-            mouseX.set(e.clientX);
-            mouseY.set(e.clientY);
-        };
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, [mouseX, mouseY]);
-
-    const background = useTransform(
-        [mouseX, mouseY],
-        ([x, y]) => `radial-gradient(600px circle at ${x}px ${y}px, rgba(51, 68, 221, 0.1), transparent 80%)`
-    );
-
-    return (
-        <motion.div
-            style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100vw',
-                height: '100vh',
-                pointerEvents: 'none',
-                zIndex: -1,
-                background: background
-            }}
-        />
-    );
-};
-
-const GridCell = memo(() => (
-    <div className="projects-grid-cell" style={styles.gridCell}></div>
-));
-
-const InteractiveGrid = memo(() => {
-    const cells = useMemo(() => Array.from({ length: 400 }), []);
-
-    useEffect(() => {
-        if (document.getElementById('projects-grid-styles')) return;
-        const style = document.createElement('style');
-        style.id = 'projects-grid-styles';
-        style.innerHTML = `
-            .projects-grid-cell { 
-                transition: border-color 0.6s ease; 
-                will-change: border-color;
-            }
-            .projects-grid-cell:hover { 
-                border-color: #3344DD !important; 
-                transition: border-color 0s !important; 
-                z-index: 10; 
-                will-change: border-color;
-            }
-        `;
-        document.head.appendChild(style);
-    }, []);
-
-    return (
-        <div style={styles.gridContainer}>
-            {cells.map((_, i) => (
-                <GridCell key={i} />
-            ))}
-        </div>
-    );
-});
+import { useNavigate } from 'react-router-dom';
+import { NoiseOverlay, InteractiveGrid, FloatingAssets } from './Home';
 
 const MockupCollage = ({ images, type = 'phone', themeColor, isHovered }) => {
     if (type === 'phone') {
@@ -163,6 +90,7 @@ const ProjectCard = ({ project, onView, index }) => {
                 ...styles.card,
                 gridColumn: index === 0 ? 'span 1' : 'span 1',
             }}
+            className="projects-card"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             whileHover={{ y: -10 }}
@@ -172,10 +100,10 @@ const ProjectCard = ({ project, onView, index }) => {
 
             <div style={styles.cardHeader}>
                 <span style={styles.cat}>{project.category}</span>
-                <h3 style={styles.cardTitle}>{project.title}</h3>
+                <h3 style={styles.cardTitle} className="projects-card-title">{project.title}</h3>
             </div>
 
-            <div style={styles.cardVisual}>
+            <div style={styles.cardVisual} className="projects-card-visual">
                 <MockupCollage
                     images={project.images}
                     type={project.useMockup ? 'phone' : 'desktop'}
@@ -202,7 +130,9 @@ const ProjectCard = ({ project, onView, index }) => {
     );
 };
 
-const Projects = ({ onViewEcoIndex, onViewIntelliQ }) => {
+const Projects = () => {
+    const navigate = useNavigate();
+
     useEffect(() => {
         if (document.getElementById('projects-ui-styles')) return;
         const style = document.createElement('style');
@@ -223,6 +153,16 @@ const Projects = ({ onViewEcoIndex, onViewIntelliQ }) => {
                 80% { transform: translate(3%, 35%) }
                 90% { transform: translate(-10%, 10%) }
             }
+            @media (max-width: 768px) {
+                .projects-container { padding: 80px 20px 40px 20px !important; height: auto !important; min-height: 100vh !important; }
+                .projects-content-wrapper { justify-content: flex-start !important; padding-top: 40px !important; }
+                .projects-bento-grid { grid-template-columns: 1fr !important; gap: 0px !important; }
+                .projects-card { padding: 20px !important; gap: 15px !important; }
+                .projects-card-title { font-size: 1.4rem !important; }
+                .projects-card-visual { min-height: 200px !important; }
+                .projects-phone-frame { width: 110px !important; height: 220px !important; border-radius: 18px !important; }
+                .projects-phone-screen { border-radius: 14px !important; }
+            }
         `;
         document.head.appendChild(style);
     }, []);
@@ -234,9 +174,9 @@ const Projects = ({ onViewEcoIndex, onViewIntelliQ }) => {
             category: 'Sustainability • Product',
             description: 'A carbon intelligence platform designed to calculate and visualize emissions through behavioral design.',
             images: [
-                '/src/assets/app/Page30.png',
-                '/src/assets/app/Page23.png',
-                '/src/assets/app/Page22.png',
+                '/assets/app/Page30.png',
+                '/assets/app/Page23.png',
+                '/assets/app/Page22.png',
             ],
             useMockup: true,
             themeColor: '#4ade80',
@@ -248,9 +188,9 @@ const Projects = ({ onViewEcoIndex, onViewIntelliQ }) => {
             category: 'Analytics • Enterprise',
             description: 'Advanced data-entry and analytics system for large-scale operations, featuring real-time visualization.',
             images: [
-                '/src/assets/IntelliQ/HomeScreen.png',
-                // '/src/assets/IntelliQ/ManageSheets.png',
-                // '/src/assets/IntelliQ/Dashboard.png',
+                '/assets/IntelliQ/HomeScreen.png',
+                // '/assets/IntelliQ/ManageSheets.png',
+                // '/assets/IntelliQ/Dashboard.png',
             ],
             themeColor: '#FF3366',
             tags: ['SaaS', 'B2B']
@@ -258,12 +198,14 @@ const Projects = ({ onViewEcoIndex, onViewIntelliQ }) => {
     ];
 
     return (
-        <div style={styles.container}>
+        <div style={styles.container} className="projects-container">
             <NoiseOverlay />
-            <CursorGlow />
-            <InteractiveGrid />
+            <FloatingAssets />
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, opacity: 0.1, pointerEvents: 'none' }}>
+                <InteractiveGrid />
+            </div>
 
-            <div style={styles.contentWrapper}>
+            <div style={styles.contentWrapper} className="projects-content-wrapper">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -274,15 +216,15 @@ const Projects = ({ onViewEcoIndex, onViewIntelliQ }) => {
                     <p style={styles.sectionSubtitle}>A glimpse into my recent work in product design and development.</p>
                 </motion.div>
 
-                <div style={styles.bentoGrid}>
+                <div style={styles.bentoGrid} className="projects-bento-grid">
                     <ProjectCard
                         project={projects[0]}
-                        onView={onViewEcoIndex}
+                        onView={() => navigate('/ecoindex')}
                         index={0}
                     />
                     <ProjectCard
                         project={projects[1]}
-                        onView={onViewIntelliQ}
+                        onView={() => navigate('/intelliq')}
                         index={1}
                     />
                 </div>
@@ -294,7 +236,7 @@ const Projects = ({ onViewEcoIndex, onViewIntelliQ }) => {
 const styles = {
     container: {
         height: '100vh',
-        width: '100vw',
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

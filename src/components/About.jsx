@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Instagram, Linkedin, GraduationCap, BookOpen, Briefcase, Code, Cloud,
@@ -6,21 +6,52 @@ import {
     Atom, Database, Cpu, Table, BarChart2, Wind, BoxSelect, Brush,
     Globe, Zap, GitBranch, Github, Component, Type, Eye, Play, Shield, Search
 } from 'lucide-react';
+import { InteractiveGrid, NoiseOverlay, FloatingAssets } from './Home';
 
 const About = ({ activeSectionIndex, onViewArtwork }) => {
     const prevIndexRef = useRef(activeSectionIndex);
     const direction = activeSectionIndex >= prevIndexRef.current ? 1 : -1;
 
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     useEffect(() => {
         prevIndexRef.current = activeSectionIndex;
     }, [activeSectionIndex]);
+
+    useEffect(() => {
+        if (document.getElementById('about-responsive-styles')) return;
+        const style = document.createElement('style');
+        style.id = 'about-responsive-styles';
+        style.innerHTML = `
+            @media (max-width: 768px) {
+                .about-container { padding: 80px 5% 40px 5% !important; }
+                .about-section-title { fontSize: 2rem !important; }
+                .about-timeline { padding-left: 40px !important; }
+                .about-timeline-line { left: 15px !important; }
+                .about-timeline-icon { left: -45px !important; width: 30px !important; height: 30px !important; }
+                .about-timeline-icon svg { width: 18px !important; height: 18px !important; }
+                .about-item-title { fontSize: 1.2rem !important; }
+                .about-art-card { padding: 25px !important; }
+                .about-art-card-content { flex-direction: column !important; gap: 20px !important; align-items: flex-start !important; }
+                .about-art-button { width: 100% !important; justify-content: center !important; }
+                .about-skill-item { padding: 8px 14px !important; font-size: 0.8rem !important; }
+            }
+        `;
+        document.head.appendChild(style);
+    }, []);
 
     const sections = [
         {
             id: 'intro',
             content: (
                 <div style={styles.sectionContent}>
-                    <h2 style={styles.sectionTitle}>Introduction</h2>
+                    <h2 style={styles.sectionTitle} className="about-section-title">Introduction</h2>
                     <p style={styles.text}>
                         A UX-Focused Frontend Engineer Who Enjoys Turning Complex Ideas Into Usable Products.
                     </p>
@@ -30,8 +61,9 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                     <div style={styles.socials}>
                         <p style={{ fontWeight: '700', marginBottom: '15px' }}>Let's Connect 😉</p>
                         <div style={styles.socialIcons}>
-                            <a href="#" style={styles.socialLink}><Instagram size={20} /> Instagram</a>
-                            <a href="#" style={styles.socialLink}><Linkedin size={20} /> LinkedIn</a>
+                            <a href="https://www.instagram.com/chitrankar.r_70/" target="_blank" rel="noopener noreferrer" style={styles.socialLink}><Instagram size={20} /> Instagram</a>
+                            <a href="https://www.linkedin.com/in/chitrankar-r-ba7aa920a/" target="_blank" rel="noopener noreferrer" style={styles.socialLink}><Linkedin size={20} /> LinkedIn</a>
+                            <a href="https://github.com/neo7505" target="_blank" rel="noopener noreferrer" style={styles.socialLink}><Github size={20} /> GitHub</a>
                         </div>
                     </div>
                 </div>
@@ -41,17 +73,17 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
             id: 'education',
             content: (
                 <div style={styles.sectionContent}>
-                    <h2 style={styles.sectionTitle}>Education</h2>
-                    <div style={styles.timeline}>
-                        <div style={styles.timelineLine}></div>
+                    <h2 style={styles.sectionTitle} className="about-section-title">Education</h2>
+                    <div style={styles.timeline} className="about-timeline">
+                        <div style={styles.timelineLine} className="about-timeline-line"></div>
 
                         <div style={styles.timelineItem}>
-                            <div style={styles.timelineIconWrapper}>
+                            <div style={styles.timelineIconWrapper} className="about-timeline-icon">
                                 <GraduationCap size={32} />
                             </div>
                             <div style={styles.timelineContent}>
                                 <div style={styles.timelineHeader}>
-                                    <h3 style={styles.itemTitle}>Indian Institute Of Technology (IIT), Ropar</h3>
+                                    <h3 style={styles.itemTitle} className="about-item-title">Indian Institute Of Technology (IIT), Ropar</h3>
                                     <span style={styles.datePill}>2020-2024</span>
                                 </div>
                                 <p style={styles.degreeText}>B.Tech In Metallurgical And Materials Engineering</p>
@@ -84,12 +116,12 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
             id: 'experience',
             content: (
                 <div style={styles.sectionContent}>
-                    <h2 style={styles.sectionTitle}>Work Experience</h2>
-                    <div style={styles.timeline}>
-                        <div style={styles.timelineLine}></div>
+                    <h2 style={styles.sectionTitle} className="about-section-title">Work Experience</h2>
+                    <div style={styles.timeline} className="about-timeline">
+                        <div style={styles.timelineLine} className="about-timeline-line"></div>
 
                         <div style={styles.timelineItem}>
-                            <div style={styles.timelineIconWrapper}>
+                            <div style={styles.timelineIconWrapper} className="about-timeline-icon">
                                 <Briefcase size={28} />
                             </div>
                             <div style={styles.timelineContent}>
@@ -109,7 +141,7 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                         </div>
 
                         <div style={styles.timelineItem}>
-                            <div style={styles.timelineIconWrapper}>
+                            <div style={styles.timelineIconWrapper} className="about-timeline-icon">
                                 <Code size={28} />
                             </div>
                             <div style={styles.timelineContent}>
@@ -127,7 +159,7 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                         </div>
 
                         <div style={styles.timelineItem}>
-                            <div style={styles.timelineIconWrapper}>
+                            <div style={styles.timelineIconWrapper} className="about-timeline-icon">
                                 <Cloud size={28} />
                             </div>
                             <div style={styles.timelineContent}>
@@ -171,7 +203,7 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                                     { name: 'Illustrator', icon: <Palette size={16} /> },
                                     { name: 'Blender 3D', icon: <Box size={16} /> }
                                 ].map(skill => (
-                                    <div key={skill.name} style={styles.skillItem}>
+                                    <div key={skill.name} style={styles.skillItem} className="about-skill-item">
                                         {skill.icon}
                                         <span>{skill.name}</span>
                                     </div>
@@ -196,7 +228,7 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                                     { name: 'CI/CD & Testing', icon: <Shield size={16} /> },
                                     { name: 'Responsive UI', icon: <BoxSelect size={16} /> }
                                 ].map(skill => (
-                                    <div key={skill.name} style={styles.skillItem}>
+                                    <div key={skill.name} style={styles.skillItem} className="about-skill-item">
                                         {skill.icon}
                                         <span>{skill.name}</span>
                                     </div>
@@ -208,12 +240,13 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                         <motion.div
                             whileHover={{ scale: 1.02, y: -5 }}
                             style={styles.artCard}
+                            className="about-art-card"
                         >
                             <div style={styles.artCardGlow}></div>
                             <div style={styles.artCardDecoration}>
                                 <Brush size={100} style={styles.brushIcon} />
                             </div>
-                            <div style={styles.artCardContent}>
+                            <div style={styles.artCardContent} className="about-art-card-content">
                                 <div style={styles.artCardLeft}>
                                     <div style={styles.artTag}>Fine Arts • Traditional Artist</div>
                                     <h3 style={styles.artCardTitle}>Hand-Drawn Pencil Art & Sketching</h3>
@@ -223,6 +256,7 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                                     whileHover={{ x: 8 }}
                                     onClick={onViewArtwork}
                                     style={styles.artButton}
+                                    className="about-art-button"
                                 >
                                     Experience Gallery <span>→</span>
                                 </motion.button>
@@ -235,24 +269,39 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
     ];
 
     return (
-        <div style={styles.container}>
+        <div style={styles.container} className="about-container">
+            <NoiseOverlay />
+            <FloatingAssets />
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, opacity: 0.15, pointerEvents: 'none' }}>
+                <InteractiveGrid />
+            </div>
             <div style={styles.mainContent}>
-                <AnimatePresence mode="wait" custom={direction}>
-                    <motion.div
-                        key={activeSectionIndex}
-                        custom={direction}
-                        initial={{ opacity: 0, x: direction * 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: direction * -50 }}
-                        transition={{
-                            duration: 0.6,
-                            ease: [0.22, 1, 0.36, 1]
-                        }}
-                        style={{ width: '100%' }}
-                    >
-                        {sections[activeSectionIndex]?.content}
-                    </motion.div>
-                </AnimatePresence>
+                {isMobile ? (
+                    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '60px' }}>
+                        {sections.map(section => (
+                            <div key={section.id}>
+                                {section.content}
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <AnimatePresence mode="wait" custom={direction}>
+                        <motion.div
+                            key={activeSectionIndex}
+                            custom={direction}
+                            initial={{ opacity: 0, x: direction * 50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: direction * -50 }}
+                            transition={{
+                                duration: 0.6,
+                                ease: [0.22, 1, 0.36, 1]
+                            }}
+                            style={{ width: '100%' }}
+                        >
+                            {sections[activeSectionIndex]?.content}
+                        </motion.div>
+                    </AnimatePresence>
+                )}
             </div>
         </div>
     );

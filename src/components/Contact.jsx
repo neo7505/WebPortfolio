@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Github, Instagram, Linkedin, MapPin, Send, CheckCircle, ExternalLink, Copy, Clock, Sparkles } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import { NoiseOverlay, InteractiveGrid, FloatingAssets } from './Home';
 
 const Contact = () => {
     const [time, setTime] = useState('');
@@ -32,6 +33,24 @@ const Contact = () => {
         setCopiedEmail(true);
         setTimeout(() => setCopiedEmail(false), 2000);
     };
+
+    useEffect(() => {
+        if (document.getElementById('contact-responsive-styles')) return;
+        const style = document.createElement('style');
+        style.id = 'contact-responsive-styles';
+        style.innerHTML = `
+            @media (max-width: 768px) {
+                .contact-container { padding: 80px 20px 60px 20px !important; }
+                .contact-title { font-size: 2.2rem !important; }
+                .contact-subtitle { font-size: 1rem !important; }
+                .contact-content-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+                .contact-card { padding: 16px !important; }
+                .contact-form-col { padding: 25px !important; }
+                .contact-input-group { gap: 10px !important; }
+            }
+        `;
+        document.head.appendChild(style);
+    }, []);
 
     const sendEmail = (e) => {
         e.preventDefault();
@@ -73,25 +92,31 @@ const Contact = () => {
             initial="hidden"
             animate="visible"
             style={styles.container}
+            className="contact-container"
         >
-            <div style={styles.noiseOverlay}></div>
+            <NoiseOverlay />
+            <FloatingAssets />
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, opacity: 0.15, pointerEvents: 'none' }}>
+                <InteractiveGrid />
+            </div>
 
             <motion.header style={styles.header} variants={itemVariants}>
-                <h2 style={styles.title}>
+                <h2 style={styles.title} className="contact-title">
                     Let's Build Something,
                     <span className="accent-text" style={styles.italicTitle}> Remarkable</span>
                 </h2>
-                <p style={styles.subtitle}>Currently accepting new opportunities. Let's talk about yours.</p>
+                <p style={styles.subtitle} className="contact-subtitle">Currently accepting new opportunities. Let's talk about yours.</p>
             </motion.header>
 
-            <div style={styles.contentGrid}>
-                {/* Contact Info Cards */}
-                <motion.div style={styles.infoCol} variants={itemVariants}>
-                    <motion.div
-                        style={styles.card}
-                        whileHover={{ y: -5, borderColor: 'var(--accent-color)', boxShadow: '0 20px 40px rgba(0, 0, 0, 0.05)' }}
-                        onClick={() => copyToClipboard('hello@chitrankar.design')}
-                    >
+                    <div style={styles.contentGrid} className="contact-content-grid">
+                        {/* Contact Info Cards */}
+                        <motion.div style={styles.infoCol} variants={itemVariants}>
+                            <motion.div
+                                style={styles.card}
+                                className="contact-card"
+                                whileHover={{ y: -5, borderColor: 'var(--accent-color)', boxShadow: '0 20px 40px rgba(0, 0, 0, 0.05)' }}
+                                onClick={() => copyToClipboard('hello@chitrankar.design')}
+                            >
                         <div style={styles.cardIcon}>
                             <Mail size={24} />
                         </div>
@@ -105,10 +130,11 @@ const Contact = () => {
                         {copiedEmail && <motion.span initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={styles.copyTooltip}>Copied!</motion.span>}
                     </motion.div>
 
-                    <motion.div
-                        style={styles.card}
-                        whileHover={{ y: -5, borderColor: 'var(--accent-color)', boxShadow: '0 20px 40px rgba(0, 0, 0, 0.05)' }}
-                    >
+                        <motion.div
+                            style={styles.card}
+                            className="contact-card"
+                            whileHover={{ y: -5, borderColor: 'var(--accent-color)', boxShadow: '0 20px 40px rgba(0, 0, 0, 0.05)' }}
+                        >
                         <div style={styles.cardIcon}>
                             <MapPin size={24} />
                         </div>
@@ -142,21 +168,21 @@ const Contact = () => {
 
                     <div style={styles.socialsGrid}>
                         <motion.a
-                            href="https://github.com" target="_blank" rel="noopener noreferrer" style={styles.socialLink}
+                            href="https://github.com/neo7505" target="_blank" rel="noopener noreferrer" style={styles.socialLink}
                             whileHover={{ scale: 1.02, backgroundColor: '#FFF', borderColor: 'var(--accent-color)' }}
                         >
                             <Github size={20} />
                             <span>Github</span>
                         </motion.a>
                         <motion.a
-                            href="https://linkedin.com" target="_blank" rel="noopener noreferrer" style={styles.socialLink}
+                            href="https://www.linkedin.com/in/chitrankar-r-ba7aa920a/" target="_blank" rel="noopener noreferrer" style={styles.socialLink}
                             whileHover={{ scale: 1.02, backgroundColor: '#FFF', borderColor: 'var(--accent-color)' }}
                         >
                             <Linkedin size={20} />
                             <span>LinkedIn</span>
                         </motion.a>
                         <motion.a
-                            href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={styles.socialLink}
+                            href="https://www.instagram.com/chitrankar.r_70/" target="_blank" rel="noopener noreferrer" style={styles.socialLink}
                             whileHover={{ scale: 1.02, backgroundColor: '#FFF', borderColor: 'var(--accent-color)' }}
                         >
                             <Instagram size={20} />
@@ -166,10 +192,10 @@ const Contact = () => {
                 </motion.div>
 
                 {/* Contact Form */}
-                <motion.div style={styles.formCol} variants={itemVariants}>
+                <motion.div style={styles.formCol} variants={itemVariants} className="contact-form-col">
                     {!isSubmitted ? (
                         <form ref={form} style={styles.form} onSubmit={sendEmail}>
-                            <div style={styles.inputGroup}>
+                            <div style={styles.inputGroup} className="contact-input-group">
                                 <div style={styles.inputWrapper}>
                                     <input type="text" name="user_name" required placeholder="Name" style={styles.input} />
                                     <span style={styles.inputBar}></span>

@@ -2,19 +2,20 @@ import React, { useEffect, useState, useMemo, memo } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
 import { MousePointer2, PenTool, Zap, Sparkles } from 'lucide-react';
 import { FLOWER_IMAGES } from '../constants/flower-images';
+import { SketchUnderline, SketchCircle } from './HandDrawnAccents';
 // import Photo from "../assets/Group 5.png";
 import Photo from "../assets/PhotoNo.png";
 
-const MovingBlobs = () => {
+export const MovingBlobs = () => {
     return (
         <div style={styles.blobsContainer}>
-            <div style={{ ...styles.blob, ...styles.blob1, animationName: 'blob1-anim' }}>
+            <div style={{ ...styles.blob, ...styles.blob1, animationName: 'blob1-anim' }} className="home-blob">
                 <div style={styles.blobGrain}></div>
             </div>
-            <div style={{ ...styles.blob, ...styles.blob2, animationName: 'blob2-anim' }}>
+            <div style={{ ...styles.blob, ...styles.blob2, animationName: 'blob2-anim' }} className="home-blob">
                 <div style={styles.blobGrain}></div>
             </div>
-            <div style={{ ...styles.blob, ...styles.blob3, animationName: 'blob3-anim' }}>
+            <div style={{ ...styles.blob, ...styles.blob3, animationName: 'blob3-anim' }} className="home-blob">
                 <div style={styles.blobGrain}></div>
             </div>
         </div>
@@ -22,12 +23,12 @@ const MovingBlobs = () => {
 };
 
 // Noise Overlay Component
-const NoiseOverlay = () => (
+export const NoiseOverlay = () => (
     <div style={styles.noiseOverlay}></div>
 );
 
 // Floating Creative Assets
-const FloatingAssets = () => {
+export const FloatingAssets = () => {
     const assets = [
         { Icon: MousePointer2, size: 40, top: '15%', left: '10%', delay: 0 },
         { Icon: PenTool, size: 40, top: '25%', left: '85%', delay: 1 },
@@ -70,15 +71,15 @@ const SplitText = ({ text }) => {
     return (
         <span style={{ display: 'inline-block' }}>
             {text.split('').map((char, i) => (char === ' ' ? (
-                <span key={i} style={{ display: 'inline-block', width: '0.3em' }}> </span>
+                <span key={i} style={{ display: 'inline-block', width: '0.25em' }}> </span>
             ) : (
                 <motion.span
                     key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: 30, scale: 0.8 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{
-                        duration: 0.5,
-                        delay: i * 0.03,
+                        duration: 0.8,
+                        delay: i * 0.04,
                         ease: [0.22, 1, 0.36, 1]
                     }}
                     style={{ display: 'inline-block' }}
@@ -170,17 +171,47 @@ const injectStyles = () => {
             80% { transform: translate(3%, 35%) }
             90% { transform: translate(-10%, 10%) }
         }
+        @media (max-width: 768px) {
+            .home-title { font-size: 32px !important; }
+            .home-subtitle { font-size: 1rem !important; margin-bottom: 20px !important; }
+            .home-image-container { width: 280px !important; height: 280px !important; }
+            .home-profile-img { width: 400px !important; height: 400px !important; }
+            .home-blob { width: 200px !important; height: 200px !important; }
+            .home-grid-container { 
+                grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)) !important; 
+                grid-auto-rows: 45px !important;
+                pointer-events: auto !important;
+            }
+            .grid-cell { border-color: rgba(51, 68, 221, 0.03) !important; }
+        }
     `;
     document.head.appendChild(style);
 };
 
 const GridCell = memo(({ initialOpen = false }) => {
     const [isHovered, setIsHovered] = useState(false);
+    const [autoReveal, setAutoReveal] = useState(false);
     const flowerImage = useMemo(() =>
         FLOWER_IMAGES[Math.floor(Math.random() * FLOWER_IMAGES.length)],
         []);
 
-    const isOpen = isHovered || initialOpen;
+    useEffect(() => {
+        // Only run auto-reveal logic on mobile
+        if (window.innerWidth >= 768) return;
+
+        const triggerAutoReveal = () => {
+            // Randomly decide whether to reveal
+            if (Math.random() > 0.97) { // 3% chance per pulse
+                setAutoReveal(true);
+                setTimeout(() => setAutoReveal(false), 2000 + Math.random() * 3000); // Stay open for 2-5s
+            }
+        };
+
+        const interval = setInterval(triggerAutoReveal, 4000 + Math.random() * 2000);
+        return () => clearInterval(interval);
+    }, []);
+
+    const isOpen = isHovered || autoReveal || initialOpen;
 
     return (
         <div
@@ -193,10 +224,13 @@ const GridCell = memo(({ initialOpen = false }) => {
                 {isOpen && (
                     <motion.img
                         src={flowerImage}
-                        initial={initialOpen ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+                        initial={initialOpen ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ 
+                            duration: 0.8, 
+                            ease: [0.22, 1, 0.36, 1] 
+                        }}
                         style={{
                             ...styles.flowerImg,
                             willChange: 'opacity, scale'
@@ -208,7 +242,7 @@ const GridCell = memo(({ initialOpen = false }) => {
     );
 });
 
-const InteractiveGrid = memo(() => {
+export const InteractiveGrid = memo(() => {
     useEffect(() => {
         injectStyles();
     }, []);
@@ -217,7 +251,7 @@ const InteractiveGrid = memo(() => {
     const initialOpenIndex = useMemo(() => Math.floor(Math.random() * 80) + 40, []); 
 
     return (
-        <div style={styles.gridContainer}>
+        <div style={styles.gridContainer} className="home-grid-container">
             {cells.map((_, i) => (
                 <GridCell key={i} initialOpen={i === initialOpenIndex} />
             ))}
@@ -262,15 +296,17 @@ const Home = () => {
 
             <div style={styles.content}>
                 <motion.div style={{ x: textBaseX, y: textBaseY }}>
-                    <h1 style={styles.title}>
+                    <h1 style={styles.title} className="home-title">
                         <SplitText text="I'm " />
-                        <span style={styles.gradientText}>
+                        <span style={{ ...styles.gradientText, position: 'relative' }}>
                             <SplitText text="Chitrankar" />
+                            <SketchCircle delay={1.2} />
                         </span>
                         <SplitText text=", A " />
 
                         <span style={styles.italicAccent}>
                             <SplitText text="Product Designer." />
+                            <SketchUnderline delay={1.8} />
                         </span>
                     </h1>
                     <motion.p
@@ -278,6 +314,7 @@ const Home = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1, duration: 0.8 }}
                         style={styles.subtitle}
+                        className="home-subtitle"
                     >
                         <span>A techie with a creative mind.</span>
                         <br />
@@ -294,6 +331,7 @@ const Home = () => {
                         x: imgBaseX,
                         y: imgBaseY
                     }}
+                    className="home-image-container"
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 1, ease: "easeOut" }}
@@ -303,6 +341,7 @@ const Home = () => {
                         src={Photo}
                         alt="Chitrankar"
                         style={styles.profileImg}
+                        className="home-profile-img"
                         onError={(e) => {
                             e.target.src = "https://via.placeholder.com/400x400?text=Profile";
                         }}
@@ -390,7 +429,7 @@ const styles = {
         position: 'absolute',
         top: 0,
         left: 0,
-        width: '100vw',
+        width: '100%',
         height: '100vh',
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 1fr))',
