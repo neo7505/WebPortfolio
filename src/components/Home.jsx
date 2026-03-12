@@ -172,12 +172,11 @@ const injectStyles = () => {
             90% { transform: translate(-10%, 10%) }
         }
         @media (max-width: 768px) {
-            .home-container-alt { padding-top: 40px !important; }
             .home-title { font-size: 32px !important; }
             .home-subtitle { font-size: 1rem !important; margin-bottom: 20px !important; }
-            .home-image-container { width: 320px !important; height: 320px !important; }
-            .home-profile-img { width: 480px !important; height: 480px !important; }
-            .home-blob { width: 280px !important; height: 280px !important; }
+            .home-image-container { width: 320px !important; height: 320px !important; margin-top: 130px !important; }
+            .home-profile-img { width: 450px !important; height: 450px !important; }
+            .home-blob { width: 200px !important; height: 200px !important; }
             .home-grid-container { 
                 grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)) !important; 
                 grid-auto-rows: 45px !important;
@@ -412,9 +411,9 @@ const styles = {
     },
     imageContainer: {
         position: 'relative',
-
-        paddingTop: '270px',
-        marginLeft: '30px',
+        width: '400px',
+        height: '400px',
+        margin: '0 auto',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
