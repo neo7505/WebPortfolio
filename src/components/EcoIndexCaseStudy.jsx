@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { ArrowLeft, CheckCircle22, Target, Layers, Zap, Globe, X, Maximize2 } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Target, Layers, Zap, Globe, X, Maximize2 } from 'lucide-react';
 import ReadMore from './ReadMore';
 
 
