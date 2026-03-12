@@ -21,7 +21,6 @@ body {
   background-color: var(--bg-color);
   color: var(--text-primary);
   overflow: hidden; /* Prevent native scrolling */
-  cursor: none; /* Hide default for custom cursor */
 }
 
 h1, h2, h3, h4 {
@@ -80,6 +79,6 @@ button {
   .section-wrapper {
     padding: 0 5%;
     height: auto !important;
-    min-height: 100vh;
+    min-height: auto !important;
   }
 }

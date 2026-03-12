@@ -172,11 +172,12 @@ const injectStyles = () => {
             90% { transform: translate(-10%, 10%) }
         }
         @media (max-width: 768px) {
+            .home-container-alt { padding-top: 40px !important; }
             .home-title { font-size: 32px !important; }
             .home-subtitle { font-size: 1rem !important; margin-bottom: 20px !important; }
-            .home-image-container { width: 280px !important; height: 280px !important; }
-            .home-profile-img { width: 400px !important; height: 400px !important; }
-            .home-blob { width: 200px !important; height: 200px !important; }
+            .home-image-container { width: 320px !important; height: 320px !important; }
+            .home-profile-img { width: 480px !important; height: 480px !important; }
+            .home-blob { width: 280px !important; height: 280px !important; }
             .home-grid-container { 
                 grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)) !important; 
                 grid-auto-rows: 45px !important;
@@ -227,9 +228,9 @@ const GridCell = memo(({ initialOpen = false }) => {
                         initial={initialOpen ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
-                        transition={{ 
-                            duration: 0.8, 
-                            ease: [0.22, 1, 0.36, 1] 
+                        transition={{
+                            duration: 0.8,
+                            ease: [0.22, 1, 0.36, 1]
                         }}
                         style={{
                             ...styles.flowerImg,
@@ -248,7 +249,7 @@ export const InteractiveGrid = memo(() => {
     }, []);
 
     const cells = useMemo(() => Array.from({ length: 400 }), []);
-    const initialOpenIndex = useMemo(() => Math.floor(Math.random() * 80) + 40, []); 
+    const initialOpenIndex = useMemo(() => Math.floor(Math.random() * 80) + 40, []);
 
     return (
         <div style={styles.gridContainer} className="home-grid-container">
@@ -354,13 +355,14 @@ const Home = () => {
 
 const styles = {
     container: {
-        height: '100%',
+        minHeight: '100vh',
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         paddingTop: '80px',
+        paddingBottom: '40px',
         textAlign: 'center',
         position: 'relative',
         overflow: 'hidden',
@@ -410,9 +412,9 @@ const styles = {
     },
     imageContainer: {
         position: 'relative',
-        width: '400px',
-        height: '400px',
-        margin: '0 auto',
+
+        paddingTop: '270px',
+        marginLeft: '30px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -430,7 +432,7 @@ const styles = {
         top: 0,
         left: 0,
         width: '100%',
-        height: '100vh',
+        height: '100%',
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 1fr))',
         gridAutoRows: '60px',

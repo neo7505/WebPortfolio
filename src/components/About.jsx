@@ -344,12 +344,12 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
 
 const styles = {
     container: {
-        height: '100%',
+        minHeight: '100vh',
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
-        padding: '80px 15% 0 10%',
+        padding: '100px 15% 60px 10%',
     },
     mainContent: {
         flex: 1,

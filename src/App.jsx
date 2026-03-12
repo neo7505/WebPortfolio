@@ -4,18 +4,42 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useScrollNavigation } from './hooks/useScrollNavigation';
 import ProgressIndicator from './components/ProgressIndicator';
 import VerticalNav from './components/VerticalNav';
-import Home from './components/Home';
-import About from './components/About';
-import Projects from './components/Projects';
-import Contact from './components/Contact';
-import ArtGallery from './components/ArtGallery';
-import EcoIndexCaseStudy from './components/EcoIndexCaseStudy';
-import IntelliQCaseStudy from './components/IntelliQCaseStudy';
 import MobileMenu from './components/MobileMenu';
-import CreativeCursor from './components/CreativeCursor';
 import ArtisticTexture from './components/ArtisticTexture';
-import { useState } from 'react';
+import SectionWrapper from './components/SectionWrapper';
+import { useState, lazy, Suspense } from 'react';
 import { PAGES } from './constants/navigation';
+
+const Home = lazy(() => import('./components/Home'));
+const About = lazy(() => import('./components/About'));
+const Projects = lazy(() => import('./components/Projects'));
+const Contact = lazy(() => import('./components/Contact'));
+const ArtGallery = lazy(() => import('./components/ArtGallery'));
+const EcoIndexCaseStudy = lazy(() => import('./components/EcoIndexCaseStudy'));
+const IntelliQCaseStudy = lazy(() => import('./components/IntelliQCaseStudy'));
+
+const LoadingFallback = () => (
+  <div style={{
+    height: '100vh',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FDF8F1',
+    color: '#0000FF',
+    fontFamily: "'Outfit', sans-serif",
+    fontSize: '1.2rem',
+    letterSpacing: '0.1em'
+  }}>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      LOADING EXPERIENCE...
+    </motion.div>
+  </div>
+);
 
 const MainPortfolio = ({ 
   activePageIndex, 
@@ -66,11 +90,13 @@ const MainPortfolio = ({
       <div className="page-wrapper">
         {isMobile ? (
           <div style={{ width: '100%', height: '100%', overflowY: 'auto' }}>
-            {pages.map((page, idx) => (
-              <div key={idx} id={`${PAGES[idx].id}-section`} style={{ width: '100%', height: 'auto' }}>
-                {page}
-              </div>
-            ))}
+            <Suspense fallback={<LoadingFallback />}>
+              {pages.map((page, idx) => (
+                <SectionWrapper key={idx} id={`${PAGES[idx].id}-section`}>
+                  {page}
+                </SectionWrapper>
+              ))}
+            </Suspense>
           </div>
         ) : (
           <AnimatePresence mode="wait">
@@ -85,7 +111,9 @@ const MainPortfolio = ({
               }}
               style={{ height: '100vh', width: '100%' }}
             >
-              {pages[activePageIndex]}
+              <Suspense fallback={<LoadingFallback />}>
+                {pages[activePageIndex]}
+              </Suspense>
             </motion.div>
           </AnimatePresence>
         )}
@@ -123,30 +151,33 @@ const App = () => {
 
   return (
     <>
-      <CreativeCursor />
       <ArtisticTexture />
-      <Routes>
-        <Route 
-          path="/" 
-          element={
-            <MainPortfolio 
-              activePageIndex={activePageIndex}
-              activeSectionIndex={activeSectionIndex}
-              goToPage={goToPage}
-              goToSection={goToSection}
-              currentPage={currentPage}
-              onViewArtGallery={goToArtGallery}
-              onToggleMobileMenu={() => setIsMobileMenuOpen(true)}
-            />
-          } 
-        />
-        <Route path="/ecoindex" element={<EcoIndexCaseStudy onBack={() => navigate('/')} />} />
-        <Route path="/intelliq" element={<IntelliQCaseStudy onBack={() => navigate('/')} />} />
-      </Routes>
+      <Suspense fallback={<LoadingFallback />}>
+        <Routes>
+          <Route 
+            path="/" 
+            element={
+              <MainPortfolio 
+                activePageIndex={activePageIndex}
+                activeSectionIndex={activeSectionIndex}
+                goToPage={goToPage}
+                goToSection={goToSection}
+                currentPage={currentPage}
+                onViewArtGallery={goToArtGallery}
+                onToggleMobileMenu={() => setIsMobileMenuOpen(true)}
+              />
+            } 
+          />
+          <Route path="/ecoindex" element={<EcoIndexCaseStudy onBack={() => navigate('/')} />} />
+          <Route path="/intelliq" element={<IntelliQCaseStudy onBack={() => navigate('/')} />} />
+        </Routes>
+      </Suspense>
 
       <AnimatePresence>
         {showArtGallery && (
-          <ArtGallery onBack={closeArtGallery} />
+          <Suspense fallback={null}>
+            <ArtGallery onBack={closeArtGallery} />
+          </Suspense>
         )}
       </AnimatePresence>
 

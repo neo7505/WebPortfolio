@@ -272,7 +272,7 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: '120px 8% 60px 8%',
+        padding: '100px 8% 60px 8%',
         backgroundColor: 'var(--bg-color)',
         position: 'relative',
         overflow: 'hidden',

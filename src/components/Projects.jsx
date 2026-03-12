@@ -235,12 +235,12 @@ const Projects = () => {
 
 const styles = {
     container: {
-        height: '100vh',
+        minHeight: '100vh',
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: '80px 5%',
+        padding: '100px 5% 60px 5%',
         backgroundColor: '#0D1117',
         position: 'relative',
         overflow: 'hidden',
