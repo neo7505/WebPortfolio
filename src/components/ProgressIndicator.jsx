@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { PAGES } from '../constants/navigation';
 import { Download, Menu } from 'lucide-react';
-import resumePDF from '../assets/Chitrankar_UXfocused.pdf';
+import resumePDF from '../assets/Chitrankar_Immediate_Joiner.pdf';
 
 
 const DOT_POSITIONS = [59, 72, 84, 100];
@@ -52,22 +52,22 @@ const ProgressIndicator = ({ activePageIndex, onPageClick, onToggleMenu }) => {
             {/* Labels row — Resume/CV pinned left, tabs span full width */}
             <div style={styles.labelsRow}>
                 {/* Hamburger for mobile */}
-                <button 
-                  onClick={onToggleMenu} 
-                  className="mobile-only" 
-                  style={{ 
-                    ...styles.hamburger, 
-                    color: isDarkPage ? '#FFF' : '#000',
-                    display: 'none' // Controlled by CSS
-                  }}
+                <button
+                    onClick={onToggleMenu}
+                    className="mobile-only"
+                    style={{
+                        ...styles.hamburger,
+                        color: isDarkPage ? '#FFF' : '#000',
+                        display: 'none' // Controlled by CSS
+                    }}
                 >
-                  <Menu size={28} />
+                    <Menu size={28} />
                 </button>
 
                 {/* Resume/CV sits inside the row, absolutely on the left */}
-                <a 
-                    href={resumePDF} 
-                    download="Chitrankar_Resume.pdf" 
+                <a
+                    href={resumePDF}
+                    download="Chitrankar_Resume.pdf"
                     className="resume-button-global"
                     style={{ ...currentStyles.resumeButton, textDecoration: 'none' }}
                 >
@@ -78,8 +78,8 @@ const ProgressIndicator = ({ activePageIndex, onPageClick, onToggleMenu }) => {
                 {/* 4 equal label cells across the full width */}
                 <div className="desktop-only" style={styles.labels}>
                     {PAGES.map((page, index) => (
-                        <div 
-                            key={page.id} 
+                        <div
+                            key={page.id}
                             style={styles.labelCell}
                             onClick={() => onPageClick && onPageClick(index)}
                         >
@@ -158,8 +158,8 @@ const styles = {
         padding: '0 24px',
     },
     hamburger: {
-      padding: '12px 0',
-      cursor: 'pointer',
+        padding: '12px 0',
+        cursor: 'pointer',
     },
     resumeButton: {
         position: 'absolute',

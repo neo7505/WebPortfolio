@@ -171,7 +171,7 @@ const Projects = () => {
         {
             id: 'eco-index',
             title: 'EcoIndex',
-            category: 'Sustainability • Product',
+            category: 'Sustainability • Product & Strategy',
             description: 'A carbon intelligence platform designed to calculate and visualize emissions through behavioral design.',
             images: [
                 '/assets/app/Page30.png',
@@ -185,7 +185,7 @@ const Projects = () => {
         {
             id: 'intelliq',
             title: 'IntelliQ',
-            category: 'Analytics • Enterprise',
+            category: 'SaaS • Product & Strategy',
             description: 'Advanced data-entry and analytics system for large-scale operations, featuring real-time visualization.',
             images: [
                 '/assets/IntelliQ/HomeScreen.png',

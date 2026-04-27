@@ -96,10 +96,10 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                 <div style={styles.sectionContent}>
                     <h2 style={styles.sectionTitle} className="about-section-title">Introduction</h2>
                     <p style={styles.text}>
-                        A UX-Focused Frontend Engineer Who Enjoys Turning Complex Ideas Into Usable Products.
+                        A Product-focused Engineer with 1.5+ years of experience in designing and building scalable SaaS products.
                     </p>
                     <p style={styles.text}>
-                        Creativity Drives My Work — From Sketching On Paper To Building On Screen.
+                        I specialize in owning end-to-end product development (0→1) from user research and workflow design to robust implementation.
                     </p>
                     <div style={styles.socials}>
                         <p style={{ fontWeight: '700', marginBottom: '15px' }}>Let's Connect 😉</p>
@@ -176,27 +176,26 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                                     <h3 style={styles.itemTitle}>OctoDo Solutions Pvt. Ltd.</h3>
                                     <span style={styles.datePill}>May 2024 – Present</span>
                                 </div>
-                                <p style={styles.degreeText}>UX-Focused Frontend Engineer (Remote)</p>
+                                <p style={styles.degreeText}>Product Engineer (Frontend & Product Systems)</p>
                                 <ul style={styles.bulletList}>
-                                    <li>Designed UX/UI, Frontend for SaaS platforms and built scalable React interfaces.</li>
-                                    <li>Developed analytics dashboards and structured data-entry systems.</li>
-                                    <li>Contributed to core platforms including <strong>IntellIQ</strong> (analytics) and <strong>EcoIndex</strong> (carbon tracking).</li>
-                                    <li>Collaborated with backend teams to integrate APIs and ship reliable product releases.</li>
-                                    <li>Created visual assets and product demo videos using Canva and Photoshop.</li>
+                                    <li>Led product discovery with stakeholders, conducting user research to identify inefficiencies in Excel-based workflows.</li>
+                                    <li>Designed end-to-end workflows, user journeys, and structured data models to transition distributed teams to scalable SaaS systems.</li>
+                                    <li>Owned UX/UI design and frontend implementation, rolling out intuitive data-entry interfaces and dashboard solutions.</li>
+                                    <li>Collaborated cross-functionally with backend developers to model system architecture and define API schemas.</li>
                                 </ul>
                             </div>
                         </div>
 
                         <div style={styles.timelineItem}>
                             <div style={styles.timelineIconWrapper} className="about-timeline-icon">
-                                <Code size={28} />
+                                <Briefcase size={28} />
                             </div>
                             <div style={styles.timelineContent}>
                                 <div style={styles.timelineHeader}>
                                     <h3 style={styles.itemTitle}>OctoDo Solutions Pvt. Ltd.</h3>
                                     <span style={styles.datePill}>Nov 2020 – July 2024</span>
                                 </div>
-                                <p style={styles.degreeText}>Frontend Developer Intern (Remote)</p>
+                                <p style={styles.degreeText}>Frontend & Product Developer Intern</p>
                                 <ul style={styles.bulletList}>
                                     <li>Built client websites using React, WordPress, and Shopify for Entech, Clean Carbon, Agrasen, and ASHRAE Region.</li>
                                     <li>Designed and developed the company’s official website (UX, UI, frontend).</li>
@@ -216,8 +215,8 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                                 </div>
                                 <p style={styles.degreeText}>Cloud Developer Intern (Remote)</p>
                                 <ul style={styles.bulletList}>
-                                    <li>Deployed a generative AI chatbot on Microsoft Azure using Azure OpenAI.</li>
-                                    <li>Automated document extraction with Azure AI services and managed VM deployments.</li>
+                                    <li>Deployed generative AI chatbot functionality on Microsoft Azure using OpenAI and Cognitive Search.</li>
+                                    <li>Built automated document extraction pipelines that optimized multi-file ingestion workflows.</li>
                                 </ul>
                             </div>
                         </div>
@@ -232,6 +231,21 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                     <h2 style={styles.sectionTitle}>Skills</h2>
 
                     <div style={styles.skillsContainer}>
+                        {/* Group 0: Product & Strategy */}
+                        <SkillGroup
+                            title="Product & Strategy"
+                            isMobile={isMobile}
+                            skills={[
+                                { name: 'Product Discovery', icon: <Layout size={16} /> },
+                                { name: 'User Research', icon: <Search size={16} /> },
+                                { name: 'Roadmapping & Strategy', icon: <GitBranch size={16} /> },
+                                { name: 'Prioritization (RICE)', icon: <Zap size={16} /> },
+                                { name: 'Workflow Design', icon: <Workflow size={16} /> },
+                                { name: 'Stakeholder Mgmt.', icon: <Layers size={16} /> },
+                                { name: 'Product Metrics', icon: <BarChart2 size={16} /> }
+                            ]}
+                        />
+
                         {/* Group 1: Design & UX */}
                         <SkillGroup
                             title="Design & UX"
@@ -270,35 +284,35 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                                 { name: 'Responsive UI', icon: <BoxSelect size={16} /> }
                             ]}
                         />
-       </div>
-
-                        {/* Creative Artwork Card - De-emphasized & Refined */}
-                        <motion.div
-                            whileHover={{ scale: 1.02, y: -5 }}
-                            style={styles.artCard}
-                            className="about-art-card"
-                        >
-                            <div style={styles.artCardGlow}></div>
-                            <div style={styles.artCardDecoration}>
-                                <Brush size={100} style={styles.brushIcon} />
-                            </div>
-                            <div style={styles.artCardContent} className="about-art-card-content">
-                                <div style={styles.artCardLeft}>
-                                    <div style={styles.artTag}>Fine Arts • Traditional Artist</div>
-                                    <h3 style={styles.artCardTitle}>Hand-Drawn Pencil Art & Sketching</h3>
-                                    <p style={styles.artCardDesc}>Exploring depth and texture through traditional mediums.</p>
-                                </div>
-                                <motion.button
-                                    whileHover={{ x: 8 }}
-                                    onClick={onViewArtwork}
-                                    style={styles.artButton}
-                                    className="about-art-button"
-                                >
-                                    Experience Gallery <span>→</span>
-                                </motion.button>
-                            </div>
-                        </motion.div>
                     </div>
+
+                    {/* Creative Artwork Card - De-emphasized & Refined */}
+                    <motion.div
+                        whileHover={{ scale: 1.02, y: -5 }}
+                        style={styles.artCard}
+                        className="about-art-card"
+                    >
+                        <div style={styles.artCardGlow}></div>
+                        <div style={styles.artCardDecoration}>
+                            <Brush size={100} style={styles.brushIcon} />
+                        </div>
+                        <div style={styles.artCardContent} className="about-art-card-content">
+                            <div style={styles.artCardLeft}>
+                                <div style={styles.artTag}>Fine Arts • Traditional Artist</div>
+                                <h3 style={styles.artCardTitle}>Hand-Drawn Pencil Art & Sketching</h3>
+                                <p style={styles.artCardDesc}>Exploring depth and texture through traditional mediums.</p>
+                            </div>
+                            <motion.button
+                                whileHover={{ x: 8 }}
+                                onClick={onViewArtwork}
+                                style={styles.artButton}
+                                className="about-art-button"
+                            >
+                                Experience Gallery <span>→</span>
+                            </motion.button>
+                        </div>
+                    </motion.div>
+                </div>
             )
         }
     ];
@@ -349,7 +363,7 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
-        padding: '100px 15% 60px 10%',
+        padding: '60px 15% 40px 10%',
     },
     mainContent: {
         flex: 1,
@@ -486,20 +500,20 @@ const styles = {
     skillsGrid: {
         display: 'flex',
         flexWrap: 'wrap',
-        gap: '10px',
+        gap: '6px',
     },
     skillsContainer: {
         display: 'flex',
         flexDirection: 'column',
-        gap: '30px',
+        gap: '16px',
     },
     skillGroup: {
         display: 'flex',
         flexDirection: 'column',
-        gap: '12px',
+        gap: '6px',
     },
     groupTitle: {
-        fontSize: '1rem',
+        fontSize: '0.85rem',
         textTransform: 'uppercase',
         letterSpacing: '1px',
         color: '#888',
@@ -507,25 +521,25 @@ const styles = {
         margin: 0,
     },
     skillItem: {
-        fontSize: '0.85rem',
-        padding: '10px 20px',
+        fontSize: '0.75rem',
+        padding: '6px 12px',
         backgroundColor: '#fff',
-        borderRadius: '12px',
+        borderRadius: '8px',
         border: '1px solid #eee',
         fontWeight: '600',
         color: '#1A1A1A',
         display: 'flex',
         alignItems: 'center',
-        gap: '10px',
+        gap: '8px',
         transition: 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
         boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
         cursor: 'default',
     },
     artCard: {
-        marginTop: '30px',
+        marginTop: '15px',
         background: 'linear-gradient(135deg, #0D1117 0%, #1A1A1A 100%)',
         borderRadius: '24px',
-        padding: '35px 40px',
+        padding: '20px 30px',
         color: 'white',
         boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
         position: 'relative',

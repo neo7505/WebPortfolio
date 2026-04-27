@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { ArrowLeft, CheckCircle2, Layout, Database, Users, Shield, BarChart3, Settings, ClipboardList, Info, X, Maximize2, PieChart, Activity, Zap, FileText } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Layout, Database, Users, Shield, BarChart3, Settings, ClipboardList, Info, X, Maximize2, PieChart, Activity, Zap, FileText, Layers } from 'lucide-react';
 import ReadMore from './ReadMore';
 
 
@@ -232,10 +232,10 @@ const IntelliQCaseStudy = ({ onBack }) => {
 
                     <div style={styles.heroInfoGrid} className="iq-hero-info">
                         {[
-                            { label: 'Role', value: 'Product Engineer / Frontend' },
+                            { label: 'Role', value: 'Product Engineer' },
                             { label: 'Platform', value: 'Web Dashboard' },
-                            { label: 'Focus', value: 'UX & Implementation' },
-                            { label: 'Status', value: 'In Production' },
+                            { label: 'Focus', value: 'Product Strategy & 0→1' },
+                            { label: 'Impact', value: 'Adopted by 50+ Users' },
                         ].map(({ label, value }) => (
                             <Reveal key={label} delay={0.2}>
                                 <div key={label}>
@@ -309,6 +309,57 @@ const IntelliQCaseStudy = ({ onBack }) => {
                     </div>
                 </div>
             </section>
+
+            <Divider />
+
+            {/* ── Prioritization (RICE) ─────────────── */}
+            <section style={{ ...styles.section, background: '#F8FAFF' }} className="iq-section">
+                <div style={styles.sectionInner} className="iq-section-inner">
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '80px', alignItems: 'center' }} className="iq-grid-2col">
+                        <Reveal>
+                            <Label color="#FF3366">Product Strategy</Label>
+                            <h2 style={styles.h2}>Phasing the Roadmap via RICE</h2>
+                            <p style={{ ...styles.body, marginTop: '16px' }}>
+                                To deliver immediate value to enterprise clients, we prioritized the core features using the RICE framework.
+                            </p>
+                        </Reveal>
+                        <Reveal delay={0.15}>
+                            <div style={{ overflowX: 'auto' }}>
+                                <table style={{ width: '100%', borderCollapse: 'collapse', background: '#fff', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e0e0e0' }}>
+                                    <thead>
+                                        <tr style={{ background: '#111', color: '#fff', textAlign: 'left' }}>
+                                            <th style={{ padding: '16px' }}>Feature</th>
+                                            <th style={{ padding: '16px' }}>R</th>
+                                            <th style={{ padding: '16px' }}>I</th>
+                                            <th style={{ padding: '16px' }}>C</th>
+                                            <th style={{ padding: '16px' }}>E</th>
+                                            <th style={{ padding: '16px' }}>Score</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {[
+                                            { name: 'Smart Sheets Core', r: 'High', i: '3 (Massive)', c: '100%', e: '3 (L)', score: '300' },
+                                            { name: 'Drag-and-Drop Dashboards', r: 'High', i: '2 (High)', c: '90%', e: '4 (XL)', score: '135' },
+                                            { name: 'Column Permissions', r: 'Med', i: '3 (Massive)', c: '80%', e: '2 (M)', score: '240' }
+                                        ].map((row, i) => (
+                                            <tr key={row.name} style={{ borderBottom: '1px solid #eee' }}>
+                                                <td style={{ padding: '16px', fontWeight: '700' }}>{row.name}</td>
+                                                <td style={{ padding: '16px', color: '#666' }}>{row.r}</td>
+                                                <td style={{ padding: '16px', color: '#666' }}>{row.i}</td>
+                                                <td style={{ padding: '16px', color: '#666' }}>{row.c}</td>
+                                                <td style={{ padding: '16px', color: '#666' }}>{row.e}</td>
+                                                <td style={{ padding: '16px', fontWeight: '800', color: '#FF3366' }}>{row.score}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </Reveal>
+                    </div>
+                </div>
+            </section>
+
+            <Divider />
 
             {/* ── Architecture Flow ───────────────── */}
             <section style={{ ...styles.section, background: '#f9f9f9' }} className="iq-section">
@@ -406,6 +457,9 @@ const IntelliQCaseStudy = ({ onBack }) => {
                                 { icon: Layout, title: 'Manual Schema', desc: 'Define columns, data types, and validations from scratch.' },
                                 { icon: Database, title: 'Excel Import', desc: 'Upload existing files to automatically extract headers and structure.' },
                                 { icon: ClipboardList, title: 'Template Library', desc: 'Quickly deploy common operational workflows from templates.' },
+                                { icon: Shield, title: 'Column Permissions', desc: 'Granular assignment where specific columns are assigned to specific users.' },
+                                { icon: Settings, title: 'Formula Engine', desc: 'Excel-like calculated fields for real-time client-side math.' },
+                                { icon: Layers, title: 'Sub-Table Support', desc: 'Nested data entry for one-to-many relationships in a single row.' },
                             ].map(({ icon: Icon, title, desc }) => (
                                 <Reveal key={title}>
                                     <div style={{ display: 'flex', gap: '20px', padding: '24px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}>
@@ -572,8 +626,8 @@ const IntelliQCaseStudy = ({ onBack }) => {
                                     { icon: Activity, label: 'KPI Monitoring', desc: 'Real-time number widgets for critical metrics.' },
                                     { icon: Settings, label: 'Custom Aggregations', desc: 'Sum, Average, Count, and custom formulae.' },
                                     { icon: Zap, label: 'Live Data Feed', desc: 'Automatic updates as Smart Sheets are populated.' },
-                                    { icon: Filter, label: 'Time Granularity', desc: 'Daily, Weekly, Monthly view switches.' },
-                                    { icon: FileText, label: 'Report Export', desc: 'Instant PDF and Excel generation from widgets.' }
+                                    { icon: Filter, label: 'Pivot Engine', desc: 'Multi-series client-side data aggregation and pivoting.' },
+                                    { icon: FileText, label: 'Sharing & Collections', desc: 'Group related analytics and share securely via RBAC.' }
                                 ].map((w, i) => (
                                     <div key={i} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
                                         <div style={{ background: '#3344DD', padding: '10px', borderRadius: '10px' }}>
@@ -599,18 +653,18 @@ const IntelliQCaseStudy = ({ onBack }) => {
                             <Label>My Role</Label>
                             <h2 style={styles.h2}>Contributions & Tech</h2>
                             <p style={{ ...styles.body, marginTop: '20px' }}>
-                                As a Product Engineer, I led the development of the core data-entry engine and the analytics visualization layer.
+                                As a Product Engineer, I bridged requirements and tech deployment for incremental lifecycle growth.
                             </p>
                         </Reveal>
                         <Reveal delay={0.2}>
                             <div style={{ display: 'grid', gap: '16px' }}>
                                 {[
-                                    'Architecture design of the Smart Sheets system',
-                                    'Development of the drag-and-drop dashboard builder',
-                                    'Implementation of role-based permission system',
-                                    'Advanced grid virtualization for high-performance data entry',
-                                    'Client-side data aggregation and charting logic',
-                                    'Excel import/export engine integration'
+                                    'Leading stakeholder interviews to uncover bottlenecks',
+                                    'Structuring data schemas & role permissions',
+                                    'Using RICE scoring for priority MVP roadmaps',
+                                    'Building high-performance analytics frameworks',
+                                    'Cross-functional coordination with backend architectures',
+                                    'Continuous feedback cycles driving 50+ active users'
                                 ].map((item, i) => (
                                     <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'center', padding: '16px 20px', borderRadius: '12px', border: '1px solid #ebebeb', background: '#fff' }}>
                                         <CheckCircle2 size={16} color="#FF3366" style={{ flexShrink: 0 }} />

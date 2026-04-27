@@ -36,16 +36,16 @@ const LoadingFallback = () => (
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      LOADING EXPERIENCE...
+      LOADING...
     </motion.div>
   </div>
 );
 
-const MainPortfolio = ({ 
-  activePageIndex, 
-  activeSectionIndex, 
-  goToPage, 
-  goToSection, 
+const MainPortfolio = ({
+  activePageIndex,
+  activeSectionIndex,
+  goToPage,
+  goToSection,
   currentPage,
   onViewArtGallery,
   onToggleMobileMenu
@@ -70,8 +70,8 @@ const MainPortfolio = ({
 
   return (
     <div className="page-container">
-      <ProgressIndicator 
-        activePageIndex={activePageIndex} 
+      <ProgressIndicator
+        activePageIndex={activePageIndex}
         onPageClick={goToPage}
         onToggleMenu={onToggleMobileMenu}
       />
@@ -154,10 +154,10 @@ const App = () => {
       <ArtisticTexture />
       <Suspense fallback={<LoadingFallback />}>
         <Routes>
-          <Route 
-            path="/" 
+          <Route
+            path="/"
             element={
-              <MainPortfolio 
+              <MainPortfolio
                 activePageIndex={activePageIndex}
                 activeSectionIndex={activeSectionIndex}
                 goToPage={goToPage}
@@ -166,7 +166,7 @@ const App = () => {
                 onViewArtGallery={goToArtGallery}
                 onToggleMobileMenu={() => setIsMobileMenuOpen(true)}
               />
-            } 
+            }
           />
           <Route path="/ecoindex" element={<EcoIndexCaseStudy onBack={() => navigate('/')} />} />
           <Route path="/intelliq" element={<IntelliQCaseStudy onBack={() => navigate('/')} />} />
@@ -181,9 +181,9 @@ const App = () => {
         )}
       </AnimatePresence>
 
-      <MobileMenu 
-        isOpen={isMobileMenuOpen} 
-        onClose={() => setIsMobileMenuOpen(false)} 
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
         activePageIndex={activePageIndex}
         onPageClick={goToPage}
       />

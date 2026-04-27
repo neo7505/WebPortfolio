@@ -305,7 +305,7 @@ const Home = () => {
                         <SplitText text=", A " />
 
                         <span style={styles.italicAccent}>
-                            <SplitText text="Product Designer." />
+                            <SplitText text="Product-Focused Engineer." />
                             <SketchUnderline delay={1.8} />
                         </span>
                     </h1>
@@ -316,11 +316,11 @@ const Home = () => {
                         style={styles.subtitle}
                         className="home-subtitle"
                     >
-                        <span>A techie with a creative mind.</span>
+                        <span>Blending user research, workflow optimization, and technical execution.</span>
                         <br />
-                        I turn complex ideas into {" "}
+                        I design and build scalable SaaS products from {" "}
                         <span style={styles.subtitleHighlight}>
-                            products people actually use.
+                            0 to 1.
                         </span>
                     </motion.p>
                 </motion.div>
