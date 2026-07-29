@@ -171,7 +171,7 @@ const Projects = () => {
         {
             id: 'eco-index',
             title: 'EcoIndex',
-            category: 'Sustainability • Product & Strategy',
+            category: 'Sustainability • Product & UX Strategy',
             description: 'A carbon intelligence platform designed to calculate and visualize emissions through behavioral design.',
             images: [
                 '/assets/app/Page30.png',
@@ -180,20 +180,18 @@ const Projects = () => {
             ],
             useMockup: true,
             themeColor: '#4ade80',
-            tags: ['React', 'Analytics']
+            tags: ['0→1 Product', 'Behavioral UX', 'Carbon Analytics']
         },
         {
             id: 'intelliq',
             title: 'IntelliQ',
-            category: 'SaaS • Product & Strategy',
+            category: 'Enterprise SaaS • Systems & Architecture',
             description: 'Advanced data-entry and analytics system for large-scale operations, featuring real-time visualization.',
             images: [
                 '/assets/IntelliQ/HomeScreen.png',
-                // '/assets/IntelliQ/ManageSheets.png',
-                // '/assets/IntelliQ/Dashboard.png',
             ],
             themeColor: '#FF3366',
-            tags: ['SaaS', 'B2B']
+            tags: ['B2B Enterprise', 'Information Arch', 'Workflow Systems']
         }
     ];
 
@@ -212,8 +210,9 @@ const Projects = () => {
                     transition={{ duration: 0.8 }}
                     style={styles.header}
                 >
-                    <h2 style={styles.sectionTitle}>Featured Projects</h2>
-                    <p style={styles.sectionSubtitle}>A glimpse into my recent work in product design and development.</p>
+                    <div style={styles.headerBadge}>FEATURED CASE STUDIES</div>
+                    <h2 style={styles.sectionTitle}>Selected Work</h2>
+                    <p style={styles.sectionSubtitle}>Solving complex enterprise problems through 0→1 UX strategy, system architecture, and product execution.</p>
                 </motion.div>
 
                 <div style={styles.bentoGrid} className="projects-bento-grid">
@@ -287,6 +286,14 @@ const styles = {
     header: {
         textAlign: 'center',
         marginBottom: '10px',
+    },
+    headerBadge: {
+        fontSize: '0.75rem',
+        fontWeight: '800',
+        letterSpacing: '2px',
+        color: '#60A5FA',
+        marginBottom: '10px',
+        textTransform: 'uppercase',
     },
     sectionTitle: {
         fontSize: 'clamp(2rem, 4vw, 3rem)',

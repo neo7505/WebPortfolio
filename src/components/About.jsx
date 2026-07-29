@@ -4,10 +4,14 @@ import {
     Instagram, Linkedin, GraduationCap, BookOpen, Briefcase, Code, Cloud,
     Figma, Workflow, Layout, Layers, Image, Palette, Box,
     Atom, Database, Cpu, Table, BarChart2, Wind, BoxSelect, Brush,
-    Globe, Zap, GitBranch, Github, Component, Type, Eye, Play, Shield, Search
+    Globe, Zap, GitBranch, Github, Component, Type, Eye, Play, Shield, Search,
+    Users, MousePointer2
 } from 'lucide-react';
 import { InteractiveGrid, NoiseOverlay, FloatingAssets } from './Home';
 import ReadMore from './ReadMore';
+import sketch1 from '../assets/sketch1.png';
+import sketch2 from '../assets/sketch2.png';
+import sketch3 from '../assets/sketch3.png';
 
 
 const About = ({ activeSectionIndex, onViewArtwork }) => {
@@ -96,17 +100,67 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                 <div style={styles.sectionContent}>
                     <h2 style={styles.sectionTitle} className="about-section-title">Introduction</h2>
                     <p style={styles.text}>
-                        A Product-focused Engineer with 1.5+ years of experience in designing and building scalable SaaS products.
+                        UX/Product Designer with 2 years of experience designing 0→1 enterprise SaaS products from user research to delivery.
                     </p>
                     <p style={styles.text}>
-                        I specialize in owning end-to-end product development (0→1) from user research and workflow design to robust implementation.
+                        Experienced in discovery, workflow design, information architecture, interaction design, and translating complex business problems into intuitive, data-driven experiences.
                     </p>
+
+                    {/* Designer Impact Stat Row */}
+                    <div style={styles.statsRow}>
+                        <div style={styles.statCard}>
+                            <div style={styles.statNumber}>2+</div>
+                            <div style={styles.statLabel}>Years Experience</div>
+                        </div>
+                        <div style={styles.statCard}>
+                            <div style={styles.statNumber}>0 → 1</div>
+                            <div style={styles.statLabel}>SaaS Product Systems</div>
+                        </div>
+                        <div style={styles.statCard}>
+                            <div style={styles.statNumber}>IIT Ropar</div>
+                            <div style={styles.statLabel}>B.Tech Alumni</div>
+                        </div>
+                    </div>
+
                     <div style={styles.socials}>
                         <p style={{ fontWeight: '700', marginBottom: '15px' }}>Let's Connect 😉</p>
                         <div style={styles.socialIcons}>
-                            <a href="https://www.instagram.com/chitrankar.r_70/" target="_blank" rel="noopener noreferrer" style={styles.socialLink}><Instagram size={20} /> Instagram</a>
-                            <a href="https://www.linkedin.com/in/chitrankar-r-ba7aa920a/" target="_blank" rel="noopener noreferrer" style={styles.socialLink}><Linkedin size={20} /> LinkedIn</a>
-                            <a href="https://github.com/neo7505" target="_blank" rel="noopener noreferrer" style={styles.socialLink}><Github size={20} /> GitHub</a>
+                            <a
+                                href="https://www.instagram.com/chitrankar.r_70/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={styles.socialLink}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    window.open('https://www.instagram.com/chitrankar.r_70/', '_blank', 'noopener,noreferrer');
+                                }}
+                            >
+                                <Instagram size={18} /> Instagram
+                            </a>
+                            <a
+                                href="https://www.linkedin.com/in/chitrankar-r-ba7aa920a/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={styles.socialLink}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    window.open('https://www.linkedin.com/in/chitrankar-r-ba7aa920a/', '_blank', 'noopener,noreferrer');
+                                }}
+                            >
+                                <Linkedin size={18} /> LinkedIn
+                            </a>
+                            <a
+                                href="https://github.com/neo7505"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={styles.socialLink}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    window.open('https://github.com/neo7505', '_blank', 'noopener,noreferrer');
+                                }}
+                            >
+                                <Github size={18} /> GitHub
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -174,33 +228,22 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                             <div style={styles.timelineContent}>
                                 <div style={styles.timelineHeader}>
                                     <h3 style={styles.itemTitle}>OctoDo Solutions Pvt. Ltd.</h3>
-                                    <span style={styles.datePill}>May 2024 – Present</span>
+                                    <span style={styles.datePill}>May 2024 – March 2026</span>
                                 </div>
-                                <p style={styles.degreeText}>Product Engineer (Frontend & Product Systems)</p>
+                                <p style={styles.degreeText}>Product Engineer (UX & Product Systems) (Intern → Full-time)</p>
                                 <ul style={styles.bulletList}>
-                                    <li>Led product discovery with stakeholders, conducting user research to identify inefficiencies in Excel-based workflows.</li>
-                                    <li>Designed end-to-end workflows, user journeys, and structured data models to transition distributed teams to scalable SaaS systems.</li>
-                                    <li>Owned UX/UI design and frontend implementation, rolling out intuitive data-entry interfaces and dashboard solutions.</li>
-                                    <li>Collaborated cross-functionally with backend developers to model system architecture and define API schemas.</li>
+                                    <li>Led stakeholder interviews and discovery workshops, translating workflow challenges into actionable product requirements.</li>
+                                    <li>Designed end-to-end user journeys, task flows, information architecture, and interaction models for complex enterprise workflows.</li>
+                                    <li>Created wireframes, high-fidelity interfaces, reusable design systems, and dashboard experiences for data-heavy SaaS products.</li>
+                                    <li>Validated and iterated designs through stakeholder feedback while leading UX design from discovery to production across multiple enterprise products.</li>
                                 </ul>
-                            </div>
-                        </div>
-
-                        <div style={styles.timelineItem}>
-                            <div style={styles.timelineIconWrapper} className="about-timeline-icon">
-                                <Briefcase size={28} />
-                            </div>
-                            <div style={styles.timelineContent}>
-                                <div style={styles.timelineHeader}>
-                                    <h3 style={styles.itemTitle}>OctoDo Solutions Pvt. Ltd.</h3>
-                                    <span style={styles.datePill}>Nov 2020 – July 2024</span>
+                                <div style={styles.roleTags}>
+                                    <span style={styles.roleTag}>User Discovery</span>
+                                    <span style={styles.roleTag}>Information Architecture</span>
+                                    <span style={styles.roleTag}>Task Flows</span>
+                                    <span style={styles.roleTag}>Wireframing</span>
+                                    <span style={styles.roleTag}>Design Systems</span>
                                 </div>
-                                <p style={styles.degreeText}>Frontend & Product Developer Intern</p>
-                                <ul style={styles.bulletList}>
-                                    <li>Built client websites using React, WordPress, and Shopify for Entech, Clean Carbon, Agrasen, and ASHRAE Region.</li>
-                                    <li>Designed and developed the company’s official website (UX, UI, frontend).</li>
-                                    <li>Implemented frontend modules for internal tools including D2O Management.</li>
-                                </ul>
                             </div>
                         </div>
 
@@ -215,9 +258,15 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                                 </div>
                                 <p style={styles.degreeText}>Cloud Developer Intern (Remote)</p>
                                 <ul style={styles.bulletList}>
-                                    <li>Deployed generative AI chatbot functionality on Microsoft Azure using OpenAI and Cognitive Search.</li>
-                                    <li>Built automated document extraction pipelines that optimized multi-file ingestion workflows.</li>
+                                    <li>Deployed a generative AI chatbot on Azure using OpenAI and Cognitive Search for document-based query resolution.</li>
+                                    <li>Built automated document extraction pipelines using Azure Form Recognizer, reducing manual processing effort.</li>
                                 </ul>
+                                <div style={styles.roleTags}>
+                                    <span style={styles.roleTag}>Generative AI</span>
+                                    <span style={styles.roleTag}>Azure OpenAI</span>
+                                    <span style={styles.roleTag}>Cognitive Search</span>
+                                    <span style={styles.roleTag}>Pipeline Design</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -238,11 +287,12 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                             skills={[
                                 { name: 'Product Discovery', icon: <Layout size={16} /> },
                                 { name: 'User Research', icon: <Search size={16} /> },
+                                { name: 'Discovery Workshops', icon: <Users size={16} /> },
                                 { name: 'Roadmapping & Strategy', icon: <GitBranch size={16} /> },
                                 { name: 'Prioritization (RICE)', icon: <Zap size={16} /> },
                                 { name: 'Workflow Design', icon: <Workflow size={16} /> },
                                 { name: 'Stakeholder Mgmt.', icon: <Layers size={16} /> },
-                                { name: 'Product Metrics', icon: <BarChart2 size={16} /> }
+                                { name: 'Data-Driven UX', icon: <BarChart2 size={16} /> }
                             ]}
                         />
 
@@ -252,17 +302,17 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                             isMobile={isMobile}
                             skills={[
                                 { name: 'Figma', icon: <Figma size={16} /> },
+                                { name: 'Interaction Design', icon: <MousePointer2 size={16} /> },
+                                { name: 'Wireframing', icon: <Layout size={16} /> },
+                                { name: 'High-Fidelity Prototyping', icon: <Workflow size={16} /> },
+                                { name: 'Information Architecture', icon: <Layers size={16} /> },
+                                { name: 'User Journeys & Task Flows', icon: <GitBranch size={16} /> },
                                 { name: 'Design Systems', icon: <Component size={16} /> },
-                                { name: 'Prototyping', icon: <Workflow size={16} /> },
                                 { name: 'UX Strategy', icon: <Layout size={16} /> },
-                                { name: 'User Research', icon: <Search size={16} /> },
-                                { name: 'Information Arch', icon: <Layers size={16} /> },
-                                { name: 'Typography', icon: <Type size={16} /> },
+                                { name: 'Dashboard Design', icon: <BarChart2 size={16} /> },
+                                { name: 'Typography & Layout', icon: <Type size={16} /> },
                                 { name: 'Accessibility', icon: <Eye size={16} /> },
-                                { name: 'Motion Design', icon: <Play size={16} /> },
-                                { name: 'Adobe Photoshop', icon: <Image size={16} /> },
-                                { name: 'Illustrator', icon: <Palette size={16} /> },
-                                { name: 'Blender 3D', icon: <Box size={16} /> }
+                                { name: 'Motion Design', icon: <Play size={16} /> }
                             ]}
                         />
 
@@ -280,27 +330,29 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                                 { name: 'Tailwind CSS', icon: <Wind size={16} /> },
                                 { name: 'Performance Opt.', icon: <Zap size={16} /> },
                                 { name: 'Version Control', icon: <Github size={16} /> },
-                                { name: 'CI/CD & Testing', icon: <Shield size={16} /> },
                                 { name: 'Responsive UI', icon: <BoxSelect size={16} /> }
                             ]}
                         />
                     </div>
 
-                    {/* Creative Artwork Card - De-emphasized & Refined */}
+                    {/* Creative Artwork Card - Artistic Stacked Gallery Preview */}
                     <motion.div
                         whileHover={{ scale: 1.02, y: -5 }}
                         style={styles.artCard}
                         className="about-art-card"
                     >
                         <div style={styles.artCardGlow}></div>
-                        <div style={styles.artCardDecoration}>
-                            <Brush size={100} style={styles.brushIcon} />
-                        </div>
                         <div style={styles.artCardContent} className="about-art-card-content">
+                            <div style={styles.sketchPreviewFan}>
+                                <img src={sketch1} alt="Sketch 1" style={{ ...styles.sketchMini, transform: 'rotate(-10deg) translateX(-15px)', zIndex: 1 }} />
+                                <img src={sketch2} alt="Sketch 2" style={{ ...styles.sketchMini, transform: 'rotate(0deg)', zIndex: 3 }} />
+                                <img src={sketch3} alt="Sketch 3" style={{ ...styles.sketchMini, transform: 'rotate(10deg) translateX(15px)', zIndex: 2 }} />
+                            </div>
+
                             <div style={styles.artCardLeft}>
-                                <div style={styles.artTag}>Fine Arts • Traditional Artist</div>
-                                <h3 style={styles.artCardTitle}>Hand-Drawn Pencil Art & Sketching</h3>
-                                <p style={styles.artCardDesc}>Exploring depth and texture through traditional mediums.</p>
+                                <div style={styles.artTag}>FINE ARTS • TRADITIONAL ARTIST</div>
+                                <h3 style={styles.artCardTitle}>Hand-Drawn Pencil Art & Portfolio</h3>
+                                <p style={styles.artCardDesc}>Hyper-realistic pencil sketches & fine arts exploration.</p>
                             </div>
                             <motion.button
                                 whileHover={{ x: 8 }}
@@ -389,21 +441,82 @@ const styles = {
         color: 'var(--text-secondary)',
         fontWeight: '500',
     },
+    statsRow: {
+        display: 'flex',
+        gap: '16px',
+        margin: '20px 0 10px 0',
+        flexWrap: 'wrap',
+    },
+    statCard: {
+        flex: 1,
+        minWidth: '140px',
+        backgroundColor: '#FFFFFF',
+        border: '1px solid rgba(0, 0, 0, 0.08)',
+        borderRadius: '16px',
+        padding: '16px 20px',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.03)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '4px',
+    },
+    statNumber: {
+        fontSize: '1.5rem',
+        fontWeight: '800',
+        color: '#111111',
+        fontFamily: "'Outfit', sans-serif",
+    },
+    statLabel: {
+        fontSize: '0.78rem',
+        color: '#666666',
+        fontWeight: '600',
+        textTransform: 'uppercase',
+        letterSpacing: '0.5px',
+    },
+    roleTags: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '8px',
+        marginTop: '12px',
+    },
+    roleTag: {
+        fontSize: '0.75rem',
+        fontWeight: '600',
+        backgroundColor: '#F3F4F6',
+        color: '#374151',
+        borderRadius: '6px',
+        padding: '4px 10px',
+        border: '1px solid #E5E7EB',
+    },
     socials: {
         marginTop: '28px',
+        position: 'relative',
+        zIndex: 20,
     },
     socialIcons: {
         display: 'flex',
-        gap: '24px',
+        gap: '12px',
+        flexWrap: 'wrap',
+        position: 'relative',
+        zIndex: 20,
     },
     socialLink: {
-        display: 'flex',
+        display: 'inline-flex',
         alignItems: 'center',
         gap: '8px',
-        color: 'var(--text-primary)',
+        color: '#111111',
+        backgroundColor: '#FFFFFF',
+        border: '1px solid rgba(0, 0, 0, 0.12)',
+        borderRadius: '12px',
+        padding: '10px 18px',
         textDecoration: 'none',
-        fontWeight: '600',
-        fontSize: '0.9rem',
+        fontWeight: '700',
+        fontSize: '0.85rem',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+        cursor: 'pointer',
+        pointerEvents: 'auto',
+        position: 'relative',
+        zIndex: 25,
+        transition: 'all 0.2s ease',
     },
     item: {
         marginBottom: '20px',
@@ -572,8 +685,27 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        gap: '40px',
+        gap: '24px',
         zIndex: 1,
+    },
+    sketchPreviewFan: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        height: '70px',
+        width: '100px',
+        minWidth: '100px',
+    },
+    sketchMini: {
+        position: 'absolute',
+        width: '60px',
+        height: '60px',
+        objectFit: 'cover',
+        borderRadius: '8px',
+        border: '2px solid rgba(255, 255, 255, 0.85)',
+        boxShadow: '0 6px 16px rgba(0, 0, 0, 0.4)',
+        transition: 'transform 0.3s ease',
     },
     artCardLeft: {
         display: 'flex',

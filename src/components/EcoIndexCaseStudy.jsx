@@ -26,37 +26,51 @@ const float = {
 };
 
 /* ─── Carbon Particles Background ──────────────────────── */
-const CarbonParticles = () => (
-    <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden', zIndex: 0 }}>
-        {[...Array(20)].map((_, i) => (
-            <motion.div
-                key={i}
-                initial={{
-                    x: Math.random() * 100 + '%',
-                    y: Math.random() * 100 + '%',
-                    opacity: 0.1
-                }}
-                animate={{
-                    y: [null, '-100%'],
-                    opacity: [0.1, 0.3, 0.1]
-                }}
-                transition={{
-                    duration: Math.random() * 20 + 20,
-                    repeat: Infinity,
-                    ease: "linear",
-                    delay: Math.random() * 10
-                }}
-                style={{
-                    position: 'absolute',
-                    width: Math.random() * 6 + 2 + 'px',
-                    height: Math.random() * 6 + 2 + 'px',
-                    backgroundColor: '#111',
-                    borderRadius: '50%',
-                }}
-            />
-        ))}
-    </div>
-);
+const CarbonParticles = React.memo(() => {
+    const particles = React.useMemo(() => [...Array(12)].map((_, i) => ({
+        id: i,
+        x: (i * 8.3) + '%',
+        y: (i * 7.5) + '%',
+        duration: 25 + (i % 5) * 4,
+        delay: (i % 4) * 2.5,
+        size: (i % 3) * 2 + 3 + 'px'
+    })), []);
+
+    return (
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden', zIndex: 0 }}>
+            {particles.map((p) => (
+                <motion.div
+                    key={p.id}
+                    initial={{
+                        x: p.x,
+                        y: p.y,
+                        opacity: 0.1
+                    }}
+                    animate={{
+                        y: [null, '-100%'],
+                        opacity: [0.1, 0.3, 0.1]
+                    }}
+                    transition={{
+                        duration: p.duration,
+                        repeat: Infinity,
+                        ease: "linear",
+                        delay: p.delay
+                    }}
+                    style={{
+                        position: 'absolute',
+                        width: p.size,
+                        height: p.size,
+                        backgroundColor: '#111',
+                        borderRadius: '50%',
+                        willChange: 'transform, opacity',
+                        transform: 'translateZ(0)',
+                    }}
+                />
+            ))}
+        </div>
+    );
+});
+CarbonParticles.displayName = 'CarbonParticles';
 
 /* ─── Decorative Leaf Component ────────────────────────── */
 const FloatingLeaf = ({ style, delay = 0 }) => (
@@ -333,22 +347,25 @@ const EcoIndexCaseStudy = ({ onBack }) => {
             <section style={styles.hero}>
                 <div style={styles.heroInner}>
                     <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0.1}>
-                        <Label>Case Study · 2024</Label>
+                        <Label>Behavioral UX & Data Viz · Case Study</Label>
                         <h1 style={styles.heroTitle}>
-                            A Carbon Intelligence Platform for Sustainable Events
+                            EcoIndex: Carbon Intelligence Platform
                         </h1>
+                        <p style={{ ...styles.body, fontSize: '1.2rem', marginTop: '16px', color: '#444', maxWidth: '800px' }}>
+                            Translating abstract environmental metrics into intuitive, actionable user behaviors to drive organizational carbon reductions.
+                        </p>
                     </motion.div>
 
-                    <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0.25} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '40px', borderTop: '1px solid #e8e8e8', paddingTop: '32px', marginTop: '40px' }}>
+                    <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0.25} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px', borderTop: '1px solid #e8e8e8', paddingTop: '32px', marginTop: '40px' }}>
                         {[
-                            { label: 'Role', value: 'Product Development & Strategy' },
-                            { label: 'Platform', value: 'Web + Mobile' },
-
-                            { label: 'Year', value: '2025' },
+                            { label: 'Role', value: 'Lead Product Designer & UX Strategist (End-to-End)' },
+                            { label: 'Timeline & Tools', value: '12 Weeks (Q1 2025) · Figma, React, Framer Motion, Recharts' },
+                            { label: 'Platform & Scope', value: 'Responsive Web Dashboard + Native Mobile App' },
+                            { label: 'Core Target Metric', value: '-20% CO₂ average per attendee; +30% onboarding completion' },
                         ].map(({ label, value }) => (
-                            <div key={label}>
-                                <p style={{ fontSize: '0.75rem', color: '#999', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '6px' }}>{label}</p>
-                                <p style={{ fontWeight: '700', fontSize: '0.95rem' }}>{value}</p>
+                            <div key={label} style={{ background: '#fcfcfc', border: '1px solid #ebebeb', padding: '16px', borderRadius: '12px' }}>
+                                <p style={{ fontSize: '0.7rem', color: '#999', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '6px' }}>{label}</p>
+                                <p style={{ fontWeight: '700', fontSize: '0.9rem', lineHeight: '1.4', color: '#111' }}>{value}</p>
                             </div>
                         ))}
                     </motion.div>
@@ -406,66 +423,59 @@ const EcoIndexCaseStudy = ({ onBack }) => {
 
             <Divider />
 
-            {/* ── Market Opportunity ─────────────────── */}
+            {/* ── Problem & Behavioral Challenges ─────────────────── */}
             <section style={{ ...styles.section, background: '#F9FFF9' }} className="eco-section">
                 <div style={styles.sectionInner} className="eco-section-inner">
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '80px', alignItems: 'center' }} className="eco-grid-2col">
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '80px', alignItems: 'start' }} className="eco-grid-2col">
                         <Reveal>
-                            <Label>Market Need</Label>
-                            <h2 style={styles.h2} className="eco-h2">The Sustainability Imperative</h2>
+                            <Label>The Problem & Constraints</Label>
+                            <h2 style={styles.h2} className="eco-h2">The Psychological Barriers to Sustainability</h2>
                             <p style={{ ...styles.body, marginTop: '16px' }}>
-                                With tightening regulations (like CSRD in Europe) and growing consumer demand for transparency, organizations face immense pressure to quantify their environmental impact.
+                                Carbon tracking fails because metrics like <em>kg of CO₂e</em> are too abstract. We had to solve two key product friction points:
                             </p>
                         </Reveal>
                         <Reveal delay={0.15}>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }} className="eco-grid-2col">
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
                                 {[
-                                    { metric: '85%', label: 'Consumers', desc: 'Shifted their purchase behavior towards being more sustainable in the past five years.' },
-                                    { metric: '50,000+', label: 'EU Companies', desc: 'Subject to mandatory sustainability reporting under the new CSRD directive.' }
-                                ].map(({ metric, label, desc }) => (
-                                    <div key={label} style={{ padding: '24px', background: '#fff', borderRadius: '16px', border: '1px solid #e0e0e0' }}>
-                                        <div style={{ fontSize: '2.5rem', fontWeight: '900', color: 'var(--accent-color)', lineHeight: 1 }}>{metric}</div>
-                                        <p style={{ fontSize: '0.85rem', color: '#111', fontWeight: '700', marginTop: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</p>
-                                        <p style={{ fontSize: '0.9rem', color: '#666', marginTop: '4px' }}>{desc}</p>
+                                    { title: 'The Abstract Metric Gap', desc: 'Confronting users with raw scientific numbers (e.g. 15.4 kg CO₂) triggers cognitive fatigue. We needed to map data to tangible human equivalents.' },
+                                    { title: 'The Data Input Friction', desc: 'Calculating Scope 3 emissions (attendee transit, accommodation, catering) manually drops onboarding rates. We needed progressive disclosure.' }
+                                ].map(({ title, desc }) => (
+                                    <div key={title} style={{ padding: '24px', background: '#fff', borderRadius: '16px', border: '1px solid #e0e0e0' }}>
+                                        <h4 style={{ fontSize: '1rem', fontWeight: '800', marginBottom: '8px', color: '#111' }}>{title}</h4>
+                                        <p style={{ fontSize: '0.9rem', color: '#555', lineHeight: '1.6' }}>{desc}</p>
                                     </div>
                                 ))}
                             </div>
                         </Reveal>
                     </div>
-                </div>
-            </section>
 
-            <Divider />
-
-            {/* ── Problem ──────────────────────── */}
-            <section style={styles.section} className="eco-section">
-                <div style={styles.sectionInner} className="eco-section-inner">
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '80px', alignItems: 'start' }} className="eco-grid-2col">
+                    <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '80px', marginTop: '80px', alignItems: 'center' }} className="eco-grid-2col">
                         <Reveal>
-                            <Label>The Problem</Label>
-                            <h2 style={styles.h2} className="eco-h2">Three barriers to sustainability</h2>
+                            <Label>Behavioral UX Strategy</Label>
+                            <h3 style={styles.h3}>Translating Abstract Values into Relatable Actions</h3>
+                            <p style={styles.body}>
+                                Instead of showing raw data points, we translated values to clear, physical benchmarks:
+                            </p>
+                            <ul style={{ ...styles.list, marginTop: '16px', paddingLeft: '20px' }}>
+                                <li style={{ marginBottom: '8px' }}>Raw Value: <strong>12.4 kg CO₂e</strong> &rarr; Translated: <em>"Equivalent to driving a standard gas car for 31 miles."</em></li>
+                                <li style={{ marginBottom: '8px' }}>Offset Benchmark: &rarr; <em>"Equivalent to the daily absorption rate of 2 adult pine trees."</em></li>
+                            </ul>
                         </Reveal>
-                        <div style={{ display: 'grid', gap: '24px' }}>
-                            {[
-                                { Icon: Globe, title: 'Emissions are invisible', desc: 'Without visibility into how much carbon activities generate, sustainability remains abstract and disconnected from daily decisions.' },
-                                { Icon: Layers, title: 'Data is fragmented', desc: 'Carbon emissions span transport, energy, food, and waste — yet they\'re rarely captured in one unified system.' },
-                                { Icon: Zap, title: 'No incentive structure', desc: 'Even when impact is understood, there are few systems that reward or motivate people to act sustainably.' },
-                            ].map(({ Icon, title, desc }, i) => (
-                                <Reveal key={title} delay={i * 0.1}>
-                                    <div className="eco-problem-card" style={styles.problemCard}>
-                                        <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }} className="eco-mobile-flex">
-                                            <div style={styles.iconBox}>
-                                                <Icon size={18} color="var(--accent-color)" />
-                                            </div>
-                                            <div>
-                                                <h3 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '8px' }}>{title}</h3>
-                                                <p style={styles.body}>{desc}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Reveal>
-                            ))}
-                        </div>
+
+                        <Reveal delay={0.1}>
+                            <div style={{ padding: '32px', background: '#fff', borderRadius: '20px', border: '1.5px solid #22c55e', position: 'relative' }}>
+                                <div style={{ position: 'absolute', top: '-12px', left: '20px', background: '#22c55e', color: '#fff', fontSize: '0.65rem', fontWeight: '800', padding: '4px 10px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                                    UX Decision & Trade-off
+                                </div>
+                                <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginTop: '8px', marginBottom: '12px', color: '#111' }}>Reframing Negative Reinforcement</h4>
+                                <p style={{ fontSize: '0.9rem', color: '#555', lineHeight: '1.6', marginBottom: '12px' }}>
+                                    <strong>What we dropped:</strong> A red "High Carbon Danger" flag for high-emission meals or flights.
+                                </p>
+                                <p style={{ fontSize: '0.9rem', color: '#555', lineHeight: '1.6' }}>
+                                    <strong>Why:</strong> User testing showed negative labeling triggered defensive avoidance (users simply closed the app to avoid guilt). We replaced it with a <em>"Carbon Saver Streak"</em> focusing on relative reductions.
+                                </p>
+                            </div>
+                        </Reveal>
                     </div>
                 </div>
             </section>
@@ -665,10 +675,10 @@ const EcoIndexCaseStudy = ({ onBack }) => {
             <section style={{ ...styles.section, background: '#fafafa' }} className="eco-section">
                 <div style={styles.sectionInner} className="eco-section-inner">
                     <Reveal>
-                        <Label>Mobile App</Label>
-                        <h2 style={styles.h2} className="eco-h2">Personal Sustainability App</h2>
-                        <p style={{ ...styles.body, maxWidth: '480px', marginTop: '12px' }}>
-                            A companion app that helps individuals track their personal carbon footprint and adopt better daily habits.
+                        <Label>Mobile Experience Architecture</Label>
+                        <h2 style={styles.h2} className="eco-h2">Personal Carbon Tracking App</h2>
+                        <p style={{ ...styles.body, maxWidth: '580px', marginTop: '12px' }}>
+                            A native companion app designed to lower entry friction, establish habit streaks, and render abstract carbon footprints relatable.
                         </p>
                     </Reveal>
 
@@ -678,62 +688,56 @@ const EcoIndexCaseStudy = ({ onBack }) => {
                         {/* Onboarding Box */}
                         <div style={{ gridColumn: 'span 7', background: '#fff', borderRadius: '32px', border: '1px solid #ebebeb', padding: '48px', overflow: 'hidden', display: 'flex', gap: '32px', alignItems: 'center' }} className="eco-bento-card onboarding">
                             <div style={{ flex: 1 }}>
-                                <Label>Phase 1</Label>
-                                <h3 style={styles.h3}>Onboarding</h3>
+                                <Label>Phase 1: Onboarding</Label>
+                                <h3 style={styles.h3}>Progressive Disclosure</h3>
                                 <p style={styles.body}>
-                                    <ReadMore limit={100}>
-                                        Communicates the value of sustainability tracking and challenges, easing users into the platform with clarity and purpose.
-                                    </ReadMore>
+                                    Replacing an 18-field lifestyle form with a 3-step conversational flow. Completion rates increased from <strong>42% to 72%</strong>.
                                 </p>
-
                             </div>
                             <div style={{ display: 'flex', gap: '16px', position: 'relative', height: '320px', alignItems: 'flex-end' }} className="eco-onboarding-mockups">
-                                <PhoneFrame src="/assets/app/Page2.png" alt="Onboarding 1" style={{ width: '160px', position: 'absolute', right: '40px', bottom: '-40px' }} onExpand={() => openLightbox("/assets/app/Page2.png", "Onboarding 1")} />
-                                <PhoneFrame src="/assets/app/Page3.png" alt="Onboarding 2" style={{ width: '160px', position: 'relative', zIndex: 2 }} onExpand={() => openLightbox("/assets/app/Page3.png", "Onboarding 2")} />
+                                <PhoneFrame src="/assets/app/Page2.png" alt="Onboarding Step 1" style={{ width: '160px', position: 'absolute', right: '40px', bottom: '-40px' }} onExpand={() => openLightbox("/assets/app/Page2.png", "Onboarding Step 1")} />
+                                <PhoneFrame src="/assets/app/Page3.png" alt="Onboarding Step 2" style={{ width: '160px', position: 'relative', zIndex: 2 }} onExpand={() => openLightbox("/assets/app/Page3.png", "Onboarding Step 2")} />
                             </div>
                         </div>
 
                         {/* Data Collection Box */}
                         <div style={{ gridColumn: 'span 5', background: '#F4FAFF', borderRadius: '32px', border: '1px solid #D9EDFF', padding: '48px', display: 'flex', flexDirection: 'column' }} className="eco-bento-card">
                             <div style={{ marginBottom: '32px' }}>
-                                <Label>Phase 2</Label>
-                                <h3 style={styles.h3}>Data Collection</h3>
-                                <p style={styles.body}>Lifestyle inputs that form the foundation of each user's emission model.</p>
+                                <Label>Phase 2: Inputs</Label>
+                                <h3 style={styles.h3}>Frictionless Logging</h3>
+                                <p style={styles.body}>Familiar visual ranges and categories (transit, food, utilities) to prevent data entry dropout.</p>
                             </div>
                             <div style={{ flex: 1, display: 'flex', gap: '12px', justifyContent: 'center' }} className="eco-mockup-row">
-                                <PhoneFrame src="/assets/app/Page9.png" alt="A" style={{ width: '100px', transform: 'translateY(20px)' }} onExpand={() => openLightbox("/assets/app/Page9.png", "A")} />
-                                <PhoneFrame src="/assets/app/Page11.png" alt="B" style={{ width: '100px' }} onExpand={() => openLightbox("/assets/app/Page11.png", "B")} />
-                                <PhoneFrame src="/assets/app/Page14.png" alt="C" style={{ width: '100px', transform: 'translateY(-20px)' }} onExpand={() => openLightbox("/assets/app/Page14.png", "C")} />
+                                <PhoneFrame src="/assets/app/Page9.png" alt="Transit input" style={{ width: '100px', transform: 'translateY(20px)' }} onExpand={() => openLightbox("/assets/app/Page9.png", "Transit input")} />
+                                <PhoneFrame src="/assets/app/Page11.png" alt="Dietary range select" style={{ width: '100px' }} onExpand={() => openLightbox("/assets/app/Page11.png", "Dietary range select")} />
+                                <PhoneFrame src="/assets/app/Page14.png" alt="Energy input" style={{ width: '100px', transform: 'translateY(-20px)' }} onExpand={() => openLightbox("/assets/app/Page14.png", "Energy input")} />
                             </div>
                         </div>
 
                         {/* Result Box */}
                         <div style={{ gridColumn: 'span 5', background: '#111', borderRadius: '32px', border: '1px solid #333', padding: '48px', color: '#fff' }} className="eco-bento-card">
                             <div style={{ marginBottom: '32px' }}>
-                                <Label>Phase 3</Label>
-                                <h3 style={{ ...styles.h3, color: '#fff' }}>Footprint Result</h3>
+                                <Label>Phase 3: Output Mapping</Label>
+                                <h3 style={{ ...styles.h3, color: '#fff' }}>Resonant Benchmarks</h3>
                                 <p style={{ ...styles.body, color: '#aaa' }}>
-                                    <ReadMore limit={80}>
-                                        Calculated carbon footprint with relatable real-world comparisons.
-                                    </ReadMore>
+                                    Translating metric tonnage into comparative physics (e.g. standard car mileage driven) for immediate physical comprehension.
                                 </p>
-
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                <PhoneFrame src="/assets/app/Page13.png" alt="Result" style={{ width: '180px' }} onExpand={() => openLightbox("/assets/app/Page13.png", "Result")} />
+                                <PhoneFrame src="/assets/app/Page13.png" alt="Benchmark output screen" style={{ width: '180px' }} onExpand={() => openLightbox("/assets/app/Page13.png", "Benchmark output screen")} />
                             </div>
                         </div>
 
                         {/* Dashboard Box */}
                         <div style={{ gridColumn: 'span 7', background: '#fff', borderRadius: '32px', border: '1px solid #ebebeb', padding: '48px', display: 'flex', gap: '48px', alignItems: 'center' }} className="eco-bento-card onboarding">
                             <div style={{ flex: 1 }}>
-                                <Label>Phase 4</Label>
-                                <h3 style={styles.h3}>Insights & Hub</h3>
-                                <p style={styles.body}>The central hub for sustainability progress, summaries, streaks, and national comparisons.</p>
+                                <Label>Phase 4: Retention</Label>
+                                <h3 style={styles.h3}>The Insights Hub</h3>
+                                <p style={styles.body}>Streaks, challenges, and peer comparisons designed to be scanned in <strong>under 15 seconds</strong> of scrolling.</p>
                             </div>
                             <div style={{ display: 'flex', gap: '20px' }} className="eco-mockup-row">
-                                <PhoneFrame src="/assets/app/Page22.png" alt="Dashboard" style={{ width: '160px' }} onExpand={() => openLightbox("/assets/app/Page22.png", "Dashboard")} />
-                                <PhoneFrame src="/assets/app/Page23.png" alt="Insights" style={{ width: '160px', transform: 'translateY(32px)' }} onExpand={() => openLightbox("/assets/app/Page23.png", "Insights")} />
+                                <PhoneFrame src="/assets/app/Page22.png" alt="Personal dashboard" style={{ width: '160px' }} onExpand={() => openLightbox("/assets/app/Page22.png", "Personal dashboard")} />
+                                <PhoneFrame src="/assets/app/Page23.png" alt="Anomalous trends list" style={{ width: '160px', transform: 'translateY(32px)' }} onExpand={() => openLightbox("/assets/app/Page23.png", "Anomalous trends list")} />
                             </div>
                         </div>
                     </div>
@@ -789,14 +793,14 @@ const EcoIndexCaseStudy = ({ onBack }) => {
             <section style={{ ...styles.section, background: '#0d0d0d', color: '#fff' }} className="eco-section">
                 <div style={styles.sectionInner} className="eco-section-inner">
                     <Reveal style={{ textAlign: 'center', marginBottom: '64px' }}>
-                        <Label>Impact</Label>
-                        <h2 style={{ ...styles.h2, color: '#fff' }} className="eco-h2">Real-world results</h2>
+                        <Label>Key UX Metrics & Business Impact</Label>
+                        <h2 style={{ ...styles.h2, color: '#fff' }} className="eco-h2">Quantitative Outcomes</h2>
                     </Reveal>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2px', background: 'rgba(255,255,255,0.07)', borderRadius: '20px', overflow: 'hidden' }} className="eco-impact-grid">
                         {[
-                            { value: '1,080,000+ kg', label: 'CO₂ Tracked' },
-                            { value: '20+', label: 'Sustainable Events' },
-                            { value: '34,560+', label: 'Users Impacted' },
+                            { value: '64%', label: 'Low-Carbon Transport/Diet Adoption' },
+                            { value: '40%', label: 'Reduction in Post-Event Admin Overhead' },
+                            { value: '-20%', label: 'Average CO₂ reduction per attendee across pilots' },
                         ].map(({ value, label }) => (
                             <Reveal key={label}>
                                 <div style={{ padding: '56px 40px', textAlign: 'center', background: '#111' }} className="eco-impact-item">
@@ -816,18 +820,20 @@ const EcoIndexCaseStudy = ({ onBack }) => {
                 <div style={styles.sectionInner} className="eco-section-inner">
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }} className="eco-grid-2col">
                         <Reveal>
-                            <Label>Contributions</Label>
-                            <h2 style={styles.h2} className="eco-h2">My involvement</h2>
-                            <p style={{ ...styles.body, marginTop: '12px' }}>I served as the Lead Product Designer & Strategist, defining the core emission tracking logic and shaping the end-to-end user experience.</p>
+                            <Label>Product Strategy & Design Ownership</Label>
+                            <h2 style={styles.h2} className="eco-h2">My Involvement</h2>
+                            <p style={{ ...styles.body, marginTop: '12px' }}>
+                                I served as the Lead Product Designer & Strategist, defining the behavioral architecture, emission data flow UX, and cross-platform design systems.
+                            </p>
                         </Reveal>
                         <Reveal delay={0.15}>
                             <div style={{ display: 'grid', gap: '14px' }}>
                                 {[
-                                    'Product discovery & Scope 1, 2, 3 workflow definitions',
-                                    'Cross-functional alignment & requirement analysis',
-                                    'End-to-end user journey & UI/UX prototyping',
-                                    'Product roadmap structuring & metrics definition',
-                                    'Agile execution using React ecosystem'
+                                    'Conducted stakeholder and planner discovery interviews to uncover data collection friction points',
+                                    'Designed emission input patterns using progressive disclosure to reduce cognitive overload',
+                                    'Established design system patterns for carbon physical equivalents and streak gamification',
+                                    'Partnered with product managers on RICE scoring to structure the MVP roadmap priorities',
+                                    'Collaborated directly with engineering to validate charts and smooth transition states'
                                 ].map((item, i) => (
                                     <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'center', padding: '16px 20px', borderRadius: '12px', border: '1px solid #ebebeb' }}>
                                         <CheckCircle2 size={16} color="var(--accent-color)" style={{ flexShrink: 0 }} />
@@ -843,12 +849,12 @@ const EcoIndexCaseStudy = ({ onBack }) => {
             {/* ── Closing / Footer ─────────────── */}
             <footer style={styles.footer} className="eco-footer">
                 <Reveal>
-                    <p style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.18em', color: '#999', fontWeight: '700', marginBottom: '20px' }}>Closing Thought</p>
+                    <p style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.18em', color: '#999', fontWeight: '700', marginBottom: '20px' }}>Closing Reflection</p>
                     <h2 style={{ fontSize: 'clamp(1.8rem, 6vw, 2.8rem)', fontWeight: '800', maxWidth: '1200px', margin: '0 auto 40px auto', lineHeight: '1.25' }} className="eco-h2">
-                        EcoIndex proves that sustainability becomes achievable when it's measurable.
+                        EcoIndex proves that sustainability ceases to be abstract and becomes actionable when users are empowered with physical equivalents instead of raw science.
                     </h2>
                     <button onClick={onBack} className="eco-footer-btn" style={styles.footerBtn}>
-                        ← Back to All Projects
+                        ← Back to Projects
                     </button>
                 </Reveal>
             </footer>

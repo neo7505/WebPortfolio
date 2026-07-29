@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Download, Github, Linkedin, Instagram } from 'lucide-react';
 import { PAGES } from '../constants/navigation';
-import resumePDF from '../assets/Chitrankar_UXfocused.pdf';
+import resumePDF from '../assets/Chitrankar_Designer.pdf';
 
 const MobileMenu = ({ isOpen, onClose, activePageIndex, onPageClick }) => {
   return (

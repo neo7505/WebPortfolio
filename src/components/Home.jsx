@@ -3,8 +3,9 @@ import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from
 import { MousePointer2, PenTool, Zap, Sparkles } from 'lucide-react';
 import { FLOWER_IMAGES } from '../constants/flower-images';
 import { SketchUnderline, SketchCircle } from './HandDrawnAccents';
-// import Photo from "../assets/Group 5.png";
 import Photo from "../assets/PhotoNo.png";
+
+const NOISE_SVG = `data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E`;
 
 export const MovingBlobs = () => {
     return (
@@ -22,19 +23,20 @@ export const MovingBlobs = () => {
     );
 };
 
-// Noise Overlay Component
-export const NoiseOverlay = () => (
-    <div style={styles.noiseOverlay}></div>
-);
+// Noise Overlay Component - Static, lightweight, zero repaint overhead
+export const NoiseOverlay = memo(() => (
+    <div style={styles.noiseOverlay} />
+));
+NoiseOverlay.displayName = 'NoiseOverlay';
 
 // Floating Creative Assets
-export const FloatingAssets = () => {
-    const assets = [
+export const FloatingAssets = memo(() => {
+    const assets = useMemo(() => [
         { Icon: MousePointer2, size: 40, top: '15%', left: '10%', delay: 0 },
         { Icon: PenTool, size: 40, top: '25%', left: '85%', delay: 1 },
         { Icon: Zap, size: 32, top: '70%', left: '15%', delay: 0.5 },
         { Icon: Sparkles, size: 28, top: '65%', left: '80%', delay: 1.5 },
-    ];
+    ], []);
 
     return (
         <div style={styles.floatingContainer}>
@@ -57,6 +59,7 @@ export const FloatingAssets = () => {
                         left: asset.left,
                         opacity: 0.1,
                         color: 'var(--text-primary)',
+                        willChange: 'transform',
                     }}
                 >
                     <asset.Icon size={asset.size} />
@@ -64,54 +67,74 @@ export const FloatingAssets = () => {
             ))}
         </div>
     );
-};
+});
+FloatingAssets.displayName = 'FloatingAssets';
 
 // Split Text Component for Premium Title
-const SplitText = ({ text }) => {
+const SplitText = memo(({ text, style }) => {
     return (
-        <span style={{ display: 'inline-block' }}>
+        <span style={{ display: 'inline-block', ...style }}>
             {text.split('').map((char, i) => (char === ' ' ? (
                 <span key={i} style={{ display: 'inline-block', width: '0.25em' }}> </span>
             ) : (
                 <motion.span
                     key={i}
-                    initial={{ opacity: 0, y: 30, scale: 0.8 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{
-                        duration: 0.8,
-                        delay: i * 0.04,
+                        duration: 0.5,
+                        delay: i * 0.03,
                         ease: [0.22, 1, 0.36, 1]
                     }}
-                    style={{ display: 'inline-block' }}
+                    style={{
+                        display: 'inline-block',
+                        willChange: 'opacity, transform',
+                        color: 'inherit',
+                        WebkitTextFillColor: 'inherit',
+                    }}
                 >
                     {char}
                 </motion.span>
             )))}
         </span>
     );
-};
+});
+SplitText.displayName = 'SplitText';
 
-// Cursor Glow Component
-const CursorGlow = () => {
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
+// Throttled Cursor Glow Component using RequestAnimationFrame
+const CursorGlow = memo(() => {
+    const glowRef = React.useRef(null);
 
     useEffect(() => {
-        const handleMouseMove = (e) => {
-            mouseX.set(e.clientX);
-            mouseY.set(e.clientY);
-        };
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, [mouseX, mouseY]);
+        let rafId = null;
+        let lastX = 0;
+        let lastY = 0;
 
-    const background = useTransform(
-        [mouseX, mouseY],
-        ([x, y]) => `radial-gradient(600px circle at ${x}px ${y}px, rgba(51, 68, 221, 0.07), transparent 80%)`
-    );
+        const updatePosition = () => {
+            if (glowRef.current) {
+                glowRef.current.style.background = `radial-gradient(600px circle at ${lastX}px ${lastY}px, rgba(51, 68, 221, 0.07), transparent 80%)`;
+            }
+            rafId = null;
+        };
+
+        const handleMouseMove = (e) => {
+            lastX = e.clientX;
+            lastY = e.clientY;
+            if (!rafId) {
+                rafId = requestAnimationFrame(updatePosition);
+            }
+        };
+
+        window.addEventListener('mousemove', handleMouseMove, { passive: true });
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            if (rafId) cancelAnimationFrame(rafId);
+        };
+    }, []);
 
     return (
-        <motion.div
+        <div
+            ref={glowRef}
             style={{
                 position: 'fixed',
                 top: 0,
@@ -120,56 +143,44 @@ const CursorGlow = () => {
                 height: '100vh',
                 pointerEvents: 'none',
                 zIndex: -1,
-                background: background
+                transform: 'translateZ(0)',
+                willChange: 'background',
             }}
         />
     );
-};
+});
+CursorGlow.displayName = 'CursorGlow';
 
-// Inline CSS for the hover effect and noise
+// Inline CSS for the hover effect
 const injectStyles = () => {
     if (document.getElementById('home-custom-styles')) return;
     const style = document.createElement('style');
     style.id = 'home-custom-styles';
     style.innerHTML = `
         .grid-cell {
-            transition: border-color 0.6s ease, box-shadow 0.3s ease;
+            transition: border-color 0.4s ease, box-shadow 0.3s ease;
             position: relative;
             overflow: hidden;
         }
         .grid-cell:hover {
             border-color: rgba(51, 68, 221, 0.4) !important;
-            transition: border-color 0s !important;
             z-index: 10;
             box-shadow: 0 0 15px rgba(51, 68, 221, 0.2);
-            will-change: transform;
         }
         @keyframes blob1-anim {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(40px, -30px) rotate(120deg); }
-            66% { transform: translate(-20px, 20px) rotate(240deg); }
+            0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+            33% { transform: translate3d(40px, -30px, 0) rotate(120deg); }
+            66% { transform: translate3d(-20px, 20px, 0) rotate(240deg); }
         }
         @keyframes blob2-anim {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(-50px, 40px) rotate(-120deg); }
-            66% { transform: translate(30px, -40px) rotate(-240deg); }
+            0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+            33% { transform: translate3d(-50px, 40px, 0) rotate(-120deg); }
+            66% { transform: translate3d(30px, -40px, 0) rotate(-240deg); }
         }
         @keyframes blob3-anim {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, 20px) rotate(60deg); }
-            66% { transform: translate(-40px, 50px) rotate(120deg); }
-        }
-        @keyframes noise {
-            0%, 100% { transform: translate(0, 0) }
-            10% { transform: translate(-5%, -10%) }
-            20% { transform: translate(-15%, 5%) }
-            30% { transform: translate(7%, -25%) }
-            40% { transform: translate(-5%, 25%) }
-            50% { transform: translate(-15%, 10%) }
-            60% { transform: translate(15%, 0) }
-            70% { transform: translate(0, 15%) }
-            80% { transform: translate(3%, 35%) }
-            90% { transform: translate(-10%, 10%) }
+            0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+            33% { transform: translate3d(30px, 20px, 0) rotate(60deg); }
+            66% { transform: translate3d(-40px, 50px, 0) rotate(120deg); }
         }
         @media (max-width: 768px) {
             .home-title { font-size: 32px !important; }
@@ -188,30 +199,13 @@ const injectStyles = () => {
     document.head.appendChild(style);
 };
 
-const GridCell = memo(({ initialOpen = false }) => {
+const GridCell = memo(({ autoReveal = false }) => {
     const [isHovered, setIsHovered] = useState(false);
-    const [autoReveal, setAutoReveal] = useState(false);
     const flowerImage = useMemo(() =>
         FLOWER_IMAGES[Math.floor(Math.random() * FLOWER_IMAGES.length)],
         []);
 
-    useEffect(() => {
-        // Only run auto-reveal logic on mobile
-        if (window.innerWidth >= 768) return;
-
-        const triggerAutoReveal = () => {
-            // Randomly decide whether to reveal
-            if (Math.random() > 0.97) { // 3% chance per pulse
-                setAutoReveal(true);
-                setTimeout(() => setAutoReveal(false), 2000 + Math.random() * 3000); // Stay open for 2-5s
-            }
-        };
-
-        const interval = setInterval(triggerAutoReveal, 4000 + Math.random() * 2000);
-        return () => clearInterval(interval);
-    }, []);
-
-    const isOpen = isHovered || autoReveal || initialOpen;
+    const isOpen = isHovered || autoReveal;
 
     return (
         <div
@@ -220,44 +214,53 @@ const GridCell = memo(({ initialOpen = false }) => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.img
-                        src={flowerImage}
-                        initial={initialOpen ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.8 }}
-                        transition={{
-                            duration: 0.8,
-                            ease: [0.22, 1, 0.36, 1]
-                        }}
-                        style={{
-                            ...styles.flowerImg,
-                            willChange: 'opacity, scale'
-                        }}
-                    />
-                )}
-            </AnimatePresence>
+            {isOpen && (
+                <img
+                    src={flowerImage}
+                    alt=""
+                    loading="lazy"
+                    style={{
+                        ...styles.flowerImg,
+                        opacity: isOpen ? 1 : 0,
+                        transform: isOpen ? 'scale(1)' : 'scale(0.85)',
+                        transition: 'opacity 0.4s ease, transform 0.4s ease',
+                    }}
+                />
+            )}
         </div>
     );
 });
+GridCell.displayName = 'GridCell';
 
 export const InteractiveGrid = memo(() => {
+    const [activeCellIndex, setActiveCellIndex] = useState(-1);
+
     useEffect(() => {
         injectStyles();
+
+        // Single global timer for mobile/desktop auto-reveal instead of 400 individual intervals!
+        const timer = setInterval(() => {
+            if (Math.random() > 0.4) {
+                const randomIdx = Math.floor(Math.random() * 400);
+                setActiveCellIndex(randomIdx);
+                setTimeout(() => setActiveCellIndex(-1), 2500);
+            }
+        }, 4000);
+
+        return () => clearInterval(timer);
     }, []);
 
     const cells = useMemo(() => Array.from({ length: 400 }), []);
-    const initialOpenIndex = useMemo(() => Math.floor(Math.random() * 80) + 40, []);
 
     return (
         <div style={styles.gridContainer} className="home-grid-container">
             {cells.map((_, i) => (
-                <GridCell key={i} initialOpen={i === initialOpenIndex} />
+                <GridCell key={i} autoReveal={i === activeCellIndex} />
             ))}
         </div>
     );
 });
+InteractiveGrid.displayName = 'InteractiveGrid';
 
 const Home = () => {
     const mouseX = useMotionValue(0);
@@ -296,12 +299,28 @@ const Home = () => {
 
             <div style={styles.content}>
                 <motion.div style={{ x: textBaseX, y: textBaseY }}>
+                    {/* Live Status Badge */}
+                    <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 0.6 }}
+                        style={styles.statusBadge}
+                    >
+                        <span style={styles.statusDot}></span>
+                        <span>AVAILABLE FOR UX & PRODUCT ROLES</span>
+                    </motion.div>
+
                     <h1 style={styles.title} className="home-title">
                         <SplitText text="I'm " />
-                        <span style={{ ...styles.gradientText, position: 'relative' }}>
-                            <SplitText text="Chitrankar" />
+                        <motion.span
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            style={{ ...styles.gradientText, position: 'relative' }}
+                        >
+                            Chitrankar
                             <SketchCircle delay={1.2} />
-                        </span>
+                        </motion.span>
                         <SplitText text=", A " />
 
                         <span style={styles.italicAccent}>
@@ -316,13 +335,25 @@ const Home = () => {
                         style={styles.subtitle}
                         className="home-subtitle"
                     >
-                        <span>Blending user research, workflow optimization, and technical execution.</span>
+                        <span>UX/Product Designer with 2+ years of experience crafting enterprise SaaS from <strong>0 → 1</strong>.</span>
                         <br />
-                        I design and build scalable SaaS products from {" "}
-                        <span style={styles.subtitleHighlight}>
-                            0 to 1.
+                        <span style={styles.subtitleSubtext}>
+                            Translating complex workflow challenges into intuitive, data-driven user experiences.
                         </span>
                     </motion.p>
+
+                    {/* Designer Specialty Tags */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.2, duration: 0.6 }}
+                        style={styles.specialtyContainer}
+                    >
+                        <span style={styles.specialtyTag}>🎨 UX & Interaction Design</span>
+                        <span style={styles.specialtyTag}>⚡ 0 → 1 Enterprise SaaS</span>
+                        <span style={styles.specialtyTag}>📊 Information Architecture</span>
+                        <span style={styles.specialtyTag}>📐 Design Systems</span>
+                    </motion.div>
                 </motion.div>
 
                 <motion.div
@@ -370,6 +401,69 @@ const styles = {
         maxWidth: '900px',
         position: 'relative',
         zIndex: 1,
+    },
+    statusBadge: {
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '8px',
+        backgroundColor: 'rgba(255, 255, 255, 0.75)',
+        backdropFilter: 'blur(12px)',
+        border: '1px solid rgba(0, 0, 0, 0.08)',
+        borderRadius: '20px',
+        padding: '6px 16px',
+        marginBottom: '24px',
+        fontSize: '0.75rem',
+        fontWeight: '700',
+        letterSpacing: '1.2px',
+        color: '#1A1A1A',
+        boxShadow: '0 4px 15px rgba(0, 0, 0, 0.04)',
+    },
+    statusDot: {
+        width: '8px',
+        height: '8px',
+        borderRadius: '50%',
+        backgroundColor: '#10B981',
+        boxShadow: '0 0 10px #10B981',
+    },
+    specialtyContainer: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        gap: '10px',
+        marginBottom: '40px',
+    },
+    specialtyTag: {
+        fontSize: '0.82rem',
+        fontWeight: '600',
+        padding: '6px 14px',
+        borderRadius: '30px',
+        backgroundColor: '#FFFFFF',
+        color: '#222222',
+        border: '1px solid rgba(0, 0, 0, 0.06)',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.03)',
+        transition: 'transform 0.2s ease, boxShadow 0.2s ease',
+    },
+    subtitleSubtext: {
+        fontSize: '1rem',
+        color: '#666666',
+        fontWeight: '400',
+    },
+    floatingChip: {
+        position: 'absolute',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        backdropFilter: 'blur(8px)',
+        border: '1px solid rgba(0, 0, 0, 0.08)',
+        borderRadius: '14px',
+        padding: '8px 14px',
+        fontSize: '0.78rem',
+        fontWeight: '700',
+        color: '#111111',
+        boxShadow: '0 8px 20px rgba(0,0,0,0.06)',
+        zIndex: 10,
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '6px',
     },
     title: {
         fontSize: '48px',
@@ -448,15 +542,15 @@ const styles = {
     },
     noiseOverlay: {
         position: 'fixed',
-        top: '-100%',
-        left: '-100%',
-        width: '300%',
-        height: '300%',
-        backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")`,
-        opacity: 0.05,
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        backgroundImage: `url("${NOISE_SVG}")`,
+        opacity: 0.04,
         pointerEvents: 'none',
         zIndex: 50,
-        animation: 'noise 8s steps(10) infinite',
+        transform: 'translateZ(0)',
     },
     floatingContainer: {
         position: 'absolute',

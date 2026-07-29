@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { PAGES } from '../constants/navigation';
 import { Download, Menu } from 'lucide-react';
-import resumePDF from '../assets/Chitrankar_Immediate_Joiner.pdf';
+import resumePDF from '../assets/Chitrankar_Designer.pdf';
 
 
 const DOT_POSITIONS = [59, 72, 84, 100];
