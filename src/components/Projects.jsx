@@ -1,447 +1,1498 @@
-import { useRef, useEffect, useState, useMemo, memo } from 'react';
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import React, { useRef, useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { NoiseOverlay, InteractiveGrid, FloatingAssets } from './Home';
+import { 
+  FolderGit2, 
+  Palette, 
+  Sparkles, 
+  FileText, 
+  ExternalLink, 
+  ArrowRight, 
+  ZoomIn, 
+  Maximize2, 
+  Download, 
+  Play, 
+  X, 
+  Compass, 
+  Layers 
+} from 'lucide-react';
+
+const FigmaIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38H19V28.5Z" fill="#1ABCFE"/>
+    <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
+    <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 38 0 28.5 0H19Z" fill="#FF7262"/>
+    <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
+    <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
+  </svg>
+);
 
 const MockupCollage = ({ images, type = 'phone', themeColor, isHovered }) => {
-    if (type === 'phone') {
-        return (
-            <div style={styles.collageContainer}>
-                {images.map((img, index) => (
-                    <motion.div
-                        key={index}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{
-                            opacity: 1,
-                            scale: 1,
-                            rotate: isHovered
-                                ? (index === 0 ? -22 : index === 1 ? 22 : 0)
-                                : (index === 0 ? -8 : index === 1 ? 8 : 0),
-                            x: isHovered
-                                ? (index === 0 ? -80 : index === 1 ? 80 : 0)
-                                : 0,
-                            y: isHovered
-                                ? (index === 2 ? -30 : 40)
-                                : (index === 2 ? 0 : 20),
-                            zIndex: index === 2 ? 3 : index === 1 ? 2 : 1,
-                        }}
-                        transition={{
-                            type: 'spring',
-                            stiffness: 100,
-                            damping: 15,
-                            delay: index === 0 ? 0 : index === 1 ? 0 : 0 // Smooth synced spread
-                        }}
-                        style={{
-                            ...styles.phoneFrame,
-                            position: index === 0 ? 'relative' : 'absolute',
-                            borderColor: isHovered ? `${themeColor}AA` : `${themeColor}${index === 2 ? '88' : '22'}`,
-                            boxShadow: isHovered
-                                ? `0 40px 80px rgba(0,0,0,0.6), 0 0 20px ${themeColor}22`
-                                : '0 30px 60px rgba(0,0,0,0.5)',
-                        }}
-                    >
-                        <div style={styles.phoneScreen}>
-                            <img src={img} alt="Preview" style={styles.phoneImg} />
-                        </div>
-                    </motion.div>
-                ))}
-            </div>
-        );
-    }
-
+  if (type === 'phone') {
     return (
-        <div style={styles.collageContainer}>
-            {images.map((img, index) => (
-                <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{
-                        opacity: 1,
-                        y: isHovered ? (index * 60 - 20) : (index * 40),
-                        x: isHovered ? (index * -40) : (index * -30),
-                        rotate: isHovered ? (index * -4) : 0,
-                        scale: isHovered ? 1.05 : 1,
-                        zIndex: index === 0 ? 3 : 2
-                    }}
-                    transition={{ type: 'spring', stiffness: 100, damping: 15 }}
-                    style={{
-                        ...styles.imgWrapper,
-                        position: index === 0 ? 'relative' : 'absolute',
-                        borderColor: isHovered ? `${themeColor}AA` : `${themeColor}44`,
-                        boxShadow: isHovered ? `0 40px 80px rgba(0,0,0,0.6)` : '0 20px 60px rgba(0,0,0,0.4)',
-                    }}
-                >
-                    <img src={img} alt="Preview" style={styles.img} />
-                </motion.div>
-            ))}
-        </div>
+      <div style={mockupStyles.collageContainer}>
+        {images.map((img, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              rotate: isHovered
+                ? (index === 0 ? -16 : index === 1 ? 16 : 0)
+                : (index === 0 ? -5 : index === 1 ? 5 : 0),
+              x: isHovered
+                ? (index === 0 ? -55 : index === 1 ? 55 : 0)
+                : (index === 0 ? -12 : index === 1 ? 12 : 0),
+              y: isHovered
+                ? (index === 2 ? -10 : 15)
+                : (index === 2 ? 0 : 8),
+              zIndex: index === 2 ? 3 : index === 1 ? 2 : 1,
+            }}
+            transition={{
+              type: 'spring',
+              stiffness: 130,
+              damping: 18
+            }}
+            style={{
+              ...mockupStyles.phoneFrame,
+              position: index === 0 ? 'relative' : 'absolute',
+              borderColor: isHovered ? themeColor : 'rgba(0,0,0,0.12)',
+              boxShadow: isHovered
+                ? `0 20px 40px rgba(0,0,0,0.15), 0 0 20px ${themeColor}25`
+                : '0 10px 25px rgba(0,0,0,0.08)',
+            }}
+          >
+            <div style={mockupStyles.phoneScreen}>
+              <img src={img} alt="Mobile App Screen" style={mockupStyles.phoneImg} />
+            </div>
+          </motion.div>
+        ))}
+      </div>
     );
+  }
+
+  return (
+    <div style={mockupStyles.collageContainerDesktop}>
+      <motion.div
+        animate={{
+          scale: isHovered ? 1.02 : 1,
+          y: isHovered ? -3 : 0,
+        }}
+        transition={{ type: 'spring', stiffness: 130, damping: 18 }}
+        style={{
+          ...mockupStyles.desktopFrame,
+          borderColor: isHovered ? themeColor : 'rgba(0,0,0,0.12)',
+          boxShadow: isHovered
+            ? `0 20px 45px rgba(0,0,0,0.15)`
+            : '0 10px 25px rgba(0,0,0,0.06)',
+        }}
+      >
+        <div style={mockupStyles.desktopHeader}>
+          <div style={{ display: 'flex', gap: '6px' }}>
+            <div style={{ width: '9px', height: '9px', borderRadius: '50%', backgroundColor: '#FF5F56' }} />
+            <div style={{ width: '9px', height: '9px', borderRadius: '50%', backgroundColor: '#FFBD2E' }} />
+            <div style={{ width: '9px', height: '9px', borderRadius: '50%', backgroundColor: '#27C93F' }} />
+          </div>
+          <span style={{ fontSize: '0.7rem', color: '#6B7280', fontWeight: '600' }}>app.intelliq.internal</span>
+        </div>
+        <div style={mockupStyles.desktopScreen}>
+          <img src={images[0]} alt="Desktop System Interface" style={mockupStyles.desktopImg} />
+        </div>
+      </motion.div>
+    </div>
+  );
 };
 
-const ProjectCard = ({ project, onView, index }) => {
-    const [isHovered, setIsHovered] = useState(false);
+const mockupStyles = {
+  collageContainer: {
+    position: 'relative',
+    height: '220px',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  phoneFrame: {
+    width: '115px',
+    height: '215px',
+    borderRadius: '18px',
+    backgroundColor: '#FFFFFF',
+    border: '2px solid rgba(0,0,0,0.12)',
+    padding: '4px',
+    boxSizing: 'border-box',
+    transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+  },
+  phoneScreen: {
+    width: '100%',
+    height: '100%',
+    borderRadius: '14px',
+    overflow: 'hidden',
+    backgroundColor: '#F3F4F6',
+  },
+  phoneImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+  },
+  collageContainerDesktop: {
+    position: 'relative',
+    width: '100%',
+    padding: '6px 0',
+  },
+  desktopFrame: {
+    width: '100%',
+    borderRadius: '12px',
+    backgroundColor: '#FFFFFF',
+    border: '1px solid rgba(0,0,0,0.12)',
+    overflow: 'hidden',
+    transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+  },
+  desktopHeader: {
+    padding: '8px 14px',
+    backgroundColor: '#F8FAFC',
+    borderBottom: '1px solid rgba(0,0,0,0.08)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  desktopScreen: {
+    width: '100%',
+    height: '190px',
+    overflow: 'hidden',
+  },
+  desktopImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+  }
+};
 
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 + 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            style={{
-                ...styles.card,
-                gridColumn: index === 0 ? 'span 1' : 'span 1',
-            }}
-            className="projects-card"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            whileHover={{ y: -10 }}
-        >
-            {/* Accent Background Glow */}
-            <div style={{ ...styles.accentGlow, backgroundColor: project.themeColor }} />
+const REAL_GIF_GALLERY = [
+  {
+    id: 'hi-mascot',
+    title: 'Wave & Welcome Mascot',
+    category: 'Onboarding & Flow',
+    filename: 'Hi_.gif',
+    description: 'Friendly eco-mascot welcoming users into the platform.',
+    tags: ['Welcome', 'Onboarding', 'Looping']
+  },
+  {
+    id: 'walkin-hi',
+    title: 'Walking & Waving Mascot',
+    category: 'Onboarding & Flow',
+    filename: 'Walkin say hi.gif',
+    description: 'Animated walk cycle welcoming new user sessions.',
+    tags: ['Walk Cycle', 'Character UX']
+  },
+  {
+    id: 'heavy-cup',
+    title: 'Coffee Commute Mascot',
+    category: 'Micro-interactions',
+    filename: 'Mascot_Walking_With_Heavy_Cup_Redone.gif',
+    description: 'Expressive morning commute carbon tracking animation.',
+    tags: ['Micro-UX', 'Daily Routine']
+  },
+  {
+    id: 'typing-1',
+    title: 'Productivity Desk Mascot 1',
+    category: 'Micro-interactions',
+    filename: 'Typing_Working_1.gif',
+    description: 'Data entry and task completion feedback mascot.',
+    tags: ['Productivity', 'Task State']
+  },
+  {
+    id: 'typing-2',
+    title: 'Productivity Desk Mascot 2',
+    category: 'Micro-interactions',
+    filename: 'Typing_Working_2.gif',
+    description: 'Deep focus work session indicator animation.',
+    tags: ['Focus Mode', 'UI Feedback']
+  },
+  {
+    id: 'thinking-cloud',
+    title: 'Brainstorming & Thinking Cloud',
+    category: 'Status & Indicators',
+    filename: 'Thinking cloud.gif',
+    description: 'AI recommendation loading state mascot.',
+    tags: ['Loading State', 'Thinking']
+  },
+  {
+    id: 'thumbs-up',
+    title: 'Milestone Celebration Mascot',
+    category: 'Micro-interactions',
+    filename: 'Thumb_up_.gif',
+    description: 'Gamification reward unlock & success confirmation.',
+    tags: ['Reward UI', 'Success State']
+  },
+  {
+    id: 'calc-pullout',
+    title: 'Carbon Calculator Mascot',
+    category: 'Status & Indicators',
+    filename: 'Calculator_Pullout_.gif',
+    description: 'Real-time carbon footprint calculation visualizer.',
+    tags: ['Carbon Math', 'Analytics']
+  },
+  {
+    id: 'coin-flip',
+    title: 'Eco Savings Coin Flip',
+    category: 'Micro-interactions',
+    filename: 'Coin flip.gif',
+    description: 'Financial & carbon credits milestone animation.',
+    tags: ['Savings', 'Credits']
+  },
+  {
+    id: 'current-tv',
+    title: 'Live Energy TV Dashboard',
+    category: 'Status & Indicators',
+    filename: 'Current_Tv.gif',
+    description: 'Live power consumption stream mascot.',
+    tags: ['Live Stream', 'Energy Viz']
+  },
+  {
+    id: 'tv-screen',
+    title: 'Monitor Analytics Mascot',
+    category: 'Status & Indicators',
+    filename: 'Tv_Screen_.gif',
+    description: 'System health dashboard indicator character.',
+    tags: ['Dashboard', 'Status']
+  },
+  {
+    id: 'home-impact',
+    title: 'Home Energy Impact Tracker',
+    category: 'Onboarding & Flow',
+    filename: 'Home_Impact.gif',
+    description: 'Residential emissions tracking mascot.',
+    tags: ['Home Power', 'Impact']
+  },
+  {
+    id: 'onboarding-not-emp',
+    title: 'Individual Onboarding Flow',
+    category: 'Onboarding & Flow',
+    filename: 'Onboarding_Not_Employed.gif',
+    description: 'Customized flow setup character illustration.',
+    tags: ['Onboarding', 'User Flow']
+  },
+  {
+    id: 'on-emp',
+    title: 'Enterprise Workspace Setup',
+    category: 'Onboarding & Flow',
+    filename: 'On_Employee.gif',
+    description: 'Team workspace setup guidance mascot.',
+    tags: ['Enterprise', 'B2B Flow']
+  },
+  {
+    id: 'plane-flight',
+    title: 'Flight Emission Tracker',
+    category: 'Micro-interactions',
+    filename: 'Plane.gif',
+    description: 'Transportation emissions calculator mascot.',
+    tags: ['Travel', 'Flights']
+  },
+  {
+    id: 'pointing-emission',
+    title: 'Emissions Gauge Indicator',
+    category: 'Status & Indicators',
+    filename: 'Pointing_Toward_Emission.gif',
+    description: 'Interactive callout mascot highlighting high usage.',
+    tags: ['Callout', 'Alert UI']
+  },
+  {
+    id: 'progress-walk',
+    title: 'Progress Bar Walking Mascot',
+    category: 'Status & Indicators',
+    filename: 'Progress bar walk.gif',
+    description: 'Step completion progress loader character.',
+    tags: ['Progress Bar', 'Loader']
+  },
+  {
+    id: 'blackboard',
+    title: 'Eco Education Mascot',
+    category: 'Onboarding & Flow',
+    filename: 'Student_Black_Board.gif',
+    description: 'Interactive sustainability tips & tutorial character.',
+    tags: ['Education', 'Tips']
+  },
+  {
+    id: 'workplace-pointing',
+    title: 'Workplace Presentation Mascot',
+    category: 'Onboarding & Flow',
+    filename: 'Workplace_Pointing_Screen.gif',
+    description: 'Analytics summary presentation mascot.',
+    tags: ['Presentation', 'Reporting']
+  },
+  {
+    id: 'still-mascot',
+    title: 'Idle Neutral Mascot',
+    category: 'Micro-interactions',
+    filename: 'Still.gif',
+    description: 'Default idle state character mascot.',
+    tags: ['Idle State', 'Character']
+  }
+];
 
-            <div style={styles.cardHeader}>
-                <span style={styles.cat}>{project.category}</span>
-                <h3 style={styles.cardTitle} className="projects-card-title">{project.title}</h3>
-            </div>
+const GIF_CATEGORIES = ['All', 'Onboarding & Flow', 'Micro-interactions', 'Status & Indicators'];
 
-            <div style={styles.cardVisual} className="projects-card-visual">
-                <MockupCollage
-                    images={project.images}
-                    type={project.useMockup ? 'phone' : 'desktop'}
-                    themeColor={project.themeColor}
-                    isHovered={isHovered}
-                />
-            </div>
+const ProjectCardItem = ({ project, onViewCaseStudy, idx }) => {
+  const [isHovered, setIsHovered] = useState(false);
 
-            <div style={styles.cardFooter}>
-                <div style={styles.pillBox}>
-                    {project.tags?.slice(0, 2).map(tag => (
-                        <span key={tag} className="project-pill">{tag}</span>
-                    ))}
-                </div>
-                <button
-                    onClick={onView}
-                    className="btn-view-projects"
-                    style={styles.button}
-                >
-                    View Case Study
-                </button>
-            </div>
-        </motion.div>
-    );
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: idx * 0.08, duration: 0.4 }}
+      style={{
+        ...styles.projectCard,
+        borderTop: `4px solid ${project.themeColor}`
+      }}
+      className="clean-card-hover"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div style={styles.cardHeaderRow}>
+        <div>
+          <span style={{ 
+            ...styles.projectTagBadge, 
+            color: project.themeColor, 
+            backgroundColor: `${project.themeColor}12`, 
+            borderColor: `${project.themeColor}30` 
+          }}>
+            {project.category}
+          </span>
+          <h2 style={styles.projectTitle}>{project.title}</h2>
+          <h4 style={styles.projectSubTitle}>{project.subTitle}</h4>
+        </div>
+      </div>
+
+      {/* Visual Preview Box */}
+      <div style={styles.cardVisualBox}>
+        <MockupCollage
+          images={project.images}
+          type={project.useMockup ? 'phone' : 'desktop'}
+          themeColor={project.themeColor}
+          isHovered={isHovered}
+        />
+      </div>
+
+      <p style={styles.projectDesc}>{project.description}</p>
+
+      <div style={styles.tagRow}>
+        {project.tags.map(t => (
+          <span key={t} style={styles.miniTag}>{t}</span>
+        ))}
+      </div>
+
+      <div style={styles.projectCardFooter}>
+        {project.caseStudyPath && (
+          <button
+            onClick={onViewCaseStudy}
+            className="clean-btn-primary"
+            style={styles.actionBtnPrimary}
+          >
+            Read Case Study
+            <ArrowRight size={14} style={{ marginLeft: '6px' }} />
+          </button>
+        )}
+
+        {project.figmaUrl && (
+          <a
+            href={project.figmaUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="clean-btn-figma"
+            style={styles.actionBtnFigma}
+          >
+            <FigmaIcon />
+            <span>Figma System</span>
+            <ExternalLink size={12} style={{ marginLeft: '4px' }} />
+          </a>
+        )}
+      </div>
+    </motion.div>
+  );
 };
 
 const Projects = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const containerRef = useRef(null);
+  const tabsBarRef = useRef(null);
+  const [activeTab, setActiveTab] = useState('projects-figma');
+  const [gifCategory, setGifCategory] = useState('All');
+  const [selectedGif, setSelectedGif] = useState(null);
+  const [isStudyZoomed, setIsStudyZoomed] = useState(false);
+  const [isPdfFullscreen, setIsPdfFullscreen] = useState(false);
 
-    useEffect(() => {
-        if (document.getElementById('projects-ui-styles')) return;
-        const style = document.createElement('style');
-        style.id = 'projects-ui-styles';
-        style.innerHTML = `
-            .btn-view-projects:hover { background: #FFF !important; color: #000 !important; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
-            .btn-view-projects:active { transform: translateY(-1px); }
-            .project-pill { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 700; color: #8A8D91; letter-spacing: 0.05em; }
-            @keyframes noise {
-                0%, 100% { transform: translate(0, 0) }
-                10% { transform: translate(-5%, -10%) }
-                20% { transform: translate(-15%, 5%) }
-                30% { transform: translate(7%, -25%) }
-                40% { transform: translate(-5%, 25%) }
-                50% { transform: translate(-15%, 10%) }
-                60% { transform: translate(15%, 0) }
-                70% { transform: translate(0, 15%) }
-                80% { transform: translate(3%, 35%) }
-                90% { transform: translate(-10%, 10%) }
-            }
-            @media (max-width: 768px) {
-                .projects-container { padding: 80px 20px 40px 20px !important; height: auto !important; min-height: 100vh !important; }
-                .projects-content-wrapper { justify-content: flex-start !important; padding-top: 40px !important; }
-                .projects-bento-grid { grid-template-columns: 1fr !important; gap: 0px !important; }
-                .projects-card { padding: 20px !important; gap: 15px !important; }
-                .projects-card-title { font-size: 1.4rem !important; }
-                .projects-card-visual { min-height: 200px !important; }
-                .projects-phone-frame { width: 110px !important; height: 220px !important; border-radius: 18px !important; }
-                .projects-phone-screen { border-radius: 14px !important; }
-            }
-        `;
-        document.head.appendChild(style);
-    }, []);
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = 0;
+    }
+  }, [activeTab]);
 
-    const projects = [
-        {
-            id: 'eco-index',
-            title: 'EcoIndex',
-            category: 'Sustainability • Product & UX Strategy',
-            description: 'A carbon intelligence platform designed to calculate and visualize emissions through behavioral design.',
-            images: [
-                '/assets/app/Page30.png',
-                '/assets/app/Page23.png',
-                '/assets/app/Page22.png',
-            ],
-            useMockup: true,
-            themeColor: '#4ade80',
-            tags: ['0→1 Product', 'Behavioral UX', 'Carbon Analytics']
-        },
-        {
-            id: 'intelliq',
-            title: 'IntelliQ',
-            category: 'Enterprise SaaS • Systems & Architecture',
-            description: 'Advanced data-entry and analytics system for large-scale operations, featuring real-time visualization.',
-            images: [
-                '/assets/IntelliQ/HomeScreen.png',
-            ],
-            themeColor: '#FF3366',
-            tags: ['B2B Enterprise', 'Information Arch', 'Workflow Systems']
-        }
-    ];
+  useEffect(() => {
+    if (document.getElementById('projects-light-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'projects-light-styles';
+    style.innerHTML = `
+      .clean-tab-btn {
+        transition: color 0.25s ease;
+      }
+      .clean-tab-btn:hover:not(.active-tab) {
+        color: #111827 !important;
+      }
+      .clean-card-hover {
+        transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .clean-card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0,0,0,0.2) !important;
+        border-color: rgba(0, 0, 0, 0.15) !important;
+      }
+      .clean-btn-primary {
+        background: #111827;
+        color: #FFFFFF;
+        transition: all 0.25s ease;
+      }
+      .clean-btn-primary:hover {
+        background: #000000 !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+      }
+      .clean-btn-figma {
+        background: #FFFFFF;
+        border: 1px solid rgba(162, 89, 255, 0.3);
+        color: #7E22CE;
+        transition: all 0.25s ease;
+      }
+      .clean-btn-figma:hover {
+        background: rgba(162, 89, 255, 0.08) !important;
+        border-color: #A259FF !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(162, 89, 255, 0.15);
+      }
+      .projects-container {
+        height: 100vh !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch;
+      }
+      .mobile-sticky-tabs {
+        position: sticky;
+        top: 55px;
+        z-index: 100;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        background: rgba(253, 248, 241, 0.92);
+        padding: 8px 0;
+        margin: 0 -4% 15px -4%;
+        padding: 8px 4%;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      }
+      .projects-tabs-bar {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      .projects-tabs-bar::-webkit-scrollbar {
+        display: none;
+      }
+      @media (max-width: 768px) {
+        .projects-container { padding: 75px 14px 30px 14px !important; height: auto !important; min-height: 100vh !important; overflow-y: visible !important; }
+        .mobile-sticky-tabs { top: 50px !important; margin: 0 -14px 15px -14px !important; padding: 6px 14px !important; }
+        .projects-tabs-bar { overflow-x: auto !important; width: 100% !important; justify-content: flex-start !important; padding-bottom: 4px !important; }
+        .tab-btn-responsive { padding: 8px 15px !important; font-size: 0.78rem !important; }
+        .projects-grid-2 { grid-template-columns: 1fr !important; }
+        .projects-grid-3 { grid-template-columns: 1fr !important; }
+        .pdf-frame-height { height: 450px !important; }
+      }
+    `;
+    document.head.appendChild(style);
+  }, []);
 
-    return (
-        <div style={styles.container} className="projects-container">
-            <NoiseOverlay />
-            <FloatingAssets />
-            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, opacity: 0.1, pointerEvents: 'none' }}>
-                <InteractiveGrid />
-            </div>
+  const projectsList = [
+    {
+      id: 'eco-index',
+      title: 'EcoIndex',
+      subTitle: 'Sustainability & Behavioral UX Platform',
+      category: 'SUSTAINABILITY • PRODUCT UX',
+      description: 'A 0→1 sustainability platform designed to calculate, visualize, and gamify daily carbon emissions through interactive data dashboards & mascot motion.',
+      images: [
+        '/assets/app/Page30.png',
+        '/assets/app/Page23.png',
+        '/assets/app/Page22.png',
+      ],
+      useMockup: true,
+      themeColor: '#10B981',
+      caseStudyPath: '/ecoindex',
+      figmaUrl: 'https://www.figma.com/design/SgjQWSYfLQ2U0IBfqyXvXG/EcoIndex-App?node-id=0-1&p=f',
+      tags: ['0→1 Product Strategy', 'Behavioral UX', 'Carbon Analytics', 'Mascot Motion']
+    },
+    {
+      id: 'intelliq',
+      title: 'IntelliQ',
+      subTitle: 'Enterprise SaaS & Operations System',
+      category: 'ENTERPRISE SAAS • SYSTEMS',
+      description: 'High-density operational management platform featuring real-time data streaming, modular view states, and scalable design system architecture.',
+      images: [
+        '/assets/IntelliQ/HomeScreen.png',
+      ],
+      useMockup: false,
+      themeColor: '#E11D48',
+      caseStudyPath: '/intelliq',
+      figmaUrl: 'https://www.figma.com/design/z3PBXuvZ5UXjlrNlgcjBYi/IntelliQ?node-id=0-1&p=f',
+      tags: ['B2B Enterprise', 'Information Arch', 'Workflow Systems', 'Design Tokens']
+    },
+    {
+      id: 'octodo-websites',
+      title: 'OctoDo Websites',
+      subTitle: 'Web Experience & Landing Page Systems',
+      category: 'WEB DESIGN • VISUAL SYSTEMS',
+      description: 'Custom marketing web architectures, sleek landing page systems, responsive typography grids, and interactive web component design.',
+      images: [
+        '/assets/app/Page23.png',
+      ],
+      useMockup: false,
+      themeColor: '#2563EB',
+      figmaUrl: 'https://www.figma.com/design/4u6acZxdDvE4ovS381UVT6/OctoDo-Websites?node-id=6-2884',
+      tags: ['Web Architecture', 'Design System', 'Responsive UI', 'Figma Tokens']
+    }
+  ];
 
-            <div style={styles.contentWrapper} className="projects-content-wrapper">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    style={styles.header}
+  const filteredGifs = gifCategory === 'All' 
+    ? REAL_GIF_GALLERY 
+    : REAL_GIF_GALLERY.filter(item => item.category === gifCategory);
+
+  return (
+    <div ref={containerRef} style={styles.container} className="projects-container">
+      <NoiseOverlay />
+      <FloatingAssets />
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, opacity: 0.12, pointerEvents: 'none' }}>
+        <InteractiveGrid />
+      </div>
+
+      <div style={styles.contentWrapper}>
+        {/* Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          style={styles.header}
+        >
+          <div style={styles.headerBadge}>PROJECTS & VISUAL SYSTEMS</div>
+          <h1 style={styles.title}>Selected Works & Design Files</h1>
+        </motion.div>
+
+        {/* Sticky Mobile & Desktop Sub-Tabs Track */}
+        <div className="mobile-sticky-tabs">
+          <div style={styles.dropletTrackContainer} className="projects-tabs-bar" ref={tabsBarRef}>
+            {[
+              { id: 'projects-figma', label: 'Projects & Figma Files', icon: <FolderGit2 size={15} /> },
+              { id: 'logo-study', label: 'Logo & Brand Process', icon: <Palette size={15} /> },
+              { id: 'motion-gifs', label: 'Mascot Motion GIFs', icon: <Sparkles size={15} /> },
+              { id: 'graphic-pdf', label: 'Graphic Design Book', icon: <FileText size={15} /> },
+            ].map(tab => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`clean-tab-btn tab-btn-responsive ${isActive ? 'active-tab' : ''}`}
+                  style={{
+                    position: 'relative',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '11px 22px',
+                    borderRadius: '30px',
+                    border: 'none',
+                    backgroundColor: 'transparent',
+                    color: isActive ? '#FFFFFF' : '#6B7280',
+                    fontSize: '0.88rem',
+                    fontWeight: isActive ? '700' : '500',
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap',
+                    outline: 'none',
+                    flexShrink: 0,
+                  }}
                 >
-                    <div style={styles.headerBadge}>FEATURED CASE STUDIES</div>
-                    <h2 style={styles.sectionTitle}>Selected Work</h2>
-                    <p style={styles.sectionSubtitle}>Solving complex enterprise problems through 0→1 UX strategy, system architecture, and product execution.</p>
-                </motion.div>
+                  {/* Liquid Droplet Pill Background */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="droplet-subtab-active-pill"
+                      transition={{
+                        type: 'spring',
+                        stiffness: 380,
+                        damping: 26,
+                        mass: 0.75
+                      }}
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        backgroundColor: '#111827',
+                        borderRadius: '30px',
+                        boxShadow: '0 8px 24px rgba(17, 24, 39, 0.22), 0 2px 6px rgba(0, 0, 0, 0.08)',
+                        zIndex: 0,
+                      }}
+                    />
+                  )}
 
-                <div style={styles.bentoGrid} className="projects-bento-grid">
-                    <ProjectCard
-                        project={projects[0]}
-                        onView={() => navigate('/ecoindex')}
-                        index={0}
-                    />
-                    <ProjectCard
-                        project={projects[1]}
-                        onView={() => navigate('/intelliq')}
-                        index={1}
-                    />
-                </div>
-            </div>
+                  <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {tab.icon}
+                    <span>{tab.label}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
-    );
+
+        {/* TAB CONTENTS WITH LIQUID CROSSFADE */}
+        <AnimatePresence mode="wait">
+          {/* TAB 1: PROJECTS & FIGMA DESIGN FILES */}
+          {activeTab === 'projects-figma' && (
+            <motion.div
+              key="projects-figma"
+              initial={{ opacity: 0, y: 14, scale: 0.985 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -14, scale: 0.985 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 26, mass: 0.8 }}
+              style={styles.tabContent}
+            >
+              <div style={styles.projectsGrid} className="projects-grid-2">
+                {projectsList.map((item, idx) => (
+                  <ProjectCardItem
+                    key={item.id}
+                    project={item}
+                    idx={idx}
+                    onViewCaseStudy={() => navigate(item.caseStudyPath)}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* TAB 2: MINIMAL LOGO & BRAND PROCESS */}
+          {activeTab === 'logo-study' && (
+            <motion.div
+              key="logo-study"
+              initial={{ opacity: 0, y: 14, scale: 0.985 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -14, scale: 0.985 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 26, mass: 0.8 }}
+              style={styles.tabContent}
+            >
+              <div style={styles.featureCardMinimal}>
+                <div style={styles.featureHeaderMinimal}>
+                  <div>
+                    <span style={styles.tagBadgeMinimal}>BRAND IDENTITY STUDY</span>
+                    <h3 style={styles.cardMainTitleMinimal}>EcoIndex — Logo & Brand Geometry</h3>
+                  </div>
+                  <button 
+                    onClick={() => setIsStudyZoomed(true)}
+                    className="clean-btn-primary"
+                    style={styles.actionBtnPrimarySmall}
+                  >
+                    <ZoomIn size={14} />
+                    Inspect Process Map
+                  </button>
+                </div>
+
+                <div 
+                  style={styles.studyImageContainerMinimal}
+                  onClick={() => setIsStudyZoomed(true)}
+                >
+                  <img 
+                    src="/assets/Design_Study_Ecoindex.png" 
+                    alt="EcoIndex Logo Design Process Map" 
+                    style={styles.studyImgMinimal} 
+                  />
+                </div>
+
+                <div style={styles.pillarsGridMinimal} className="projects-grid-2">
+                  <div style={styles.pillarBoxMinimal}>
+                    <div style={styles.pillarIconRow}>
+                      <Compass size={16} color="#2563EB" />
+                      <h5 style={styles.pillarTitleMinimal}>Concept & Symbol Synthesis</h5>
+                    </div>
+                    <p style={styles.pillarDescMinimal}>
+                      Blending leaf nature geometry with measuring gauge iconography.
+                    </p>
+                  </div>
+
+                  <div style={styles.pillarBoxMinimal}>
+                    <div style={styles.pillarIconRow}>
+                      <Layers size={16} color="#10B981" />
+                      <h5 style={styles.pillarTitleMinimal}>Isometric Grid Precision</h5>
+                    </div>
+                    <p style={styles.pillarDescMinimal}>
+                      Calculated ratio grids ensuring crisp legibility on micro icons.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* TAB 3: MASCOT MOTION GIFS (20 REAL WORKING GIFS) */}
+          {activeTab === 'motion-gifs' && (
+            <motion.div
+              key="motion-gifs"
+              initial={{ opacity: 0, y: 14, scale: 0.985 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -14, scale: 0.985 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 26, mass: 0.8 }}
+              style={styles.tabContent}
+            >
+              <div style={styles.gifHeaderRow}>
+                <div>
+                  <h3 style={styles.sectionHeaderTitle}>Mascot Motion Suite ({filteredGifs.length})</h3>
+                  <p style={styles.sectionHeaderSub}>
+                    Animated character GIFs designed for gamified UX states and micro-interactions.
+                  </p>
+                </div>
+
+                <div style={styles.filterPills}>
+                  {GIF_CATEGORIES.map(cat => (
+                    <button
+                      key={cat}
+                      onClick={() => setGifCategory(cat)}
+                      style={{
+                        ...styles.filterPill,
+                        backgroundColor: gifCategory === cat ? '#111827' : '#FFFFFF',
+                        color: gifCategory === cat ? '#FFFFFF' : '#4B5563',
+                        borderColor: gifCategory === cat ? '#111827' : 'rgba(0,0,0,0.1)',
+                        fontWeight: gifCategory === cat ? '700' : '500',
+                      }}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div style={styles.gifGrid} className="projects-grid-3">
+                {filteredGifs.map((item, idx) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.03 }}
+                    style={styles.gifCard}
+                    className="clean-card-hover"
+                    onClick={() => setSelectedGif(item)}
+                  >
+                    <div style={styles.gifCardPreview}>
+                      <img 
+                        src={`/assets/Gif/${item.filename}`} 
+                        alt={item.title} 
+                        style={styles.gifImg}
+                      />
+                      <div style={styles.gifLoopBadge}>
+                        <Play size={9} color="#2563EB" fill="#2563EB" />
+                        <span>LOOPING</span>
+                      </div>
+                    </div>
+
+                    <div style={styles.gifCardBody}>
+                      <div style={styles.gifCategoryTag}>{item.category}</div>
+                      <h4 style={styles.gifTitle}>{item.title}</h4>
+                      <p style={styles.gifDesc}>{item.description}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* TAB 4: GRAPHIC DESIGN BOOK PDF */}
+          {activeTab === 'graphic-pdf' && (
+            <motion.div
+              key="graphic-pdf"
+              initial={{ opacity: 0, y: 14, scale: 0.985 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -14, scale: 0.985 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 26, mass: 0.8 }}
+              style={styles.tabContent}
+            >
+              <div style={styles.pdfContainerCard}>
+                <div style={styles.pdfHeader}>
+                  <div style={styles.pdfInfo}>
+                    <FileText size={22} color="#2563EB" />
+                    <div>
+                      <h3 style={styles.pdfTitle}>Graphic Design & Brand Book</h3>
+                      <p style={styles.pdfSubtitle}>
+                        Portfolio PDF containing logo marks, posters, brand systems, and print graphics.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div style={styles.pdfActions}>
+                    <button 
+                      onClick={() => setIsPdfFullscreen(true)}
+                      style={styles.actionBtnSecondaryLight}
+                    >
+                      <Maximize2 size={14} />
+                      Fullscreen
+                    </button>
+
+                    <a 
+                      href="/assets/Portfolio_removed.pdf" 
+                      download="Chitrankar_Design_Portfolio.pdf"
+                      className="clean-btn-primary"
+                      style={styles.actionBtnPrimarySmall}
+                    >
+                      <Download size={14} />
+                      Download PDF
+                    </a>
+                  </div>
+                </div>
+
+                <div style={styles.pdfViewerWrapper}>
+                  <iframe 
+                    src="/assets/Portfolio_removed.pdf#toolbar=1" 
+                    title="Graphic Design Portfolio Book"
+                    style={styles.pdfIframe}
+                    className="pdf-frame-height"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* MODAL 1: HIGH-RES LOGO LIGHTBOX */}
+      <AnimatePresence>
+        {isStudyZoomed && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={styles.modalOverlay}
+            onClick={() => setIsStudyZoomed(false)}
+          >
+            <button style={styles.modalCloseBtn} onClick={() => setIsStudyZoomed(false)}>
+              <X size={24} color="#111827" />
+            </button>
+
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              style={styles.modalContentImage}
+              onClick={e => e.stopPropagation()}
+            >
+              <img 
+                src="/assets/Design_Study_Ecoindex.png" 
+                alt="High-Res EcoIndex Study" 
+                style={styles.modalImgFull} 
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* MODAL 2: GIF DETAIL LIGHTBOX */}
+      <AnimatePresence>
+        {selectedGif && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={styles.modalOverlay}
+            onClick={() => setSelectedGif(null)}
+          >
+            <button style={styles.modalCloseBtn} onClick={() => setSelectedGif(null)}>
+              <X size={24} color="#111827" />
+            </button>
+
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              style={styles.modalContentGif}
+              onClick={e => e.stopPropagation()}
+            >
+              <div style={styles.modalGifMedia}>
+                <img 
+                  src={`/assets/Gif/${selectedGif.filename}`} 
+                  alt={selectedGif.title} 
+                  style={styles.modalGifImg} 
+                />
+              </div>
+
+              <div style={styles.modalGifDetails}>
+                <span style={styles.gifCategoryTag}>{selectedGif.category}</span>
+                <h3 style={styles.modalGifTitle}>{selectedGif.title}</h3>
+                <p style={styles.modalGifDesc}>{selectedGif.description}</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* MODAL 3: FULLSCREEN PDF VIEWER */}
+      <AnimatePresence>
+        {isPdfFullscreen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={styles.modalOverlay}
+            onClick={() => setIsPdfFullscreen(false)}
+          >
+            <button style={styles.modalCloseBtn} onClick={() => setIsPdfFullscreen(false)}>
+              <X size={24} color="#111827" />
+            </button>
+
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              style={styles.modalContentPdf}
+              onClick={e => e.stopPropagation()}
+            >
+              <iframe 
+                src="/assets/Portfolio_removed.pdf#toolbar=1" 
+                title="Fullscreen Design Portfolio PDF"
+                style={{ width: '100%', height: '100%', border: 'none', borderRadius: '16px' }}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
 };
 
 const styles = {
-    container: {
-        minHeight: '100vh',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '100px 5% 60px 5%',
-        backgroundColor: '#0D1117',
-        position: 'relative',
-        overflow: 'hidden',
-    },
-    gridContainer: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 1fr))',
-        gridAutoRows: '60px',
-        zIndex: 0,
-        pointerEvents: 'none',
-    },
-    gridCell: {
-        border: '0.5px solid rgba(255, 255, 255, 0.04)',
-        boxSizing: 'border-box',
-        pointerEvents: 'auto',
-    },
-    noiseOverlay: {
-        position: 'fixed',
-        top: '-100%',
-        left: '-100%',
-        width: '300%',
-        height: '300%',
-        backgroundImage: `url("https://grainy-gradients.vercel.app/noise.svg")`,
-        opacity: 0.04,
-        pointerEvents: 'none',
-        zIndex: 50,
-        animation: 'noise 10s steps(10) infinite',
-    },
-    contentWrapper: {
-        width: '100%',
-        maxWidth: '1200px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '40px',
-        zIndex: 10,
-        height: '100%',
-        justifyContent: 'center',
-    },
-    header: {
-        textAlign: 'center',
-        marginBottom: '10px',
-    },
-    headerBadge: {
-        fontSize: '0.75rem',
-        fontWeight: '800',
-        letterSpacing: '2px',
-        color: '#60A5FA',
-        marginBottom: '10px',
-        textTransform: 'uppercase',
-    },
-    sectionTitle: {
-        fontSize: 'clamp(2rem, 4vw, 3rem)',
-        fontWeight: '900',
-        color: '#F9FAFB',
-        fontFamily: "'Outfit', sans-serif",
-        marginBottom: '10px',
-        letterSpacing: '-0.02em',
-    },
-    sectionSubtitle: {
-        fontSize: '1rem',
-        color: '#9CA3AF',
-        fontFamily: "'Inter', sans-serif",
-        fontWeight: '500',
-    },
-    bentoGrid: {
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: '0px',
-        width: '100%',
-        height: 'auto',
-    },
-    card: {
-        background: 'rgba(255, 255, 255, 0.02)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
+  container: {
+    height: '100vh',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '85px 4% 50px 4%',
+    backgroundColor: '#FDF8F1',
+    position: 'relative',
+    overflowY: 'auto',
+    overflowX: 'hidden',
+    boxSizing: 'border-box',
+  },
+  contentWrapper: {
+    width: '100%',
+    maxWidth: '1200px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '24px',
+    zIndex: 10,
+  },
+  header: {
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  headerBadge: {
+    fontSize: '0.75rem',
+    fontWeight: '800',
+    letterSpacing: '2px',
+    color: '#2563EB',
+    marginBottom: '6px',
+    textTransform: 'uppercase',
+  },
+  title: {
+    fontSize: 'clamp(2rem, 3.8vw, 2.8rem)',
+    fontWeight: '900',
+    color: '#111827',
+    fontFamily: "'Outfit', sans-serif",
+    marginBottom: '10px',
+    letterSpacing: '-0.02em',
+  },
+  dropletTrackContainer: {
+    display: 'flex',
+    gap: '6px',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '6px',
+    backgroundColor: 'rgba(255, 255, 255, 0.85)',
+    borderRadius: '35px',
+    border: '1px solid rgba(0, 0, 0, 0.08)',
+    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.03)',
+  },
+  tabContent: {
+    width: '100%',
+  },
 
-        border: '1px solid rgba(255, 255, 255, 0.06)',
-        padding: '30px',
-        position: 'relative',
-        overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '25px',
-        cursor: 'default',
-        boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
-    },
-    accentGlow: {
-        position: 'absolute',
-        top: '-100px',
-        right: '-100px',
-        width: '250px',
-        height: '250px',
-        borderRadius: '50%',
-        opacity: 0.15,
-        filter: 'blur(60px)',
-        zIndex: 0,
-    },
-    cardHeader: {
-        position: 'relative',
-        zIndex: 1,
-    },
-    cat: {
-        color: '#8A8D91',
-        fontWeight: '700',
-        fontSize: '0.65rem',
-        textTransform: 'uppercase',
-        letterSpacing: '0.2em',
-        fontFamily: "'Outfit', sans-serif",
-        display: 'block',
-        marginBottom: '8px',
-    },
-    cardTitle: {
-        fontSize: '1.8rem',
-        fontWeight: '800',
-        color: '#F9FAFB',
-        fontFamily: "'Outfit', sans-serif",
-        letterSpacing: '-0.02em',
-    },
-    cardVisual: {
-        flex: 1,
-        width: '100%',
-        minHeight: '260px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'relative',
-        zIndex: 1,
-    },
-    cardFooter: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        position: 'relative',
-        zIndex: 1,
-    },
-    pillBox: {
-        display: 'flex',
-        gap: '8px',
-    },
-    button: {
-        padding: '12px 24px',
-        backgroundColor: 'rgba(255,255,255,0.06)',
-        color: '#FFF',
-        fontWeight: '700',
-        borderRadius: '12px',
-        transition: 'all 0.3s ease',
-        fontSize: '0.8rem',
-        border: '1px solid rgba(255,255,255,0.08)',
-        cursor: 'pointer',
-    },
-    collageContainer: {
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    imgWrapper: {
-        width: '85%',
-        height: 'auto',
-        aspectRatio: '16/10',
-        borderRadius: '16px',
-        overflow: 'hidden',
-        border: '1px solid rgba(255,255,255,0.1)',
-        background: '#131921',
-        boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
-        transition: 'all 0.4s ease',
-    },
-    phoneFrame: {
-        width: '140px',
-        height: '280px',
-        background: '#04070B',
-        borderRadius: '28px',
-        padding: '7px',
-        border: '1px solid rgba(255,255,255,0.15)',
-        position: 'relative',
-        transition: 'all 0.4s ease',
-        willChange: 'transform, opacity, border-color, box-shadow',
-    },
-    phoneScreen: {
-        width: '100%',
-        height: '100%',
-        borderRadius: '20px',
-        overflow: 'hidden',
-        background: '#000',
-    },
-    phoneImg: {
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-    },
-    img: {
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-    }
+  // Projects Grid & Clean Cards
+  projectsGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: '24px',
+  },
+  projectCard: {
+    background: '#FFFFFF',
+    border: '1px solid rgba(0, 0, 0, 0.08)',
+    borderRadius: '20px',
+    padding: '26px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px',
+    boxShadow: '0 8px 30px rgba(0, 0, 0, 0.03)',
+  },
+  cardHeaderRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  projectTagBadge: {
+    fontSize: '0.65rem',
+    fontWeight: '800',
+    letterSpacing: '0.12em',
+    padding: '4px 10px',
+    borderRadius: '6px',
+    border: '1px solid',
+    display: 'inline-block',
+    marginBottom: '8px',
+  },
+  projectTitle: {
+    fontSize: '1.5rem',
+    fontWeight: '800',
+    color: '#111827',
+    fontFamily: "'Outfit', sans-serif",
+    margin: '0 0 4px 0',
+  },
+  projectSubTitle: {
+    fontSize: '0.9rem',
+    fontWeight: '500',
+    color: '#6B7280',
+    margin: 0,
+  },
+  cardVisualBox: {
+    width: '100%',
+    borderRadius: '14px',
+    backgroundColor: '#F8FAFC',
+    border: '1px solid rgba(0, 0, 0, 0.06)',
+    padding: '10px',
+    boxSizing: 'border-box',
+  },
+  projectDesc: {
+    fontSize: '0.9rem',
+    color: '#4B5563',
+    lineHeight: '1.6',
+    margin: 0,
+    flex: 1,
+  },
+  projectCardFooter: {
+    display: 'flex',
+    gap: '10px',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    marginTop: '6px',
+  },
+  actionBtnPrimary: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '8px',
+    padding: '10px 20px',
+    borderRadius: '30px',
+    fontSize: '0.85rem',
+    fontWeight: '600',
+    border: 'none',
+    cursor: 'pointer',
+    textDecoration: 'none',
+  },
+  actionBtnPrimarySmall: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '6px',
+    padding: '8px 16px',
+    borderRadius: '25px',
+    fontSize: '0.8rem',
+    fontWeight: '600',
+    border: 'none',
+    cursor: 'pointer',
+    textDecoration: 'none',
+  },
+  actionBtnFigma: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '8px',
+    padding: '10px 20px',
+    borderRadius: '30px',
+    fontSize: '0.85rem',
+    fontWeight: '600',
+    cursor: 'pointer',
+    textDecoration: 'none',
+  },
+  tagRow: {
+    display: 'flex',
+    gap: '6px',
+    flexWrap: 'wrap',
+  },
+  miniTag: {
+    fontSize: '0.65rem',
+    fontWeight: '600',
+    color: '#6B7280',
+    backgroundColor: '#F3F4F6',
+    border: '1px solid #E5E7EB',
+    padding: '3px 8px',
+    borderRadius: '6px',
+  },
+
+  // Minimal Logo Process Tab
+  featureCardMinimal: {
+    background: '#FFFFFF',
+    border: '1px solid rgba(0, 0, 0, 0.08)',
+    borderRadius: '20px',
+    padding: '28px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '20px',
+    boxShadow: '0 8px 30px rgba(0, 0, 0, 0.03)',
+  },
+  featureHeaderMinimal: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: '12px',
+  },
+  tagBadgeMinimal: {
+    fontSize: '0.65rem',
+    fontWeight: '800',
+    letterSpacing: '0.12em',
+    color: '#059669',
+    backgroundColor: '#D1FAE5',
+    border: '1px solid #A7F3D0',
+    padding: '4px 10px',
+    borderRadius: '6px',
+    display: 'inline-block',
+    marginBottom: '4px',
+  },
+  cardMainTitleMinimal: {
+    fontSize: '1.4rem',
+    fontWeight: '800',
+    color: '#111827',
+    fontFamily: "'Outfit', sans-serif",
+    margin: 0,
+  },
+  studyImageContainerMinimal: {
+    width: '100%',
+    maxHeight: '340px',
+    borderRadius: '14px',
+    overflow: 'hidden',
+    border: '1px solid rgba(0, 0, 0, 0.08)',
+    cursor: 'zoom-in',
+    backgroundColor: '#F8FAFC',
+  },
+  studyImgMinimal: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+  },
+  pillarsGridMinimal: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '14px',
+  },
+  pillarBoxMinimal: {
+    background: '#F9FAFB',
+    border: '1px solid #E5E7EB',
+    borderRadius: '14px',
+    padding: '16px',
+  },
+  pillarIconRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    marginBottom: '6px',
+  },
+  pillarTitleMinimal: {
+    fontSize: '0.95rem',
+    fontWeight: '700',
+    color: '#111827',
+    margin: 0,
+  },
+  pillarDescMinimal: {
+    fontSize: '0.82rem',
+    color: '#6B7280',
+    margin: 0,
+    lineHeight: '1.5',
+  },
+
+  // GIF Gallery Tab
+  gifHeaderRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: '15px',
+    marginBottom: '18px',
+  },
+  sectionHeaderTitle: {
+    fontSize: '1.4rem',
+    fontWeight: '800',
+    color: '#111827',
+    fontFamily: "'Outfit', sans-serif",
+    margin: '0 0 2px 0',
+  },
+  sectionHeaderSub: {
+    fontSize: '0.85rem',
+    color: '#6B7280',
+    margin: 0,
+  },
+  filterPills: {
+    display: 'flex',
+    gap: '8px',
+    flexWrap: 'wrap',
+  },
+  filterPill: {
+    padding: '6px 14px',
+    borderRadius: '20px',
+    fontSize: '0.75rem',
+    border: '1px solid',
+    cursor: 'pointer',
+    transition: 'all 0.25s ease',
+  },
+  gifGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: '18px',
+  },
+  gifCard: {
+    background: '#FFFFFF',
+    border: '1px solid rgba(0, 0, 0, 0.08)',
+    borderRadius: '16px',
+    overflow: 'hidden',
+    cursor: 'pointer',
+    display: 'flex',
+    flexDirection: 'column',
+    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.02)',
+  },
+  gifCardPreview: {
+    position: 'relative',
+    width: '100%',
+    height: '165px',
+    backgroundColor: '#F8FAFC',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '14px',
+    borderBottom: '1px solid #F1F5F9',
+  },
+  gifImg: {
+    maxHeight: '100%',
+    maxWidth: '100%',
+    objectFit: 'contain',
+  },
+  gifLoopBadge: {
+    position: 'absolute',
+    top: '8px',
+    left: '8px',
+    backgroundColor: '#FFFFFF',
+    border: '1px solid rgba(0, 0, 0, 0.1)',
+    borderRadius: '10px',
+    padding: '2px 7px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '4px',
+    fontSize: '0.6rem',
+    fontWeight: '700',
+    color: '#2563EB',
+    letterSpacing: '0.05em',
+  },
+  gifCardBody: {
+    padding: '16px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+    flex: 1,
+  },
+  gifCategoryTag: {
+    fontSize: '0.62rem',
+    fontWeight: '700',
+    color: '#2563EB',
+    textTransform: 'uppercase',
+    letterSpacing: '0.08em',
+  },
+  gifTitle: {
+    fontSize: '1rem',
+    fontWeight: '700',
+    color: '#111827',
+    margin: 0,
+    fontFamily: "'Outfit', sans-serif",
+  },
+  gifDesc: {
+    fontSize: '0.8rem',
+    color: '#6B7280',
+    margin: 0,
+    lineHeight: '1.4',
+    flex: 1,
+  },
+
+  // PDF Viewer Tab
+  pdfContainerCard: {
+    background: '#FFFFFF',
+    border: '1px solid rgba(0, 0, 0, 0.08)',
+    borderRadius: '20px',
+    padding: '24px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '18px',
+    boxShadow: '0 8px 30px rgba(0, 0, 0, 0.03)',
+  },
+  pdfHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: '12px',
+  },
+  pdfInfo: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+  },
+  pdfTitle: {
+    fontSize: '1.3rem',
+    fontWeight: '800',
+    color: '#111827',
+    fontFamily: "'Outfit', sans-serif",
+    margin: 0,
+  },
+  pdfSubtitle: {
+    fontSize: '0.85rem',
+    color: '#6B7280',
+    margin: 0,
+  },
+  pdfActions: {
+    display: 'flex',
+    gap: '10px',
+  },
+  actionBtnSecondaryLight: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '6px',
+    padding: '8px 16px',
+    borderRadius: '25px',
+    backgroundColor: '#F3F4F6',
+    color: '#1F2937',
+    fontSize: '0.8rem',
+    fontWeight: '600',
+    border: '1px solid #E5E7EB',
+    cursor: 'pointer',
+    transition: 'all 0.25s ease',
+  },
+  pdfViewerWrapper: {
+    width: '100%',
+    borderRadius: '14px',
+    overflow: 'hidden',
+    border: '1px solid rgba(0, 0, 0, 0.08)',
+    backgroundColor: '#FFFFFF',
+  },
+  pdfIframe: {
+    width: '100%',
+    height: '560px',
+    border: 'none',
+  },
+
+  // Modal Lightbox Styles
+  modalOverlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    backdropFilter: 'blur(10px)',
+    zIndex: 2000,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '20px',
+  },
+  modalCloseBtn: {
+    position: 'absolute',
+    top: '20px',
+    right: '20px',
+    background: '#FFFFFF',
+    border: '1px solid rgba(0, 0, 0, 0.1)',
+    borderRadius: '50%',
+    width: '40px',
+    height: '40px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    cursor: 'pointer',
+    zIndex: 2010,
+    boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+  },
+  modalContentImage: {
+    maxWidth: '92vw',
+    maxHeight: '90vh',
+    overflow: 'auto',
+    borderRadius: '16px',
+    border: '1px solid rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#FFFFFF',
+  },
+  modalImgFull: {
+    width: '100%',
+    height: 'auto',
+    display: 'block',
+  },
+  modalContentGif: {
+    backgroundColor: '#FFFFFF',
+    border: '1px solid rgba(0, 0, 0, 0.1)',
+    borderRadius: '20px',
+    maxWidth: '550px',
+    width: '90%',
+    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+    boxShadow: '0 20px 50px rgba(0,0,0,0.15)',
+  },
+  modalGifMedia: {
+    backgroundColor: '#F8FAFC',
+    padding: '24px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '240px',
+    borderBottom: '1px solid #E2E8F0',
+  },
+  modalGifImg: {
+    maxHeight: '220px',
+    maxWidth: '100%',
+    objectFit: 'contain',
+  },
+  modalGifDetails: {
+    padding: '20px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+  },
+  modalGifTitle: {
+    fontSize: '1.2rem',
+    fontWeight: '800',
+    color: '#111827',
+    margin: 0,
+    fontFamily: "'Outfit', sans-serif",
+  },
+  modalGifDesc: {
+    fontSize: '0.85rem',
+    color: '#4B5563',
+    margin: 0,
+    lineHeight: '1.5',
+  },
+  modalContentPdf: {
+    width: '95vw',
+    height: '92vh',
+    backgroundColor: '#FFFFFF',
+    borderRadius: '16px',
+    overflow: 'hidden',
+    boxShadow: '0 20px 50px rgba(0,0,0,0.2)',
+  }
 };
 
 export default Projects;

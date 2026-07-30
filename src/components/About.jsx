@@ -334,36 +334,6 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                             ]}
                         />
                     </div>
-
-                    {/* Creative Artwork Card - Artistic Stacked Gallery Preview */}
-                    <motion.div
-                        whileHover={{ scale: 1.02, y: -5 }}
-                        style={styles.artCard}
-                        className="about-art-card"
-                    >
-                        <div style={styles.artCardGlow}></div>
-                        <div style={styles.artCardContent} className="about-art-card-content">
-                            <div style={styles.sketchPreviewFan}>
-                                <img src={sketch1} alt="Sketch 1" style={{ ...styles.sketchMini, transform: 'rotate(-10deg) translateX(-15px)', zIndex: 1 }} />
-                                <img src={sketch2} alt="Sketch 2" style={{ ...styles.sketchMini, transform: 'rotate(0deg)', zIndex: 3 }} />
-                                <img src={sketch3} alt="Sketch 3" style={{ ...styles.sketchMini, transform: 'rotate(10deg) translateX(15px)', zIndex: 2 }} />
-                            </div>
-
-                            <div style={styles.artCardLeft}>
-                                <div style={styles.artTag}>FINE ARTS • TRADITIONAL ARTIST</div>
-                                <h3 style={styles.artCardTitle}>Hand-Drawn Pencil Art & Portfolio</h3>
-                                <p style={styles.artCardDesc}>Hyper-realistic pencil sketches & fine arts exploration.</p>
-                            </div>
-                            <motion.button
-                                whileHover={{ x: 8 }}
-                                onClick={onViewArtwork}
-                                style={styles.artButton}
-                                className="about-art-button"
-                            >
-                                Experience Gallery <span>→</span>
-                            </motion.button>
-                        </div>
-                    </motion.div>
                 </div>
             )
         }

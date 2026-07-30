@@ -16,7 +16,7 @@ export const PAGES = [
   },
   {
     id: 'projects',
-    label: 'Projects',
+    label: 'Projects & Work',
     sections: []
   },
   {

@@ -64,7 +64,7 @@ const MainPortfolio = ({
       activeSectionIndex={activeSectionIndex}
       onViewArtwork={onViewArtGallery}
     />,
-    <Projects />,
+    <Projects onViewArtGallery={onViewArtGallery} />,
     <Contact />
   ], [activeSectionIndex, onViewArtGallery]);
 
@@ -76,7 +76,7 @@ const MainPortfolio = ({
         onToggleMenu={onToggleMobileMenu}
       />
 
-      {/* Sidebar for About and Projects - Hide on Projects page */}
+      {/* Sidebar for About - Hide on Projects page */}
       {activePageIndex !== 2 && (
         <div className="vertical-nav-container">
           <VerticalNav
