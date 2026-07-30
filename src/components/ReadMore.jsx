@@ -1,12 +1,25 @@
 import React, { useState, useEffect } from 'react';
 
 /**
- * A component that truncates long text and adds a "Read More" toggle.
- * Optimized for mobile screens as per user request.
+ * Helper to recursively extract plain text from React nodes / elements.
  */
-const ReadMore = ({ children, limit = 150, isMobileOnly = true }) => {
+const extractText = (node) => {
+    if (!node) return '';
+    if (typeof node === 'string' || typeof node === 'number') return String(node);
+    if (Array.isArray(node)) return node.map(extractText).join('');
+    if (React.isValidElement(node) && node.props && node.props.children) {
+        return extractText(node.props.children);
+    }
+    return '';
+};
+
+/**
+ * A component that truncates long text and adds a "Read More" toggle.
+ * Optimized for mobile and touch screens.
+ */
+const ReadMore = ({ children, limit = 120, isMobileOnly = false }) => {
     const [isExpanded, setIsExpanded] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = useState(true);
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -15,33 +28,44 @@ const ReadMore = ({ children, limit = 150, isMobileOnly = true }) => {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    const text = children?.toString() || "";
+    const text = extractText(children);
     const shouldTruncate = isMobileOnly ? isMobile : true;
 
     if (!shouldTruncate || text.length <= limit) {
         return <>{children}</>;
     }
 
+    const handleToggle = (e) => {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        setIsExpanded(prev => !prev);
+    };
+
     return (
-        <span style={{ transition: 'all 0.3s ease' }}>
-            {isExpanded ? text : `${text.substring(0, limit)}...`}
+        <span style={{ transition: 'all 0.3s ease', display: 'inline' }}>
+            {isExpanded ? children : `${text.substring(0, limit)}... `}
             <button 
-                onClick={(e) => {
-                    e.stopPropagation();
-                    setIsExpanded(!isExpanded);
-                }}
+                type="button"
+                onClick={handleToggle}
+                onTouchEnd={handleToggle}
                 style={{
                     background: 'none',
                     border: 'none',
-                    color: 'var(--accent-color, #3344DD)',
+                    color: '#2563EB',
                     cursor: 'pointer',
                     fontWeight: '700',
-                    padding: '0 5px',
-                    fontSize: '0.85em',
+                    padding: '0 4px',
+                    fontSize: '0.72em',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em',
                     outline: 'none',
-                    display: 'inline-block'
+                    display: 'inline-block',
+                    marginLeft: '4px',
+                    position: 'relative',
+                    zIndex: 50,
+                    pointerEvents: 'auto'
                 }}
             >
                 {isExpanded ? 'Show Less' : 'Read More'}

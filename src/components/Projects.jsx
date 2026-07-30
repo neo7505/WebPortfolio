@@ -7,6 +7,7 @@ import {
   Palette, 
   Sparkles, 
   FileText, 
+  Image as ImageIcon,
   ExternalLink, 
   ArrowRight, 
   ZoomIn, 
@@ -15,7 +16,11 @@ import {
   Play, 
   X, 
   Compass, 
-  Layers 
+  Layers,
+  ChevronRight,
+  ChevronLeft,
+  Eye,
+  RefreshCw
 } from 'lucide-react';
 
 const FigmaIcon = () => (
@@ -335,6 +340,96 @@ const REAL_GIF_GALLERY = [
 
 const GIF_CATEGORIES = ['All', 'Onboarding & Flow', 'Micro-interactions', 'Status & Indicators'];
 
+const ARTWORK_IMAGES = [
+  'Aujla.webp', 'Billie.webp', 'Charch.webp', 'Colors.jpg', 'Eye.jpg',
+  'GLow.jpg', 'Glow2.jpg', 'Hang.jpg', 'Joker.jpg', 'kirti.jpg',
+  'Kiss1.webp', 'Kiss2.webp', 'Kiss3.webp', 'Kiss4.webp', 'Kiss5.webp',
+  'Kiss6.webp', 'Kiss7.webp', 'Korea.webp', 'Krishna.jpg', 'Krishna.webp',
+  'Krishna2.webp', 'Krishna3.webp', 'Messi.webp', 'pider.jpg', 'Siddhu.jpg',
+  'Skull.jpg', 'Stan.webp', 'Stencil.jpg', 'Stencil2.jpg', 'Trimurti.webp',
+  'Virat.webp', 'Witch.jpg', 'Yin.webp', 'Zayn.jpg'
+];
+
+const DynamicSketchGallery = ({ onSelectSketch, onViewArtGallery }) => {
+  const [gridImages, setGridImages] = useState(ARTWORK_IMAGES);
+  const [spotlightIndices, setSpotlightIndices] = useState([0, 4, 11, 17, 24, 30]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // 1. Shift spotlights to 5 new random tile indices
+      setSpotlightIndices([
+        Math.floor(Math.random() * 34),
+        Math.floor(Math.random() * 34),
+        Math.floor(Math.random() * 34),
+        Math.floor(Math.random() * 34),
+        Math.floor(Math.random() * 34),
+      ]);
+
+      // 2. Constantly change / swap 3 random tiles with different artwork images
+      setGridImages(prev => {
+        const next = [...prev];
+        for (let i = 0; i < 3; i++) {
+          const targetIndex = Math.floor(Math.random() * next.length);
+          const randomImage = ARTWORK_IMAGES[Math.floor(Math.random() * ARTWORK_IMAGES.length)];
+          next[targetIndex] = randomImage;
+        }
+        return next;
+      });
+    }, 2200);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', width: '100%' }}>
+      <div style={styles.sketchHeaderRow}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={styles.livePulseDot} />
+            <h3 style={styles.sectionHeaderTitle}>Constantly Changing Sketch Mosaic ({ARTWORK_IMAGES.length})</h3>
+          </div>
+          <p style={styles.sectionHeaderSub}>
+            Live constantly-morphing wall of physical sketches, line art, and portraits continuously morphing in real-time.
+          </p>
+        </div>
+
+        <button 
+          onClick={onViewArtGallery}
+          className="clean-btn-primary"
+          style={styles.actionBtnPrimarySmall}
+        >
+          <Eye size={14} />
+          <span>Launch 3D Art Gallery</span>
+        </button>
+      </div>
+
+      {/* Zero Gap Mosaic Grid with Live Auto-Swapping Images */}
+      <div className="sketch-gapless-mosaic">
+        {gridImages.map((img, idx) => {
+          const isSpotlight = spotlightIndices.includes(idx);
+          return (
+            <div
+              key={`${idx}-${img}`}
+              className={`sketch-tile ${isSpotlight ? 'tile-active-spotlight' : ''}`}
+              onClick={() => onSelectSketch(img, idx)}
+            >
+              <img
+                src={`/assets/Art/${img}`}
+                alt={`Sketch artwork ${img}`}
+                className="sketch-tile-img sketch-tile-morph-in"
+                loading="lazy"
+              />
+              <div className="sketch-tile-overlay">
+                <ZoomIn size={20} color="#FFFFFF" />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
 const ProjectCardItem = ({ project, onViewCaseStudy, idx }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -414,13 +509,14 @@ const ProjectCardItem = ({ project, onViewCaseStudy, idx }) => {
   );
 };
 
-const Projects = () => {
+const Projects = ({ onViewArtGallery }) => {
   const navigate = useNavigate();
   const containerRef = useRef(null);
   const tabsBarRef = useRef(null);
   const [activeTab, setActiveTab] = useState('projects-figma');
   const [gifCategory, setGifCategory] = useState('All');
   const [selectedGif, setSelectedGif] = useState(null);
+  const [selectedSketchIndex, setSelectedSketchIndex] = useState(null);
   const [isStudyZoomed, setIsStudyZoomed] = useState(false);
   const [isPdfFullscreen, setIsPdfFullscreen] = useState(false);
 
@@ -431,10 +527,20 @@ const Projects = () => {
   }, [activeTab]);
 
   useEffect(() => {
-    if (document.getElementById('projects-light-styles')) return;
-    const style = document.createElement('style');
-    style.id = 'projects-light-styles';
+    let style = document.getElementById('projects-light-styles');
+    if (!style) {
+      style = document.createElement('style');
+      style.id = 'projects-light-styles';
+      document.head.appendChild(style);
+    }
     style.innerHTML = `
+      @keyframes tileMorphIn {
+        0% { opacity: 0.3; transform: scale(0.95); }
+        100% { opacity: 1; transform: scale(1); }
+      }
+      .sketch-tile-morph-in {
+        animation: tileMorphIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      }
       .clean-tab-btn {
         transition: color 0.25s ease;
       }
@@ -483,18 +589,99 @@ const Projects = () => {
         z-index: 100;
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        background: rgba(253, 248, 241, 0.92);
-        padding: 8px 0;
-        margin: 0 -4% 15px -4%;
+        background: rgba(253, 248, 241, 0.94);
         padding: 8px 4%;
+        margin: 0 -4% 15px -4%;
         border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .tabs-scroll-wrapper {
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+      }
+      .tabs-edge-shadow-right {
+        display: none !important;
       }
       .projects-tabs-bar {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        scroll-behavior: smooth;
         scrollbar-width: none;
         -ms-overflow-style: none;
+        width: 100%;
       }
       .projects-tabs-bar::-webkit-scrollbar {
         display: none;
+      }
+      .mobile-scroll-hint-btn {
+        display: none !important;
+      }
+
+      /* Gapless Sketch Gallery Grid */
+      .sketch-gapless-mosaic {
+        display: grid !important;
+        grid-template-columns: repeat(6, 1fr) !important;
+        gap: 3px !important;
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+        width: 100% !important;
+      }
+      .sketch-tile {
+        position: relative !important;
+        width: 100% !important;
+        aspect-ratio: 1 / 1 !important;
+        overflow: hidden !important;
+        background: #F3F4F6;
+        cursor: zoom-in;
+        border-radius: 4px;
+      }
+      .sketch-tile-img {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+        transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
+      }
+      .sketch-tile:hover .sketch-tile-img {
+        transform: scale(1.08);
+        filter: brightness(0.88);
+      }
+      .sketch-tile-overlay {
+        position: absolute !important;
+        inset: 0 !important;
+        background: rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(2px);
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+      }
+      .sketch-tile:hover .sketch-tile-overlay {
+        opacity: 1;
+      }
+      .tile-active-spotlight {
+        box-shadow: inset 0 0 0 2px #2563EB, 0 0 14px rgba(37, 99, 235, 0.45);
+        z-index: 5;
+      }
+
+      @media (max-width: 1200px) {
+        .sketch-gapless-mosaic { grid-template-columns: repeat(5, 1fr) !important; }
+      }
+      @media (max-width: 900px) {
+        .sketch-gapless-mosaic { grid-template-columns: repeat(4, 1fr) !important; }
       }
       @media (max-width: 768px) {
         .projects-container { padding: 75px 14px 30px 14px !important; height: auto !important; min-height: 100vh !important; overflow-y: visible !important; }
@@ -504,9 +691,38 @@ const Projects = () => {
         .projects-grid-2 { grid-template-columns: 1fr !important; }
         .projects-grid-3 { grid-template-columns: 1fr !important; }
         .pdf-frame-height { height: 450px !important; }
+        .sketch-gapless-mosaic { grid-template-columns: repeat(3, 1fr) !important; }
+        .tabs-edge-shadow-right {
+          position: absolute;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          width: 32px;
+          background: linear-gradient(to left, rgba(253, 248, 241, 0.95), rgba(253, 248, 241, 0));
+          pointer-events: none;
+          z-index: 10;
+          display: block !important;
+        }
+        .mobile-scroll-hint-btn {
+          display: flex !important;
+          align-items: center;
+          gap: 4px;
+          font-size: 0.72rem;
+          font-weight: 700;
+          color: #2563EB;
+          background: rgba(37, 99, 235, 0.08);
+          border: 1px solid rgba(37, 99, 235, 0.2);
+          padding: 6px 11px;
+          border-radius: 20px;
+          white-space: nowrap;
+          flex-shrink: 0;
+          cursor: pointer;
+        }
+      }
+      @media (max-width: 440px) {
+        .sketch-gapless-mosaic { grid-template-columns: repeat(2, 1fr) !important; }
       }
     `;
-    document.head.appendChild(style);
   }, []);
 
   const projectsList = [
@@ -584,66 +800,83 @@ const Projects = () => {
 
         {/* Sticky Mobile & Desktop Sub-Tabs Track */}
         <div className="mobile-sticky-tabs">
-          <div style={styles.dropletTrackContainer} className="projects-tabs-bar" ref={tabsBarRef}>
-            {[
-              { id: 'projects-figma', label: 'Projects & Figma Files', icon: <FolderGit2 size={15} /> },
-              { id: 'logo-study', label: 'Logo & Brand Process', icon: <Palette size={15} /> },
-              { id: 'motion-gifs', label: 'Mascot Motion GIFs', icon: <Sparkles size={15} /> },
-              { id: 'graphic-pdf', label: 'Graphic Design Book', icon: <FileText size={15} /> },
-            ].map(tab => {
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`clean-tab-btn tab-btn-responsive ${isActive ? 'active-tab' : ''}`}
-                  style={{
-                    position: 'relative',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    padding: '11px 22px',
-                    borderRadius: '30px',
-                    border: 'none',
-                    backgroundColor: 'transparent',
-                    color: isActive ? '#FFFFFF' : '#6B7280',
-                    fontSize: '0.88rem',
-                    fontWeight: isActive ? '700' : '500',
-                    cursor: 'pointer',
-                    whiteSpace: 'nowrap',
-                    outline: 'none',
-                    flexShrink: 0,
-                  }}
-                >
-                  {/* Liquid Droplet Pill Background */}
-                  {isActive && (
-                    <motion.div
-                      layoutId="droplet-subtab-active-pill"
-                      transition={{
-                        type: 'spring',
-                        stiffness: 380,
-                        damping: 26,
-                        mass: 0.75
-                      }}
-                      style={{
-                        position: 'absolute',
-                        inset: 0,
-                        backgroundColor: '#111827',
-                        borderRadius: '30px',
-                        boxShadow: '0 8px 24px rgba(17, 24, 39, 0.22), 0 2px 6px rgba(0, 0, 0, 0.08)',
-                        zIndex: 0,
-                      }}
-                    />
-                  )}
+          <div className="tabs-scroll-wrapper">
+            <div style={styles.dropletTrackContainer} className="projects-tabs-bar" ref={tabsBarRef}>
+              {[
+                { id: 'projects-figma', label: 'Projects & Figma Files', icon: <FolderGit2 size={15} /> },
+                { id: 'logo-study', label: 'Logo & Brand Process', icon: <Palette size={15} /> },
+                { id: 'motion-gifs', label: 'Mascot Motion GIFs', icon: <Sparkles size={15} /> },
+                { id: 'graphic-pdf', label: 'Graphic Design Book', icon: <FileText size={15} /> },
+                { id: 'sketches-art', label: 'Sketches & Art Gallery', icon: <ImageIcon size={15} /> },
+              ].map(tab => {
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`clean-tab-btn tab-btn-responsive ${isActive ? 'active-tab' : ''}`}
+                    style={{
+                      position: 'relative',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '11px 22px',
+                      borderRadius: '30px',
+                      border: 'none',
+                      backgroundColor: 'transparent',
+                      color: isActive ? '#FFFFFF' : '#6B7280',
+                      fontSize: '0.88rem',
+                      fontWeight: isActive ? '700' : '500',
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap',
+                      outline: 'none',
+                      flexShrink: 0,
+                    }}
+                  >
+                    {/* Liquid Droplet Pill Background */}
+                    {isActive && (
+                      <motion.div
+                        layoutId="droplet-subtab-active-pill"
+                        transition={{
+                          type: 'spring',
+                          stiffness: 380,
+                          damping: 26,
+                          mass: 0.75
+                        }}
+                        style={{
+                          position: 'absolute',
+                          inset: 0,
+                          backgroundColor: '#111827',
+                          borderRadius: '30px',
+                          boxShadow: '0 8px 24px rgba(17, 24, 39, 0.22), 0 2px 6px rgba(0, 0, 0, 0.08)',
+                          zIndex: 0,
+                        }}
+                      />
+                    )}
 
-                  <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    {tab.icon}
-                    <span>{tab.label}</span>
-                  </span>
-                </button>
-              );
-            })}
+                    <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      {tab.icon}
+                      <span>{tab.label}</span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            <div className="tabs-edge-shadow-right" />
           </div>
+
+          <button 
+            className="mobile-scroll-hint-btn"
+            onClick={() => {
+              if (tabsBarRef.current) {
+                tabsBarRef.current.scrollBy({ left: 160, behavior: 'smooth' });
+              }
+            }}
+            title="Scroll sub-tabs"
+          >
+            <span>Scroll</span>
+            <ChevronRight size={13} />
+          </button>
         </div>
 
         {/* TAB CONTENTS WITH LIQUID CROSSFADE */}
@@ -858,6 +1091,23 @@ const Projects = () => {
               </div>
             </motion.div>
           )}
+
+          {/* TAB 5: GAPLESS DYNAMIC SKETCHES & ART GALLERY */}
+          {activeTab === 'sketches-art' && (
+            <motion.div
+              key="sketches-art"
+              initial={{ opacity: 0, y: 14, scale: 0.985 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -14, scale: 0.985 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 26, mass: 0.8 }}
+              style={styles.tabContent}
+            >
+              <DynamicSketchGallery 
+                onSelectSketch={(img, idx) => setSelectedSketchIndex(idx)}
+                onViewArtGallery={onViewArtGallery}
+              />
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
 
@@ -956,6 +1206,60 @@ const Projects = () => {
                 src="/assets/Portfolio_removed.pdf#toolbar=1" 
                 title="Fullscreen Design Portfolio PDF"
                 style={{ width: '100%', height: '100%', border: 'none', borderRadius: '16px' }}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* MODAL 4: SKETCH LIGHTBOX WITH NAVIGATION */}
+      <AnimatePresence>
+        {selectedSketchIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={styles.modalOverlay}
+            onClick={() => setSelectedSketchIndex(null)}
+          >
+            <button style={styles.modalCloseBtn} onClick={() => setSelectedSketchIndex(null)}>
+              <X size={24} color="#111827" />
+            </button>
+
+            <button
+              style={{ ...styles.modalNavBtn, left: '20px' }}
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedSketchIndex((prev) => (prev > 0 ? prev - 1 : ARTWORK_IMAGES.length - 1));
+              }}
+              title="Previous sketch"
+            >
+              <ChevronLeft size={22} color="#111827" />
+            </button>
+
+            <button
+              style={{ ...styles.modalNavBtn, right: '20px' }}
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedSketchIndex((prev) => (prev < ARTWORK_IMAGES.length - 1 ? prev + 1 : 0));
+              }}
+              title="Next sketch"
+            >
+              <ChevronRight size={22} color="#111827" />
+            </button>
+
+            <motion.div
+              key={selectedSketchIndex}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              style={styles.modalContentImage}
+              onClick={e => e.stopPropagation()}
+            >
+              <img
+                src={`/assets/Art/${ARTWORK_IMAGES[selectedSketchIndex]}`}
+                alt={`Artwork ${ARTWORK_IMAGES[selectedSketchIndex]}`}
+                style={styles.modalImgFull}
               />
             </motion.div>
           </motion.div>
@@ -1484,6 +1788,38 @@ const styles = {
     color: '#4B5563',
     margin: 0,
     lineHeight: '1.5',
+  },
+  sketchHeaderRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: '15px',
+    marginBottom: '4px',
+  },
+  livePulseDot: {
+    width: '8px',
+    height: '8px',
+    borderRadius: '50%',
+    backgroundColor: '#10B981',
+    boxShadow: '0 0 10px #10B981',
+    display: 'inline-block',
+  },
+  modalNavBtn: {
+    position: 'absolute',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    background: '#FFFFFF',
+    border: '1px solid rgba(0, 0, 0, 0.1)',
+    borderRadius: '50%',
+    width: '44px',
+    height: '44px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    cursor: 'pointer',
+    zIndex: 2010,
+    boxShadow: '0 4px 15px rgba(0,0,0,0.12)',
   },
   modalContentPdf: {
     width: '95vw',

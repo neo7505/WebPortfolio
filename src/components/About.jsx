@@ -55,8 +55,16 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
     const SkillGroup = ({ title, skills, isMobile }) => {
         const [isExpanded, setIsExpanded] = useState(false);
         const limit = 6;
-        const showToggle = isMobile && skills.length > limit;
+        const showToggle = (isMobile || window.innerWidth < 768) && skills.length > limit;
         const visibleSkills = showToggle && !isExpanded ? skills.slice(0, limit) : skills;
+
+        const handleToggle = (e) => {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            setIsExpanded(prev => !prev);
+        };
 
         return (
             <div style={styles.skillGroup}>
@@ -71,19 +79,25 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                 </div>
                 {showToggle && (
                     <button
-                        onClick={() => setIsExpanded(!isExpanded)}
+                        type="button"
+                        onClick={handleToggle}
+                        onTouchEnd={handleToggle}
                         style={{
                             background: 'none',
                             border: 'none',
-                            color: 'var(--accent-color, #3344DD)',
+                            color: '#2563EB',
                             cursor: 'pointer',
                             fontWeight: '700',
-                            padding: '8px 0',
-                            fontSize: '0.8rem',
+                            padding: '4px 0',
+                            fontSize: '0.75rem',
                             textAlign: 'left',
                             width: 'fit-content',
                             textTransform: 'uppercase',
-                            letterSpacing: '0.05em'
+                            letterSpacing: '0.05em',
+                            marginTop: '4px',
+                            position: 'relative',
+                            zIndex: 50,
+                            pointerEvents: 'auto'
                         }}
                     >
                         {isExpanded ? 'Show Less' : `+ Show ${skills.length - limit} More`}
@@ -109,7 +123,7 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                     {/* Designer Impact Stat Row */}
                     <div style={styles.statsRow}>
                         <div style={styles.statCard}>
-                            <div style={styles.statNumber}>2+</div>
+                            <div style={styles.statNumber}>2</div>
                             <div style={styles.statLabel}>Years Experience</div>
                         </div>
                         <div style={styles.statCard}>

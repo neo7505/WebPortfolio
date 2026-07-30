@@ -182,10 +182,56 @@ const injectStyles = () => {
             33% { transform: translate3d(30px, 20px, 0) rotate(60deg); }
             66% { transform: translate3d(-40px, 50px, 0) rotate(120deg); }
         }
+        .floating-specialty-tag {
+            position: absolute;
+            z-index: 25;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 30px;
+            padding: 8px 16px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #1A1A1A;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07), 0 2px 6px rgba(0, 0, 0, 0.03);
+            white-space: nowrap;
+            pointer-events: auto;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            user-select: none;
+        }
+        .floating-specialty-tag:hover {
+            transform: translateY(-4px) scale(1.05) !important;
+            box-shadow: 0 12px 28px rgba(51, 68, 221, 0.18);
+            border-color: rgba(51, 68, 221, 0.35);
+            background: rgba(255, 255, 255, 0.98);
+        }
+        .tag-top-left {
+            top: 6%;
+            left: -110px;
+        }
+        .tag-top-right {
+            top: 18%;
+            right: -120px;
+        }
+        .tag-bottom-left {
+            bottom: 22%;
+            left: -110px;
+        }
+        .tag-bottom-right {
+            bottom: 8%;
+            right: -90px;
+        }
+        @media (max-width: 1024px) {
+            .tag-top-left { top: 2%; left: -60px; }
+            .tag-top-right { top: 12%; right: -60px; }
+            .tag-bottom-left { bottom: 18%; left: -60px; }
+            .tag-bottom-right { bottom: 4%; right: -50px; }
+        }
         @media (max-width: 768px) {
             .home-title { font-size: 32px !important; }
             .home-subtitle { font-size: 1rem !important; margin-bottom: 20px !important; }
-            .home-image-container { width: 320px !important; height: 320px !important; margin-top: 130px !important; }
+            .home-image-container { width: 320px !important; height: 320px !important; margin-top: 60px !important; margin-bottom: 50px !important; }
             .home-profile-img { width: 450px !important; height: 450px !important; }
             .home-blob { width: 200px !important; height: 200px !important; }
             .home-grid-container { 
@@ -194,6 +240,21 @@ const injectStyles = () => {
                 pointer-events: auto !important;
             }
             .grid-cell { border-color: rgba(51, 68, 221, 0.03) !important; }
+            .floating-specialty-tag {
+                font-size: 0.72rem !important;
+                padding: 6px 12px !important;
+                border-radius: 20px !important;
+            }
+            .tag-top-left { top: -45px !important; left: -10px !important; }
+            .tag-top-right { top: -45px !important; right: -10px !important; }
+            .tag-bottom-left { bottom: -45px !important; left: -10px !important; }
+            .tag-bottom-right { bottom: -45px !important; right: -10px !important; }
+        }
+        @media (max-width: 480px) {
+            .tag-top-left { top: -42px !important; left: 0px !important; }
+            .tag-top-right { top: -42px !important; right: 0px !important; }
+            .tag-bottom-left { bottom: -42px !important; left: 0px !important; }
+            .tag-bottom-right { bottom: -42px !important; right: 0px !important; }
         }
     `;
     document.head.appendChild(style);
@@ -335,25 +396,13 @@ const Home = () => {
                         style={styles.subtitle}
                         className="home-subtitle"
                     >
-                        <span>UX/Product Designer with 2+ years of experience crafting enterprise SaaS from <strong>0 → 1</strong>.</span>
+                        <span>UX/Product Designer with 2 years of experience crafting enterprise SaaS from <strong>0 → 1</strong>.</span>
                         <br />
                         <span style={styles.subtitleSubtext}>
                             Translating complex workflow challenges into intuitive, data-driven user experiences.
                         </span>
                     </motion.p>
 
-                    {/* Designer Specialty Tags */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 1.2, duration: 0.6 }}
-                        style={styles.specialtyContainer}
-                    >
-                        <span style={styles.specialtyTag}>🎨 UX & Interaction Design</span>
-                        <span style={styles.specialtyTag}>⚡ 0 → 1 Enterprise SaaS</span>
-                        <span style={styles.specialtyTag}>📊 Information Architecture</span>
-                        <span style={styles.specialtyTag}>📐 Design Systems</span>
-                    </motion.div>
                 </motion.div>
 
                 <motion.div
@@ -377,6 +426,59 @@ const Home = () => {
                             e.target.src = "https://via.placeholder.com/400x400?text=Profile";
                         }}
                     />
+
+                    {/* Floating Specialty Tags around Photo */}
+                    <motion.div
+                        className="floating-specialty-tag tag-top-left"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+                        transition={{
+                            opacity: { delay: 1.1, duration: 0.5 },
+                            scale: { delay: 1.1, duration: 0.5 },
+                            y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                        }}
+                    >
+                        🎨 UX & Interaction Design
+                    </motion.div>
+
+                    <motion.div
+                        className="floating-specialty-tag tag-top-right"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+                        transition={{
+                            opacity: { delay: 1.3, duration: 0.5 },
+                            scale: { delay: 1.3, duration: 0.5 },
+                            y: { duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }
+                        }}
+                    >
+                        ⚡ 0 → 1 Enterprise SaaS
+                    </motion.div>
+
+                    <motion.div
+                        className="floating-specialty-tag tag-bottom-left"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+                        transition={{
+                            opacity: { delay: 1.5, duration: 0.5 },
+                            scale: { delay: 1.5, duration: 0.5 },
+                            y: { duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 1.0 }
+                        }}
+                    >
+                        📊 Information Architecture
+                    </motion.div>
+
+                    <motion.div
+                        className="floating-specialty-tag tag-bottom-right"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+                        transition={{
+                            opacity: { delay: 1.7, duration: 0.5 },
+                            scale: { delay: 1.7, duration: 0.5 },
+                            y: { duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 1.5 }
+                        }}
+                    >
+                        📐 Design Systems
+                    </motion.div>
                 </motion.div>
             </div>
         </motion.div>
