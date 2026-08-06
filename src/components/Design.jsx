@@ -502,7 +502,7 @@ const Design = ({ onViewArtGallery }) => {
                   <div style={styles.uiUxBody}>
                     <h3 style={styles.uiUxTitle}>EcoIndex — Carbon Analytics & Behavioral UX</h3>
                     <p style={styles.uiUxDesc}>
-                      A 0→1 sustainability platform designed to measure, visualize, and gamify daily carbon emissions through interactive data dashboards.
+                      0→1 carbon accounting platform adopted by 250+ enterprise clients (incl. ITC & Radisson Hotels), measuring 1.8M+ kg CO₂e across 42+ events with 65% retention.
                     </p>
                     <div style={styles.uiUxFooter}>
                       <button 
@@ -526,7 +526,7 @@ const Design = ({ onViewArtGallery }) => {
                   <div style={styles.uiUxBody}>
                     <h3 style={styles.uiUxTitle}>IntelliQ — Enterprise Data & Workflow Systems</h3>
                     <p style={styles.uiUxDesc}>
-                      High-density operational management platform with real-time data streaming, modular views, and scalable component architecture.
+                      0→1 enterprise data analytics & configurable workflow platform supporting 200+ users, 1.5k+ Smart Sheets, and 100+ dashboards across 4 orgs with 95%+ adoption.
                     </p>
                     <div style={styles.uiUxFooter}>
                       <button 

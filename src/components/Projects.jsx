@@ -731,7 +731,7 @@ const Projects = ({ onViewArtGallery }) => {
       title: 'EcoIndex',
       subTitle: 'Sustainability & Behavioral UX Platform',
       category: 'SUSTAINABILITY • PRODUCT UX',
-      description: 'A 0→1 sustainability platform designed to calculate, visualize, and gamify daily carbon emissions through interactive data dashboards & mascot motion.',
+      description: '0→1 carbon accounting platform adopted by 250+ enterprise clients (incl. ITC & Radisson Hotels), measuring 1.8M+ kg CO₂e across 42+ events with 65% retention.',
       images: [
         '/assets/app/Page30.png',
         '/assets/app/Page23.png',
@@ -741,14 +741,14 @@ const Projects = ({ onViewArtGallery }) => {
       themeColor: '#10B981',
       caseStudyPath: '/ecoindex',
       figmaUrl: 'https://www.figma.com/design/SgjQWSYfLQ2U0IBfqyXvXG/EcoIndex-App?node-id=0-1&p=f',
-      tags: ['0→1 Product Strategy', 'Behavioral UX', 'Carbon Analytics', 'Mascot Motion']
+      tags: ['0→1 Enterprise SaaS', 'Scope 1, 2, 3 Accounting', '65% Retention', '250+ Enterprise Clients', '1.8M+ kg CO₂e Tracked']
     },
     {
       id: 'intelliq',
       title: 'IntelliQ',
       subTitle: 'Enterprise SaaS & Operations System',
       category: 'ENTERPRISE SAAS • SYSTEMS',
-      description: 'High-density operational management platform featuring real-time data streaming, modular view states, and scalable design system architecture.',
+      description: '0→1 enterprise data analytics & configurable workflow platform supporting 200+ users, 1.5k+ Smart Sheets, and 100+ dashboards across 4 orgs. Achieved 95%+ adoption and ~60% manual effort reduction.',
       images: [
         '/assets/IntelliQ/HomeScreen.png',
       ],
@@ -756,7 +756,7 @@ const Projects = ({ onViewArtGallery }) => {
       themeColor: '#E11D48',
       caseStudyPath: '/intelliq',
       figmaUrl: 'https://www.figma.com/design/z3PBXuvZ5UXjlrNlgcjBYi/IntelliQ?node-id=0-1&p=f',
-      tags: ['B2B Enterprise', 'Information Arch', 'Workflow Systems', 'Design Tokens']
+      tags: ['0→1 Enterprise SaaS', '95%+ Adoption', '200+ Users & 1.5k+ Sheets', '40+ Releases (80+ APIs)', '~60% Effort Reduction']
     },
     {
       id: 'octodo-websites',

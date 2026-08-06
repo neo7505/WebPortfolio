@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { PAGES } from '../constants/navigation';
 import { Download, Menu } from 'lucide-react';
-import resumePDF from '../assets/Chitrankar_Designer.pdf';
+import resumePDF from '../assets/ResumeDesigner_Chitrankar.pdf';
 
 const ProgressIndicator = ({ activePageIndex, onPageClick, onToggleMenu }) => {
     const isDarkPage = false; // Unified light theme across all pages

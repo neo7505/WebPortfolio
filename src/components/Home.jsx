@@ -385,7 +385,7 @@ const Home = () => {
                         <SplitText text=", A " />
 
                         <span style={styles.italicAccent}>
-                            <SplitText text="Product-Focused Engineer." />
+                            <SplitText text="Product Engineer & Designer." />
                             <SketchUnderline delay={1.8} />
                         </span>
                     </h1>
@@ -396,10 +396,10 @@ const Home = () => {
                         style={styles.subtitle}
                         className="home-subtitle"
                     >
-                        <span>UX/Product Designer with 2 years of experience crafting enterprise SaaS from <strong>0 → 1</strong>.</span>
+                        <span>Product Engineer (UX & Product Systems) with 2 years of experience crafting enterprise SaaS from <strong>0 → 1</strong>.</span>
                         <br />
                         <span style={styles.subtitleSubtext}>
-                            Translating complex workflow challenges into intuitive, data-driven user experiences.
+                            Translating complex enterprise workflow challenges into intuitive, data-driven user experiences.
                         </span>
                     </motion.p>
 
@@ -464,7 +464,7 @@ const Home = () => {
                             y: { duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 1.0 }
                         }}
                     >
-                        📊 Information Architecture
+                        📊 Product Discovery & PRDs
                     </motion.div>
 
                     <motion.div
@@ -477,7 +477,7 @@ const Home = () => {
                             y: { duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 1.5 }
                         }}
                     >
-                        📐 Design Systems
+                        📐 Design Systems & React
                     </motion.div>
                 </motion.div>
             </div>

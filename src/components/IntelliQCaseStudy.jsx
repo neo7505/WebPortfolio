@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { ArrowLeft, CheckCircle2, Layout, Database, Users, Shield, BarChart3, Settings, ClipboardList, Info, X, Maximize2, PieChart, Activity, Zap, FileText, Layers } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Layout, Database, Users, Shield, BarChart3, Settings, ClipboardList, Info, X, Maximize2, PieChart, Activity, Zap, FileText, Layers, ExternalLink } from 'lucide-react';
 import ReadMore from './ReadMore';
+
+const FigmaIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38H19V28.5Z" fill="#1ABCFE"/>
+    <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
+    <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 38 0 28.5 0H19Z" fill="#FF7262"/>
+    <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
+    <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
+  </svg>
+);
 
 
 const fadeUp = {
@@ -175,6 +185,22 @@ const IntelliQCaseStudy = ({ onBack }) => {
             .iq-content-scroll::-webkit-scrollbar { width: 6px; }
             .iq-content-scroll::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
 
+            .iq-impact-item:hover { border-color: rgba(255,51,102,0.4) !important; transform: translateY(-3px); }
+            .iq-top-btn { transition: all 0.2s ease; }
+            .iq-top-btn:hover { transform: translateY(-1px); opacity: 0.9; }
+            @media (max-width: 640px) {
+                .iq-top-btn-text { display: none !important; }
+                .iq-top-btn { padding: 6px 8px !important; }
+                .iq-nav { padding: 0 12px !important; }
+            }
+
+            @media (max-width: 900px) {
+                .iq-impact-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+            }
+            @media (max-width: 550px) {
+                .iq-impact-grid { grid-template-columns: 1fr !important; }
+            }
+
             @media (max-width: 768px) {
                 #iq-case-root { padding-top: 0 !important; }
                 .iq-nav { padding: 0 16px !important; }
@@ -225,7 +251,29 @@ const IntelliQCaseStudy = ({ onBack }) => {
                     <span>Projects</span>
                 </button>
                 <span style={styles.navTitle}>IntelliQ</span>
-                <div style={{ width: 90 }} />
+                <a
+                    href="https://www.figma.com/design/z3PBXuvZ5UXjlrNlgcjBYi/IntelliQ?node-id=0-1&p=f"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="View IntelliQ Figma Design System"
+                    className="iq-top-btn"
+                    style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '6px 12px',
+                        borderRadius: '8px',
+                        background: '#FFF0F3',
+                        color: '#FF3366',
+                        border: '1px solid rgba(255,51,102,0.2)',
+                        fontSize: '0.8rem',
+                        fontWeight: '700',
+                        textDecoration: 'none'
+                    }}
+                >
+                    <FigmaIcon />
+                    <span className="iq-top-btn-text">Figma</span>
+                </a>
             </nav>
 
             {/* ── Hero ─────────────────────────── */}
@@ -243,10 +291,10 @@ const IntelliQCaseStudy = ({ onBack }) => {
 
                     <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0.25} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px', borderTop: '1px solid #e8e8e8', paddingTop: '32px', marginTop: '40px' }}>
                         {[
-                            { label: 'Role', value: 'Lead Product Engineer & Interaction Designer' },
-                            { label: 'Timeline & Tools', value: '16 Weeks (Q3–Q4 2024) · React, TanStack Table, Redux, Tailwind' },
-                            { label: 'Platform & Focus', value: 'Enterprise Web Dashboard · Dense B2B Data Workflows' },
-                            { label: 'Core Efficiency Target', value: 'Reduce data-entry cycle time by 45%; 0% cross-user edit conflicts' },
+                            { label: 'Role', value: 'Product Engineer (Product Systems)' },
+                            { label: 'Timeline & Tools', value: 'May 2024 – Mar 2026 · React, TanStack Table, Redux, REST APIs, SQL' },
+                            { label: 'Platform & Scale', value: '200+ Users · 1.5k+ Smart Sheets · 100+ Dashboards across 4 Orgs' },
+                            { label: 'Key Impact', value: '95%+ Adoption · ~60% Effort Reduction · ~50% Faster Completion' },
                         ].map(({ label, value }) => (
                             <div key={label} style={{ background: '#fcfcfc', border: '1px solid #ebebeb', padding: '16px', borderRadius: '12px' }}>
                                 <p style={{ fontSize: '0.7rem', color: '#999', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '6px' }}>{label}</p>
@@ -269,9 +317,9 @@ const IntelliQCaseStudy = ({ onBack }) => {
                     </Reveal>
                     <Reveal delay={0.4} style={{ gridColumn: 'span 4', gridRow: 'span 2' }} className="iq-bento-card">
                         <div style={{ ...styles.bentoCard, background: '#111', color: '#fff', padding: '32px' }}>
-                            <Label color="#FF3366">Tech Stack</Label>
+                            <Label color="#FF3366">Tech & Architecture</Label>
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '16px' }}>
-                                {['React', 'Vite', 'Redux', 'TanStack Table', 'Recharts', 'Tailwind'].map(tech => (
+                                {['React', 'JavaScript', 'Redux Toolkit', 'TanStack Table', '80+ REST APIs', 'SQL', 'Taiga'].map(tech => (
                                     <span key={tech} style={styles.techBadge}>{tech}</span>
                                 ))}
                             </div>
@@ -280,12 +328,53 @@ const IntelliQCaseStudy = ({ onBack }) => {
                     <Reveal delay={0.5} style={{ gridColumn: 'span 4', gridRow: 'span 2' }} className="iq-bento-card">
                         <div style={{ ...styles.bentoCard, background: '#F8F9FF', padding: '32px' }}>
                             <Label color="#3344DD">Real World Impact</Label>
-                            <h3 style={{ fontSize: '1.2rem', fontWeight: '800', marginTop: '8px' }}>Active Production Use</h3>
-                            <p style={{ ...styles.body, fontSize: '0.9rem', marginTop: '8px' }}>Currently deployed at Agrasen Manufacturing and D2O.</p>
+                            <h3 style={{ fontSize: '1.2rem', fontWeight: '800', marginTop: '8px' }}>Active Enterprise Production</h3>
+                            <p style={{ ...styles.body, fontSize: '0.9rem', marginTop: '8px' }}>Deployed across 4 organizations (incl. Agrasen Manufacturing and D2O) for 200+ users with 40+ releases & 80+ REST APIs.</p>
                         </div>
                     </Reveal>
                 </div>
             </section>
+
+            {/* ── Key UX Metrics & Business Impact (Outcomes at Top) ── */}
+            <section style={{ ...styles.section, background: '#0d0d0d', color: '#fff', padding: '70px 0' }} className="iq-section">
+                <div style={styles.sectionInner} className="iq-section-inner">
+                    <Reveal style={{ textAlign: 'center', marginBottom: '48px' }}>
+                        <Label color="#FF3366">Key UX Metrics & Business Impact</Label>
+                        <h2 style={{ ...styles.h2, color: '#fff' }} className="iq-h2">Quantitative Outcomes</h2>
+                        <p style={{ color: '#aaa', fontSize: '1rem', marginTop: '12px', maxWidth: '640px', marginInline: 'auto' }}>
+                            Validated operational outcomes across 4 enterprise organizations from discovery to production delivery.
+                        </p>
+                    </Reveal>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }} className="iq-impact-grid">
+                        {[
+                            { value: '95%+', label: 'User Adoption Rate Across 4 Enterprise Orgs', sub: 'Driven by high-density inline validation UX' },
+                            { value: '~60%', label: 'Reduction in Manual Operational Effort', sub: 'Eliminated redundant spreadsheet cross-entry' },
+                            { value: '~50%', label: 'Reduction in Workflow Processing Time', sub: 'Accelerated daily supply allocation cycles' },
+                            { value: '200+', label: 'Active Enterprise Users Supported', sub: 'Distributed across factory operations & admin' },
+                            { value: '1.5k+', label: 'Smart Sheets & 100+ Dashboards', sub: 'High-density configurable view architecture' },
+                            { value: '40+', label: 'Releases Delivered (80+ REST APIs)', sub: 'End-to-end product & systems engineering' },
+                        ].map(({ value, label, sub }) => (
+                            <Reveal key={label}>
+                                <div style={{ 
+                                    padding: '32px 28px', 
+                                    textAlign: 'left', 
+                                    background: 'rgba(255,255,255,0.03)', 
+                                    border: '1px solid rgba(255,255,255,0.08)',
+                                    borderRadius: '16px',
+                                    backdropFilter: 'blur(10px)',
+                                    transition: 'all 0.3s ease',
+                                }} className="iq-impact-item">
+                                    <div style={{ fontSize: 'clamp(2.4rem, 4vw, 3.4rem)', fontWeight: '900', color: '#FF3366', marginBottom: '8px', lineHeight: 1, letterSpacing: '-0.02em' }}>{value}</div>
+                                    <div style={{ fontSize: '0.95rem', color: '#fff', fontWeight: '700', marginBottom: '6px' }}>{label}</div>
+                                    <div style={{ fontSize: '0.8rem', color: '#777', lineHeight: '1.4' }}>{sub}</div>
+                                </div>
+                            </Reveal>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            <Divider />
 
             <Divider />
 
@@ -712,51 +801,27 @@ const IntelliQCaseStudy = ({ onBack }) => {
                 </div>
             </section>
 
-            {/* ── Key UX Metrics & Business Impact ─────────────────── */}
-            <section style={{ ...styles.section, background: '#0d0d0d', color: '#fff' }} className="iq-section">
-                <div style={styles.sectionInner} className="iq-section-inner">
-                    <Reveal style={{ textAlign: 'center', marginBottom: '64px' }}>
-                        <Label color="#FF3366">Key UX Metrics & Business Impact</Label>
-                        <h2 style={{ ...styles.h2, color: '#fff' }} className="iq-h2">Quantitative Outcomes</h2>
-                    </Reveal>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2px', background: 'rgba(255,255,255,0.07)', borderRadius: '20px', overflow: 'hidden' }} className="iq-impact-grid">
-                        {[
-                            { value: '-45%', label: 'Data-Entry Cycle Time per Batch Report' },
-                            { value: '92%', label: 'Reduction in Reporting Errors' },
-                            { value: '0%', label: 'Cross-User Write Collisions & Overwrite Conflicts' },
-                        ].map(({ value, label }) => (
-                            <Reveal key={label}>
-                                <div style={{ padding: '56px 40px', textAlign: 'center', background: '#111' }} className="iq-impact-item">
-                                    <div style={{ fontSize: 'clamp(2.2rem, 4vw, 3.5rem)', fontWeight: '900', color: '#FF3366', marginBottom: '12px', lineHeight: 1 }}>{value}</div>
-                                    <div style={{ fontSize: '0.85rem', color: '#888', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: '600' }}>{label}</div>
-                                </div>
-                            </Reveal>
-                        ))}
-                    </div>
-                </div>
-            </section>
 
-            <Divider />
 
             {/* ── Contributions Section (EcoIndex Style) ── */}
             <section style={{ ...styles.section, background: '#fafafa' }} className="iq-section">
                 <div style={styles.sectionInner} className="iq-section-inner">
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }} className="iq-grid-2col">
                         <Reveal>
-                            <Label color="#FF3366">Design Ownership & Execution</Label>
+                            <Label color="#FF3366">Product Systems & UX Execution</Label>
                             <h2 style={styles.h2}>My Involvement</h2>
                             <p style={{ ...styles.body, marginTop: '20px' }}>
-                                I served as the Lead Product Engineer & Interaction Designer, bridging high-density information architecture requirements with React/TanStack table implementation.
+                                I served as the Product Engineer (UX & Product Systems), leading discovery, defining PRDs & MVP features, and designing data-intensive workflows from user research to production delivery.
                             </p>
                         </Reveal>
                         <Reveal delay={0.2}>
                             <div style={{ display: 'grid', gap: '16px' }}>
                                 {[
-                                    'Led factory operator user research to uncover data entry and navigation friction points',
-                                    'Designed high-density layout behaviors including freeze columns and custom accordion groups',
-                                    'Implemented client-side formula engines and row-level conflict resolution layers in React',
-                                    'Leveraged RICE framework prioritization to build and release core sheet operations first',
-                                    'Maintained consistent design tokens for spacing, validation states, and keyboard outline rings'
+                                    'Conducted 20+ stakeholder & customer interviews across 4 organizations to uncover spreadsheet usability gaps',
+                                    'Defined MVP, PRDs, user stories, and role-based data capture workflows for daily user engagement',
+                                    'Designed high-density Smart Sheets, dashboards, information architecture, and reusable design systems',
+                                    'Delivered 40+ releases integrating 80+ REST APIs while partnering with Engineering, QA, and Business teams',
+                                    'Validated designs through usability testing, achieving 95%+ adoption while cutting manual effort by ~60%'
                                 ].map((item, i) => (
                                     <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'center', padding: '16px 20px', borderRadius: '12px', border: '1px solid #ebebeb', background: '#fff' }}>
                                         <CheckCircle2 size={16} color="#FF3366" style={{ flexShrink: 0 }} />

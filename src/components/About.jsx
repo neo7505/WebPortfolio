@@ -5,7 +5,7 @@ import {
     Figma, Workflow, Layout, Layers, Image, Palette, Box,
     Atom, Database, Cpu, Table, BarChart2, Wind, BoxSelect, Brush,
     Globe, Zap, GitBranch, Github, Component, Type, Eye, Play, Shield, Search,
-    Users, MousePointer2
+    Users, MousePointer2, FileText, CheckSquare, PieChart, Server, Sparkles
 } from 'lucide-react';
 import { InteractiveGrid, NoiseOverlay, FloatingAssets } from './Home';
 import ReadMore from './ReadMore';
@@ -244,19 +244,20 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                                     <h3 style={styles.itemTitle}>OctoDo Solutions Pvt. Ltd.</h3>
                                     <span style={styles.datePill}>May 2024 – March 2026</span>
                                 </div>
-                                <p style={styles.degreeText}>Product Engineer (UX & Product Systems) (Intern → Full-time)</p>
+                                <p style={styles.degreeText}>Product Engineer (Product Systems) (Intern → Full-time)</p>
                                 <ul style={styles.bulletList}>
-                                    <li>Led stakeholder interviews and discovery workshops, translating workflow challenges into actionable product requirements.</li>
-                                    <li>Designed end-to-end user journeys, task flows, information architecture, and interaction models for complex enterprise workflows.</li>
-                                    <li>Created wireframes, high-fidelity interfaces, reusable design systems, and dashboard experiences for data-heavy SaaS products.</li>
-                                    <li>Validated and iterated designs through stakeholder feedback while leading UX design from discovery to production across multiple enterprise products.</li>
+                                    <li>Led product discovery, roadmap planning, and delivery for 2 enterprise SaaS products, collaborating with customers
+                                        and cross-functional teams from concept to launch.</li>
+                                    <li>Authored PRDs, user stories, acceptance criteria, and sprint backlogs while partnering with Engineering, Design, QA, and Business teams.</li>
+                                    <li>Delivered 40+ production releases integrating 80+ REST APIs across enterprise clients (Agrasen Manufacturing, D2O, ITC Hotels, Radisson Hotels), supporting 200+ users and 1,000+ active accounts.</li>
+                                    <li>Validated and iterated designs through usability testing, achieving 95%+ enterprise adoption, 65% user retention, and ~60% reduction in manual operational effort.</li>
                                 </ul>
                                 <div style={styles.roleTags}>
-                                    <span style={styles.roleTag}>User Discovery</span>
-                                    <span style={styles.roleTag}>Information Architecture</span>
-                                    <span style={styles.roleTag}>Task Flows</span>
-                                    <span style={styles.roleTag}>Wireframing</span>
-                                    <span style={styles.roleTag}>Design Systems</span>
+                                    <span style={styles.roleTag}>Product Discovery</span>
+                                    <span style={styles.roleTag}>Roadmap Planning</span>
+                                    <span style={styles.roleTag}>PRDs & User Stories</span>
+                                    <span style={styles.roleTag}>Acceptance Criteria</span>
+                                    <span style={styles.roleTag}>0→1 Enterprise SaaS</span>
                                 </div>
                             </div>
                         </div>
@@ -272,13 +273,14 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                                 </div>
                                 <p style={styles.degreeText}>Cloud Developer Intern (Remote)</p>
                                 <ul style={styles.bulletList}>
-                                    <li>Deployed a generative AI chatbot on Azure using OpenAI and Cognitive Search for document-based query resolution.</li>
-                                    <li>Built automated document extraction pipelines using Azure Form Recognizer, reducing manual processing effort.</li>
+                                    <li>Built an enterprise AI assistant using Azure OpenAI, Azure Cognitive Search, and Azure Form Recognizer for document-based query resolution.</li>
+                                    <li>Designed automated document processing and extraction pipelines, reducing manual data handling overhead.</li>
                                 </ul>
                                 <div style={styles.roleTags}>
                                     <span style={styles.roleTag}>Generative AI</span>
                                     <span style={styles.roleTag}>Azure OpenAI</span>
                                     <span style={styles.roleTag}>Cognitive Search</span>
+                                    <span style={styles.roleTag}>Form Recognizer</span>
                                     <span style={styles.roleTag}>Pipeline Design</span>
                                 </div>
                             </div>
@@ -300,51 +302,63 @@ const About = ({ activeSectionIndex, onViewArtwork }) => {
                             isMobile={isMobile}
                             skills={[
                                 { name: 'Product Discovery', icon: <Layout size={16} /> },
-                                { name: 'User Research', icon: <Search size={16} /> },
-                                { name: 'Discovery Workshops', icon: <Users size={16} /> },
-                                { name: 'Roadmapping & Strategy', icon: <GitBranch size={16} /> },
+                                { name: 'User & Customer Research', icon: <Search size={16} /> },
+                                { name: 'Stakeholder Management', icon: <Users size={16} /> },
+                                { name: 'Product Strategy & Roadmapping', icon: <GitBranch size={16} /> },
+                                { name: 'PRDs & User Stories', icon: <FileText size={16} /> },
+                                { name: 'MVP Definition', icon: <Box size={16} /> },
                                 { name: 'Prioritization (RICE)', icon: <Zap size={16} /> },
-                                { name: 'Workflow Design', icon: <Workflow size={16} /> },
-                                { name: 'Stakeholder Mgmt.', icon: <Layers size={16} /> },
-                                { name: 'Data-Driven UX', icon: <BarChart2 size={16} /> }
+                                { name: 'Backlog & Sprint Planning', icon: <CheckSquare size={16} /> },
+                                { name: 'KPI & Product Analytics', icon: <BarChart2 size={16} /> },
+                                { name: 'Agile (Scrum)', icon: <Workflow size={16} /> }
                             ]}
                         />
 
-                        {/* Group 1: Design & UX */}
+                        {/* Group 1: UX & Interaction Design */}
                         <SkillGroup
-                            title="Design & UX"
+                            title="UX & Interaction Design"
                             isMobile={isMobile}
                             skills={[
-                                { name: 'Figma', icon: <Figma size={16} /> },
+                                { name: 'Figma & FigJam', icon: <Figma size={16} /> },
                                 { name: 'Interaction Design', icon: <MousePointer2 size={16} /> },
-                                { name: 'Wireframing', icon: <Layout size={16} /> },
-                                { name: 'High-Fidelity Prototyping', icon: <Workflow size={16} /> },
+                                { name: 'Wireframing & Prototyping', icon: <Layout size={16} /> },
                                 { name: 'Information Architecture', icon: <Layers size={16} /> },
                                 { name: 'User Journeys & Task Flows', icon: <GitBranch size={16} /> },
                                 { name: 'Design Systems', icon: <Component size={16} /> },
-                                { name: 'UX Strategy', icon: <Layout size={16} /> },
                                 { name: 'Dashboard Design', icon: <BarChart2 size={16} /> },
-                                { name: 'Typography & Layout', icon: <Type size={16} /> },
-                                { name: 'Accessibility', icon: <Eye size={16} /> },
-                                { name: 'Motion Design', icon: <Play size={16} /> }
+                                { name: 'Usability Testing', icon: <Eye size={16} /> },
+                                { name: 'Accessibility (W3C)', icon: <Shield size={16} /> },
+                                { name: 'Discovery Workshops', icon: <Users size={16} /> }
                             ]}
                         />
 
-                        {/* Group 2: Frontend & Data UI */}
+                        {/* Group 2: Analytics & Tools */}
                         <SkillGroup
-                            title="Frontend & Data UI"
+                            title="Analytics & Tools"
+                            isMobile={isMobile}
+                            skills={[
+                                { name: 'SQL', icon: <Database size={16} /> },
+                                { name: 'Google Analytics (GA4)', icon: <PieChart size={16} /> },
+                                { name: 'Power BI', icon: <BarChart2 size={16} /> },
+                                { name: 'Postman API Testing', icon: <Globe size={16} /> },
+                                { name: 'Taiga Project Mgmt.', icon: <CheckSquare size={16} /> },
+                                { name: 'Adobe Creative Suite', icon: <Palette size={16} /> }
+                            ]}
+                        />
+
+                        {/* Group 3: Technical & AI Systems */}
+                        <SkillGroup
+                            title="Technical & AI Systems"
                             isMobile={isMobile}
                             skills={[
                                 { name: 'React.js', icon: <Atom size={16} /> },
                                 { name: 'JavaScript (ES6+)', icon: <Cpu size={16} /> },
-                                { name: 'API Handling', icon: <Globe size={16} /> },
-                                { name: 'State (Redux/Zustand)', icon: <Database size={16} /> },
-                                { name: 'Data Visualization', icon: <BarChart2 size={16} /> },
+                                { name: 'REST APIs Integration', icon: <Globe size={16} /> },
+                                { name: 'Redux Toolkit', icon: <Database size={16} /> },
                                 { name: 'TanStack Table', icon: <Table size={16} /> },
-                                { name: 'Tailwind CSS', icon: <Wind size={16} /> },
-                                { name: 'Performance Opt.', icon: <Zap size={16} /> },
-                                { name: 'Version Control', icon: <Github size={16} /> },
-                                { name: 'Responsive UI', icon: <BoxSelect size={16} /> }
+                                { name: 'Azure OpenAI & Search', icon: <Sparkles size={16} /> },
+                                { name: 'Azure Form Recognizer', icon: <Server size={16} /> },
+                                { name: 'Git & GitHub', icon: <Github size={16} /> }
                             ]}
                         />
                     </div>

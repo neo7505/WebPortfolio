@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Download, Github, Linkedin, Instagram } from 'lucide-react';
 import { PAGES } from '../constants/navigation';
-import resumePDF from '../assets/Chitrankar_Designer.pdf';
+import resumePDF from '../assets/ResumeDesigner_Chitrankar.pdf';
 
 const MobileMenu = ({ isOpen, onClose, activePageIndex, onPageClick }) => {
   return (
@@ -32,7 +32,7 @@ const MobileMenu = ({ isOpen, onClose, activePageIndex, onPageClick }) => {
                 onClick={() => {
                   onPageClick(index);
                   onClose();
-                  
+
                   // Mobile continuous scroll handling
                   const sectionId = `${PAGES[index].id}-section`;
                   const element = document.getElementById(sectionId);
@@ -52,9 +52,9 @@ const MobileMenu = ({ isOpen, onClose, activePageIndex, onPageClick }) => {
           </nav>
 
           <div style={styles.footer}>
-            <a 
-              href={resumePDF} 
-              download="Chitrankar_Resume.pdf" 
+            <a
+              href={resumePDF}
+              download="Chitrankar_Resume.pdf"
               style={styles.resumeButton}
             >
               <Download size={18} style={{ marginRight: '10px' }} />
@@ -62,28 +62,28 @@ const MobileMenu = ({ isOpen, onClose, activePageIndex, onPageClick }) => {
             </a>
 
             <div style={styles.socials}>
-              <motion.a 
-                href="https://github.com/neo7505" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <motion.a
+                href="https://github.com/neo7505"
+                target="_blank"
+                rel="noopener noreferrer"
                 style={styles.socialLink}
                 whileHover={{ scale: 1.2, y: -2 }}
               >
                 <Github size={20} color="#7A8099" style={styles.socialIcon} />
               </motion.a>
-              <motion.a 
-                href="https://www.linkedin.com/in/chitrankar-r-ba7aa920a/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <motion.a
+                href="https://www.linkedin.com/in/chitrankar-r-ba7aa920a/"
+                target="_blank"
+                rel="noopener noreferrer"
                 style={styles.socialLink}
                 whileHover={{ scale: 1.2, y: -2 }}
               >
                 <Linkedin size={20} color="#7A8099" style={styles.socialIcon} />
               </motion.a>
-              <motion.a 
-                href="https://www.instagram.com/chitrankar.r_70/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <motion.a
+                href="https://www.instagram.com/chitrankar.r_70/"
+                target="_blank"
+                rel="noopener noreferrer"
                 style={styles.socialLink}
                 whileHover={{ scale: 1.2, y: -2 }}
               >

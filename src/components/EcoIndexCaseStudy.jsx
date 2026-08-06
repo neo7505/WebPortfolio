@@ -1,7 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { ArrowLeft, CheckCircle2, Target, Layers, Zap, Globe, X, Maximize2 } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Target, Layers, Zap, Globe, X, Maximize2, ExternalLink } from 'lucide-react';
 import ReadMore from './ReadMore';
+
+const PlayStoreIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.60889 1.77661C3.36444 2.03439 3.22223 2.44106 3.22223 2.95661V21.0433C3.22223 21.5588 3.36444 21.9655 3.60889 22.2233L3.67667 22.2855L13.7856 12.1766V11.8233L3.67667 1.71439L3.60889 1.77661Z" fill="#00D2FF"/>
+    <path d="M17.1489 15.5411L13.7856 12.1777V11.8222L17.15 8.45886L17.2278 8.50331L21.2189 10.7722C22.3578 11.4189 22.3578 12.4811 21.2189 13.1277L17.2278 15.3966L17.1489 15.5411Z" fill="#FFD500"/>
+    <path d="M17.2278 15.3966L13.7856 11.9544L3.60889 22.2233C3.98222 22.6189 4.60667 22.6689 5.31333 22.2644L17.2278 15.3966Z" fill="#FF3A44"/>
+    <path d="M17.2278 8.50331L5.31333 1.63553C4.60667 1.23108 3.98222 1.28108 3.60889 1.67664L13.7856 11.9455L17.2278 8.50331Z" fill="#00E676"/>
+  </svg>
+);
+
+const FigmaIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38H19V28.5Z" fill="#1ABCFE"/>
+    <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
+    <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 38 0 28.5 0H19Z" fill="#FF7262"/>
+    <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
+    <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
+  </svg>
+);
 
 
 const fadeUp = {
@@ -267,13 +286,13 @@ const EcoIndexCaseStudy = ({ onBack }) => {
         s.id = 'eco-case-styles';
         s.innerHTML = `
             .eco-back-btn:hover { background: #f0f0f0 !important; }
-            .eco-footer-btn:hover { opacity: 0.85; transform: translateY(-2px); }
-            .eco-scope-card:hover { border-color: var(--accent-color) !important; }
-            .eco-problem-card:hover { transform: translateY(-4px); border-color: var(--accent-color) !important; }
-            .eco-problem-card { transition: all 0.3s ease; border: 1px solid #ebebeb !important; box-shadow: none !important; }
-            .eco-zoom-container { transition: transform 0.3s ease; position: relative; }
-            .eco-zoom-container:hover { transform: scale(1.02); }
-            .eco-zoom-container:hover .eco-zoom-icon { opacity: 1 !important; }
+            .eco-footer-btn:hover { opacity: 0.85; transform: translateY(-2px); }            .eco-top-btn { transition: all 0.2s ease; }
+            .eco-top-btn:hover { transform: translateY(-1px); opacity: 0.9; }
+            @media (max-width: 640px) {
+                .eco-top-btn-text { display: none !important; }
+                .eco-top-btn { padding: 6px 8px !important; }
+                .eco-nav { padding: 0 12px !important; }
+            }
 
             @media (max-width: 768px) {
                 #case-study-root { padding-top: 0 !important; }
@@ -300,7 +319,7 @@ const EcoIndexCaseStudy = ({ onBack }) => {
                 .eco-mobile-flex { flex-direction: column !important; gap: 24px !important; }
                 .eco-browser-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
                 .eco-impact-grid { grid-template-columns: 1fr !important; }
-                .eco-impact-item { padding: 40px 20px !important; }
+                .eco-impact-item { padding: 32px 24px !important; }
                 .eco-footer { padding: 60px 20px !important; }
                 .eco-onboarding-mockups { height: auto !important; margin-top: 20px !important; }
                 .eco-onboarding-mockup-1 { position: static !important; width: 100% !important; max-width: 140px !important; }
@@ -323,7 +342,6 @@ const EcoIndexCaseStudy = ({ onBack }) => {
             style={styles.container}
             id="case-study-root"
         >
-
             <ScrollProgress containerRef={containerRef} />
             <CarbonParticles />
             <FloatingLeaf style={{ top: '150px', left: '10%' }} delay={0} />
@@ -339,8 +357,54 @@ const EcoIndexCaseStudy = ({ onBack }) => {
                     <ArrowLeft size={16} strokeWidth={2.5} />
                     <span>Projects</span>
                 </button>
-                <span style={styles.navTitle}>EcoIndex</span>
-                <div style={{ width: 90 }} />
+                <span style={styles.navTitle} className="eco-nav-title">EcoIndex</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <a
+                        href="https://play.google.com/store/apps/details?id=com.individualfrontend&hl=en_IN"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="Download on Google Play"
+                        className="eco-top-btn"
+                        style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            padding: '6px 12px',
+                            borderRadius: '8px',
+                            background: '#111',
+                            color: '#fff',
+                            fontSize: '0.8rem',
+                            fontWeight: '600',
+                            textDecoration: 'none'
+                        }}
+                    >
+                        <PlayStoreIcon />
+                        <span className="eco-top-btn-text">Play Store</span>
+                    </a>
+                    <a
+                        href="https://www.figma.com/design/SgjQWSYfLQ2U0IBfqyXvXG/EcoIndex-App?node-id=0-1&p=f"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="Figma Prototype"
+                        className="eco-top-btn"
+                        style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            padding: '6px 12px',
+                            borderRadius: '8px',
+                            background: '#f5f5f5',
+                            color: '#111',
+                            border: '1px solid #e0e0e0',
+                            fontSize: '0.8rem',
+                            fontWeight: '600',
+                            textDecoration: 'none'
+                        }}
+                    >
+                        <FigmaIcon />
+                        <span className="eco-top-btn-text">Figma</span>
+                    </a>
+                </div>
             </nav>
 
             {/* ── Hero ─────────────────────────── */}
@@ -358,10 +422,10 @@ const EcoIndexCaseStudy = ({ onBack }) => {
 
                     <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0.25} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px', borderTop: '1px solid #e8e8e8', paddingTop: '32px', marginTop: '40px' }}>
                         {[
-                            { label: 'Role', value: 'Lead Product Designer & UX Strategist (End-to-End)' },
-                            { label: 'Timeline & Tools', value: '12 Weeks (Q1 2025) · Figma, React, Framer Motion, Recharts' },
-                            { label: 'Platform & Scope', value: 'Responsive Web Dashboard + Native Mobile App' },
-                            { label: 'Core Target Metric', value: '-20% CO₂ average per attendee; +30% onboarding completion' },
+                            { label: 'Role', value: 'Product Engineer (Product Systems)' },
+                            { label: 'Timeline & Scope', value: 'May 2024 – Mar 2026 · Native Mobile App + Web Platform' },
+                            { label: 'Enterprise Adoption', value: '250+ Enterprise Clients · 1,000+ Users (ITC & Radisson Hotels)' },
+                            { label: 'Measured Impact', value: '1.8M+ kg CO₂e Tracked · 65% Retention · 32% Less Plastic Waste' },
                         ].map(({ label, value }) => (
                             <div key={label} style={{ background: '#fcfcfc', border: '1px solid #ebebeb', padding: '16px', borderRadius: '12px' }}>
                                 <p style={{ fontSize: '0.7rem', color: '#999', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '6px' }}>{label}</p>
@@ -417,6 +481,45 @@ const EcoIndexCaseStudy = ({ onBack }) => {
                             <PhoneFrame src="/assets/app/Page9.png" alt="Data 1" style={{ width: '100px', flexShrink: 0 }} onExpand={() => openLightbox("/assets/app/Page9.png", "Data 1")} />
                             <PhoneFrame src="/assets/app/Page11.png" alt="Data 2" style={{ width: '100px', flexShrink: 0 }} onExpand={() => openLightbox("/assets/app/Page11.png", "Data 2")} />
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ── Key UX Metrics & Business Impact (Outcomes at Top) ── */}
+            <section style={{ ...styles.section, background: '#0d0d0d', color: '#fff', padding: '70px 0' }} className="eco-section">
+                <div style={styles.sectionInner} className="eco-section-inner">
+                    <Reveal style={{ textAlign: 'center', marginBottom: '48px' }}>
+                        <Label>Key UX Metrics & Business Impact</Label>
+                        <h2 style={{ ...styles.h2, color: '#fff' }} className="eco-h2">Quantitative Outcomes</h2>
+                        <p style={{ color: '#aaa', fontSize: '1rem', marginTop: '12px', maxWidth: '640px', marginInline: 'auto' }}>
+                            Enterprise adoption & environmental carbon reduction metrics verified across 250+ clients and 42+ major events.
+                        </p>
+                    </Reveal>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }} className="eco-impact-grid">
+                        {[
+                            { value: '1.8M+ kg', label: 'CO₂e Emissions Measured & Tracked', sub: 'Across 42+ major corporate & hospitality events' },
+                            { value: '65%', label: 'User Retention Rate Achieved', sub: 'Driven by behavioral rewards & daily challenge loops' },
+                            { value: '250+', label: 'Enterprise Clients & 1,000+ Active Users', sub: 'Deployed at scale with enterprise Scope 1, 2, 3 tools' },
+                            { value: '32%', label: 'Plastic Waste Reduction', sub: 'Achieved through real-time actionable data insights' },
+                            { value: '18%', label: 'Fuel Consumption Reduction', sub: 'Optimized logistics & operational transport routes' },
+                            { value: '6 Orgs', label: 'Hotel & Enterprise Adoption', sub: 'Adopted across ITC & Radisson Hotel Groups' },
+                        ].map(({ value, label, sub }) => (
+                            <Reveal key={label}>
+                                <div style={{ 
+                                    padding: '32px 28px', 
+                                    textAlign: 'left', 
+                                    background: 'rgba(255,255,255,0.03)', 
+                                    border: '1px solid rgba(255,255,255,0.08)',
+                                    borderRadius: '16px',
+                                    backdropFilter: 'blur(10px)',
+                                    transition: 'all 0.3s ease',
+                                }} className="eco-impact-item">
+                                    <div style={{ fontSize: 'clamp(2.4rem, 4vw, 3.4rem)', fontWeight: '900', color: '#4ade80', marginBottom: '8px', lineHeight: 1, letterSpacing: '-0.02em' }}>{value}</div>
+                                    <div style={{ fontSize: '0.95rem', color: '#fff', fontWeight: '700', marginBottom: '6px' }}>{label}</div>
+                                    <div style={{ fontSize: '0.8rem', color: '#777', lineHeight: '1.4' }}>{sub}</div>
+                                </div>
+                            </Reveal>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -789,51 +892,27 @@ const EcoIndexCaseStudy = ({ onBack }) => {
 
             <Divider />
 
-            {/* ── Impact ───────────────────────── */}
-            <section style={{ ...styles.section, background: '#0d0d0d', color: '#fff' }} className="eco-section">
-                <div style={styles.sectionInner} className="eco-section-inner">
-                    <Reveal style={{ textAlign: 'center', marginBottom: '64px' }}>
-                        <Label>Key UX Metrics & Business Impact</Label>
-                        <h2 style={{ ...styles.h2, color: '#fff' }} className="eco-h2">Quantitative Outcomes</h2>
-                    </Reveal>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2px', background: 'rgba(255,255,255,0.07)', borderRadius: '20px', overflow: 'hidden' }} className="eco-impact-grid">
-                        {[
-                            { value: '64%', label: 'Low-Carbon Transport/Diet Adoption' },
-                            { value: '40%', label: 'Reduction in Post-Event Admin Overhead' },
-                            { value: '-20%', label: 'Average CO₂ reduction per attendee across pilots' },
-                        ].map(({ value, label }) => (
-                            <Reveal key={label}>
-                                <div style={{ padding: '56px 40px', textAlign: 'center', background: '#111' }} className="eco-impact-item">
-                                    <div style={{ fontSize: 'clamp(2.2rem, 4vw, 3.5rem)', fontWeight: '900', color: '#fff', marginBottom: '12px', lineHeight: 1 }}>{value}</div>
-                                    <div style={{ fontSize: '0.85rem', color: '#666', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: '600' }}>{label}</div>
-                                </div>
-                            </Reveal>
-                        ))}
-                    </div>
-                </div>
-            </section>
 
-            <Divider />
 
             {/* ── My Role ──────────────────────── */}
             <section style={styles.section} className="eco-section">
                 <div style={styles.sectionInner} className="eco-section-inner">
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }} className="eco-grid-2col">
                         <Reveal>
-                            <Label>Product Strategy & Design Ownership</Label>
+                            <Label>Product Strategy & UX Systems Execution</Label>
                             <h2 style={styles.h2} className="eco-h2">My Involvement</h2>
                             <p style={{ ...styles.body, marginTop: '12px' }}>
-                                I served as the Lead Product Designer & Strategist, defining the behavioral architecture, emission data flow UX, and cross-platform design systems.
+                                I served as the Product Engineer (UX & Product Systems), leading user research, defining Scope 1, 2, 3 carbon accounting workflows, and delivering native mobile and web experiences from 0 to 1.
                             </p>
                         </Reveal>
                         <Reveal delay={0.15}>
                             <div style={{ display: 'grid', gap: '14px' }}>
                                 {[
-                                    'Conducted stakeholder and planner discovery interviews to uncover data collection friction points',
-                                    'Designed emission input patterns using progressive disclosure to reduce cognitive overload',
-                                    'Established design system patterns for carbon physical equivalents and streak gamification',
-                                    'Partnered with product managers on RICE scoring to structure the MVP roadmap priorities',
-                                    'Collaborated directly with engineering to validate charts and smooth transition states'
+                                    'Conducted 20+ user & customer interviews to define Scope 1, 2, and 3 carbon accounting workflows',
+                                    'Designed native mobile app and responsive web platform, user journeys, IA, wireframes, and carbon calculators',
+                                    'Drove 65% user retention through reward systems, daily challenge notifications, and affiliate features',
+                                    'Engineered platform adopted by 250+ enterprise customers & 1,000+ users (ITC & Radisson Hotels)',
+                                    'Enabled 1.8M+ kg CO2e measured across 42+ events, achieving 32% plastic waste & 18% fuel reduction'
                                 ].map((item, i) => (
                                     <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'center', padding: '16px 20px', borderRadius: '12px', border: '1px solid #ebebeb' }}>
                                         <CheckCircle2 size={16} color="var(--accent-color)" style={{ flexShrink: 0 }} />
@@ -917,7 +996,6 @@ const styles = {
         border: '1px solid #e8e8e8',
         cursor: 'pointer',
         transition: 'background 0.2s ease',
-        width: '90px',
     },
     navTitle: {
         fontWeight: '800',
